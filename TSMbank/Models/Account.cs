@@ -48,6 +48,8 @@ namespace TSMbank.Models
         public ICollection<Transaction> CreditTransactions { get; set; }
         public ICollection<Transaction> DebitTransactions { get; set; }
         //commit in git hub test
+		
+		// TEST MIKE
 
         //Methods
         public static string CreateAccountRandomNumber()
