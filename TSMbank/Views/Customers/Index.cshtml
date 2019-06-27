@@ -1,0 +1,52 @@
+﻿@model IEnumerable<TSMbank.Models.Customer>
+@using TSMbank.ViewModels;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customers</h2>
+@if (!Model.Any())
+{
+    <p>We dont have any Customers</p>
+}
+else
+{
+    <table id="customers" class="table table-bordered table-hover">
+        <thead>
+            <tr>                
+                <th>Full Name</th>
+                <th>Father Name</th>
+                <th>IBAN</th>
+                <th>Address</th>
+                <th>Calling Number</th>
+
+            </tr>
+        </thead>
+        @foreach (var customer in Model)
+            {
+                <tr>                   
+                    <td>@Html.ActionLink(customer.FullName, "Details", "Customers", new { id = customer.Id }, null)</td>                   
+                    <td>@customer.FatherName</td>
+                    <td>@if (!customer.Accounts.Any())
+                           {
+                        <p>No Account yet</p>
+                    }</td>
+                    @*else
+                    {
+                        foreach (var IBAN in customer.Accounts)
+                        {
+                        <td>No Account yet</td>
+                        }
+                    }</td>*@
+
+                    <td>@Html.ActionLink(customer.Address.FullAddress, "Edit", "Customers", new { id = customer.Id, modify = (int)ModificationAction.EditAddress }, null)</td>
+                    <td>@Html.ActionLink(customer.Phone.CallingNumber, "Edit", "Customers", new { id = customer.Id, modify = (int)ModificationAction.EditPhone }, null)</td>
+                </tr>
+            }
+    </table>
+}
+    <p>
+        @Html.ActionLink("New Customer", "New", "customers", null, new { @class = "btn btn-primary" })
+    </p>

@@ -1,0 +1,28 @@
+﻿@model TSMbank.Models.Customer
+@using TSMbank.ViewModels;
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer Personal Details</h2>
+<h3>@Model.FullName</h3>
+
+<ul>
+    <li>Fathers Name : @Model.FatherName</li>
+    <li>Date of Birth : @Model.DateOfBirth.ToLongDateString()</li>
+    <li>Date Created : @Model.CreatedDate.ToLongDateString()</li>
+    <li>E-mail : @Model.Email </li>
+    <li>Identity Card Number : @Model.IdentificationCardNo </li>
+    <li>Social Security Number: @Model.SSN </li>
+    <li>Vat Number : @Model.VatNumber </li>
+    <li>Account Status : @Model.IsActive  @Html.ActionLink("Change Status", "ActivateAccount", "Customers", new { id = Model.Id }, new { @class = "btn btn-primary" })</li>
+</ul>
+
+<p>
+    @Html.ActionLink("Edit Customer", "Edit", "Customers", new { id = Model.Id, modify = (int)ModificationAction.EditCustomer }, new { @class = "btn btn-primary" })
+</p>
+@if (Model.IsActive == TSMbank.Models.Activation.IsActive)
+{
+    @Html.ActionLink("Create Account", "NewAccount", "Customers", new { id = Model.Id }, new { @class = "btn btn-primary" })
+}

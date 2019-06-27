@@ -23,7 +23,7 @@ namespace TSMbank
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-United.css",
                       "~/Content/site.css"));
         }
     }

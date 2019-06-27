@@ -20,8 +20,14 @@ namespace TSMbank.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Phone> Phones { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        
+
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("TSMbankDBContext", throwIfV1Schema: false)
         {
         }
 

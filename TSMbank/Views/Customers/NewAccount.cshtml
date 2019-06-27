@@ -1,0 +1,18 @@
+﻿@model TSMbank.ViewModels.AccountViewFormForCustomerModel
+@{
+    ViewBag.Title = "NewAccount";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bank Account</h2>
+<h3>@Model.Customer.FullName</h3>
+<ul>
+    <li>Account Number : @Model.Account.AccountNumber</li>
+    <li>IBAN : @Model.Account.IBAN</li>
+    <li>Date Created : @Model.Account.OpenedDate.ToLongDateString()</li>
+    <li>Account Balance : @Model.Account.Balance Euro </li>
+    <li>Withdrawall Limit per day : @Model.Account.WithdrawalLimit </li>
+    
+    <li>Account Status : @Model.Account.AccountStatus  @Html.ActionLink("Change Status", "ActivateAccount", "Customers", new { id = Model.Account.AccountNumber }, new { @class = "btn btn-primary" })</li>
+</ul>
+
