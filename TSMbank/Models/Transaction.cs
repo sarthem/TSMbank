@@ -6,7 +6,7 @@ using System.Web;
 
 namespace TSMbank.Models
 {
-    public enum TypeOfTransaction
+    public enum TransactionType
     {
         Deposit,
         Withdrawal,
@@ -20,13 +20,14 @@ namespace TSMbank.Models
         Approve,
         Reject
     }
+
     public class Transaction
     {       
         public int TransactionId { get; set; }
-        public TypeOfTransaction TypeOfTransaction { get; set; }        
-        public DateTime TransactionDateAndTime { get; set; }//timestamp
+        public TransactionType Type { get; set; }
+        public DateTime ValueDateTime { get; set; } // timestamp
 
-        public string CredidAccountNo { get; set; }
+        public string CreditAccountNo { get; set; }
         public string CreditIBAN { get; set; }
         public decimal CreditAccountBalance { get; set; }
         public string CreditAccountCurrency { get; set; }
@@ -40,12 +41,12 @@ namespace TSMbank.Models
         public int DebitAmount { get; set; }
         public int DebitAccountBalanceAfterTransaction { get; set; }
 
-        public int BankFee { get; set; }//type of transaction
+        public int BankFee { get; set; } 
         public bool ApprovedFromBankManager { get; set; }
         public bool PendingForApproval { get; set; }
-        public TransactionApprovedReview TransactionApprovedReview { get; set; }//"Approve" 
+        public TransactionApprovedReview TransactionApprovedReview { get; set; }
         public bool IsCompleted { get; set; }
-        public int? CancelledTransactionId { get; set; }//palaia sinalagi ws reference
+        public int? CancelledTransactionId { get; set; } //reference old transaction
 
         //Navigation properties
 
@@ -54,7 +55,7 @@ namespace TSMbank.Models
 
 
 
-        //[ForeignKey("CancelledTransactionId")]
-        //public Transaction CancelledTransaction { get; set; }
+        [ForeignKey("CancelledTransactionId")]
+        public Transaction CancelledTransaction { get; set; }
     }
 }

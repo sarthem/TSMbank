@@ -9,9 +9,9 @@ namespace TSMbank.Models
 {
     public enum PhoneType
     {
-        mobile,
-        home,
-        work
+        Mobile,
+        Home,
+        Work
     };
 
 
@@ -22,7 +22,9 @@ namespace TSMbank.Models
         public string PhoneNumber { get; set; }
         public PhoneType PhoneType { get; set; }
 
-       
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
+
         [Display(Name = "Calling Number")]
         public string CallingNumber
         {

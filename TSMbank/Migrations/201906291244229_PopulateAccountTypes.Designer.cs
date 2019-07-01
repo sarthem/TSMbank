@@ -7,13 +7,13 @@ namespace TSMbank.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InitializeDB : IMigrationMetadata
+    public sealed partial class PopulateAccountTypes : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitializeDB));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateAccountTypes));
         
         string IMigrationMetadata.Id
         {
-            get { return "201906270158197_InitializeDB"; }
+            get { return "201906291244229_PopulateAccountTypes"; }
         }
         
         string IMigrationMetadata.Source

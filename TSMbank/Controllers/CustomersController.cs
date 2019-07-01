@@ -28,56 +28,59 @@ namespace TSMbank.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            var customers = context.Customers.Include(ph => ph.Phone).Include(ad => ad.Address).Include(ac => ac.Accounts).ToList();
+            var customers = context.Customers.Include(c => c.Phones).Include(c => c.PrimaryAddress).Include(c => c.Accounts).ToList();
 
             return View(customers);
         }
 
         public ActionResult New()
         {
-            var customer = new CustomerViewFormModel()
+            var customer = new CustomerFormViewModel()
             {
                 Customer = new Customer(),
-                CustomerId = 0,
-                ModificationAction = ModificationAction.NewCustomer
+                ModificationAction = ModificationAction.NewCustomer,
             };
-           
-           
 
-            return View(customer);
+            return View("CustomerForm", customer);
         }
 
-        public ActionResult Save(CustomerViewFormModel customerViewFormModel)
+        [HttpPost]
+        public ActionResult Save(CustomerFormViewModel customerViewFormModel)
         {
             if (!ModelState.IsValid)
             {
-                var viewModel = new CustomerViewFormModel()
+                var viewModel = new CustomerFormViewModel()
                 {
                     Customer = customerViewFormModel.Customer,
-                    Phone = customerViewFormModel.Phone,
-                    Address = customerViewFormModel.Address
+                    Phones = customerViewFormModel.Phones,
+                    PrimaryAddress = customerViewFormModel.PrimaryAddress
                 };
-                return View("New", viewModel);
+                return View("CustomerForm", viewModel);
             }
 
             if (customerViewFormModel.CustomerId == 0)
             {
-                context.Customers.Add(customerViewFormModel.Customer);
-                context.Phones.Add(customerViewFormModel.Phone);
-                context.Addresses.Add(customerViewFormModel.Address);
+                var customer = customerViewFormModel.Customer;
+                customer.Phones = customerViewFormModel.Phones;
+                customer.PrimaryAddress = customerViewFormModel.PrimaryAddress;
+                //context.Customers.Add(customerViewFormModel.Customer);
+                //context.Phones.Add(customerViewFormModel.Phone);
+                //context.Addresses.Add(customerViewFormModel.PrimaryAddress);
             }
             else
             {
-                var customerDB = context.Customers.Include(ph => ph.Phone)
-                    .Include(adr => adr.Address)
-                    .SingleOrDefault(c => c.Id == customerViewFormModel.CustomerId);
+                var customerDB = context.Customers.Include(c => c.Phones)
+                                                    .Include(c => c.PrimaryAddress)
+                                                    .Include(c => c.SecondaryAddress)
+                                                    .Include(c => c.Phones)
+                                                    .SingleOrDefault(c => c.Id == customerViewFormModel.CustomerId);
 
                 switch (customerViewFormModel.ModificationAction)
                 {
                     case ModificationAction.EditCustomer:
                         customerDB.DateOfBirth = customerViewFormModel.Customer.DateOfBirth;
                         customerDB.Email = customerViewFormModel.Customer.Email;
-                        customerDB.FatherName = customerViewFormModel.Customer.FatherName;
+                        customerDB.FathersName = customerViewFormModel.Customer.FathersName;
                         customerDB.FirstName = customerViewFormModel.Customer.FirstName;
                         customerDB.IdentificationCardNo = customerViewFormModel.Customer.IdentificationCardNo;
                         customerDB.LastName = customerViewFormModel.Customer.LastName;
@@ -85,19 +88,23 @@ namespace TSMbank.Controllers
                         customerDB.VatNumber = customerViewFormModel.Customer.VatNumber;
                         break;
 
-                    case ModificationAction.EditAddress:
-                        customerDB.Address.City = customerViewFormModel.Address.City;
-                        customerDB.Address.Country = customerViewFormModel.Address.Country;
-                        customerDB.Address.PostalCode = customerViewFormModel.Address.PostalCode;
-                        customerDB.Address.Region = customerViewFormModel.Address.Region;
-                        customerDB.Address.Street = customerViewFormModel.Address.Street;
-                        customerDB.Address.StreetNumber = customerViewFormModel.Address.StreetNumber;
+                    case ModificationAction.EditAddresses:
+                        customerDB.PrimaryAddress.City = customerViewFormModel.PrimaryAddress.City;
+                        customerDB.PrimaryAddress.Country = customerViewFormModel.PrimaryAddress.Country;
+                        customerDB.PrimaryAddress.PostalCode = customerViewFormModel.PrimaryAddress.PostalCode;
+                        customerDB.PrimaryAddress.Region = customerViewFormModel.PrimaryAddress.Region;
+                        customerDB.PrimaryAddress.Street = customerViewFormModel.PrimaryAddress.Street;
+                        customerDB.PrimaryAddress.StreetNumber = customerViewFormModel.PrimaryAddress.StreetNumber;
                         break;
 
-                    case ModificationAction.EditPhone:
-                        customerDB.Phone.CountryCode = customerViewFormModel.Phone.CountryCode;
-                        customerDB.Phone.PhoneNumber = customerViewFormModel.Phone.PhoneNumber;
-                        customerDB.Phone.PhoneType = customerViewFormModel.Phone.PhoneType;
+                    case ModificationAction.EditPhones:
+                        for (int i = 0; i < customerDB.Phones.Count; i++)
+                        {
+                            customerDB.Phones.ElementAt(i).CountryCode = customerViewFormModel.Phones[i].CountryCode;
+                            customerDB.Phones.ElementAt(i).PhoneNumber = customerViewFormModel.Phones[i].PhoneNumber;
+                            customerDB.Phones.ElementAt(i).PhoneType = customerViewFormModel.Phones[i].PhoneType;
+                        }
+
                         break;
 
                     default:
@@ -109,24 +116,23 @@ namespace TSMbank.Controllers
             return RedirectToAction("Index");
         }
 
-
-
-
         public ActionResult Edit(int? id, int modify)
         {
-            var customer = context.Customers.Include(ph => ph.Phone).Include(ad => ad.Address).SingleOrDefault(c => c.Id == id);
+            var customer = context.Customers.Include(c => c.Phones).Include(c => c.PrimaryAddress).Include(c => c.SecondaryAddress).SingleOrDefault(c => c.Id == id);
 
-            if (customer == null) return HttpNotFound();
+            if (customer == null)
+                return HttpNotFound();
 
-            var viewModel = new CustomerViewFormModel
+            var viewModel = new CustomerFormViewModel
             {
-                Phone = customer.Phone,
-                Address = customer.Address,
+                Phones = customer.Phones.ToList(),
+                PrimaryAddress = customer.PrimaryAddress,
+                SecondaryAddress = customer.SecondaryAddress,
                 Customer = customer,
                 CustomerId = customer.Id,
                 ModificationAction = (ModificationAction)Enum.Parse(typeof(ModificationAction), modify.ToString())
             };
-            return View("New",viewModel);
+            return View("CustomerForm", viewModel);
         }
 
         public ActionResult Details(int? id)
@@ -137,7 +143,7 @@ namespace TSMbank.Controllers
             }
 
 
-            var customer = context.Customers.Include(ph => ph.Phone).Include(a => a.Address)
+            var customer = context.Customers.Include(c => c.Phones).Include(c => c.PrimaryAddress)
                 .SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
@@ -148,43 +154,7 @@ namespace TSMbank.Controllers
             return View(customer);
         }
 
-        public ActionResult ActivateAccount(int? id)
-        {
-            if (!id.HasValue) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);          
 
-            var customer = context.Customers.Include(ph => ph.Phone).Include(a => a.Address)
-                .SingleOrDefault(c => c.Id == id);
 
-            if (customer == null) return HttpNotFound();            
-
-            if (customer.IsActive == Activation.IsActive)
-            {
-                customer.IsActive = Activation.NotActive;
-            }
-            else
-            {
-                customer.IsActive = Activation.IsActive;
-            }
-                        
-            context.SaveChanges();
-
-            return RedirectToAction("Index");
-        }
-
-        public ActionResult NewAccount(int? id)
-        {
-            if (!id.HasValue) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            var customer = context.Customers.SingleOrDefault(c => c.Id == id);
-            if (customer == null) return HttpNotFound();
-            var bankAccount = new Account();
-            var viewModel = new AccountViewFormForCustomerModel()
-            {
-                Customer = customer,
-                Account = bankAccount
-            };
-            context.Accounts.Add(bankAccount);
-            return View(viewModel);
-        }
     }
 }
