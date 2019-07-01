@@ -24,7 +24,7 @@ namespace TSMbank
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-United.css",
-                      "~/Content/site.css"));
+                      "~/Content/Site.css"));
         }
     }
 }

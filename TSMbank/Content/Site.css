@@ -32,3 +32,25 @@ textarea {
 }*/
 
 
+
+
+/* Michael */
+
+.card-site-style {
+    box-sizing: border-box;
+}
+
+.card-img {
+    max-width: 100%;
+}
+
+.card-styles {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.card-styles img {
+    width: 100%;
+    box-shadow: var(--shadow);
+}

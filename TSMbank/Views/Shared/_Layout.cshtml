@@ -9,17 +9,21 @@
     
 </head>
 <body>
-    
+
     <div>
         @Html.Partial("_navBar")
     </div>
-    <div class="container body-content">
-        @RenderBody()
+
+    <div class="container body-content" >
+        @RenderBody() 
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - TSM bank for Afdemp</p>
-        </footer>
     </div>
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">
+        <p>&copy; @DateTime.Now.Year - TSM bank for Afdemp</p>
+    </div>
+    <!-- Copyright -->
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

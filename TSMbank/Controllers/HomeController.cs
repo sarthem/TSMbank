@@ -26,5 +26,11 @@ namespace TSMbank.Controllers
 
             return View();
         }
+        
+        public ActionResult IndexMain()
+        {
+            return View();
+        }
+
     }
 }
