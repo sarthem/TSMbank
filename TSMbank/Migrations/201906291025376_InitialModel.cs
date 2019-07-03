@@ -3,7 +3,7 @@ namespace TSMbank.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitializeDB : DbMigration
+    public partial class InitialModel : DbMigration
     {
         public override void Up()
         {
@@ -36,6 +36,7 @@ namespace TSMbank.Migrations
                         Description = c.Int(nullable: false),
                         InterestRate = c.Decimal(nullable: false, precision: 18, scale: 2),
                         PeriodicFee = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Summary = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -44,15 +45,15 @@ namespace TSMbank.Migrations
                 c => new
                     {
                         TransactionId = c.Int(nullable: false, identity: true),
-                        TypeOfTransaction = c.Int(nullable: false),
-                        TransactionDateAndTime = c.DateTime(nullable: false),
-                        CredidAccountNo = c.String(),
+                        Type = c.Int(nullable: false),
+                        ValueDateTime = c.DateTime(nullable: false),
+                        CreditAccountNo = c.String(nullable: false, maxLength: 16),
                         CreditIBAN = c.String(),
                         CreditAccountBalance = c.Decimal(nullable: false, precision: 18, scale: 2),
                         CreditAccountCurrency = c.String(),
                         CreditAmount = c.Decimal(nullable: false, precision: 18, scale: 2),
                         CreditAccountBalanceAfterTransaction = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        DebitAccountNo = c.String(),
+                        DebitAccountNo = c.String(nullable: false, maxLength: 16),
                         DebitIBAN = c.String(),
                         DebitAccountBalance = c.Decimal(nullable: false, precision: 18, scale: 2),
                         DebitAccountCurrency = c.Decimal(nullable: false, precision: 18, scale: 2),
@@ -64,20 +65,14 @@ namespace TSMbank.Migrations
                         TransactionApprovedReview = c.Int(nullable: false),
                         IsCompleted = c.Boolean(nullable: false),
                         CancelledTransactionId = c.Int(),
-                        CreditAccount_AccountNumber = c.String(maxLength: 16),
-                        DebitAccount_AccountNumber = c.String(maxLength: 16),
-                        Account_AccountNumber = c.String(maxLength: 16),
-                        Account_AccountNumber1 = c.String(maxLength: 16),
                     })
                 .PrimaryKey(t => t.TransactionId)
-                .ForeignKey("dbo.Accounts", t => t.CreditAccount_AccountNumber)
-                .ForeignKey("dbo.Accounts", t => t.DebitAccount_AccountNumber)
-                .ForeignKey("dbo.Accounts", t => t.Account_AccountNumber)
-                .ForeignKey("dbo.Accounts", t => t.Account_AccountNumber1)
-                .Index(t => t.CreditAccount_AccountNumber)
-                .Index(t => t.DebitAccount_AccountNumber)
-                .Index(t => t.Account_AccountNumber)
-                .Index(t => t.Account_AccountNumber1);
+                .ForeignKey("dbo.Transactions", t => t.CancelledTransactionId)
+                .ForeignKey("dbo.Accounts", t => t.CreditAccountNo)
+                .ForeignKey("dbo.Accounts", t => t.DebitAccountNo)
+                .Index(t => t.CreditAccountNo)
+                .Index(t => t.DebitAccountNo)
+                .Index(t => t.CancelledTransactionId);
             
             CreateTable(
                 "dbo.Addresses",
@@ -90,11 +85,8 @@ namespace TSMbank.Migrations
                         StreetNumber = c.String(),
                         PostalCode = c.String(),
                         Region = c.String(),
-                        Customer_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Customers", t => t.Customer_Id)
-                .Index(t => t.Customer_Id);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Customers",
@@ -103,22 +95,22 @@ namespace TSMbank.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         FirstName = c.String(nullable: false, maxLength: 255),
                         LastName = c.String(nullable: false, maxLength: 255),
-                        FatherName = c.String(nullable: false, maxLength: 255),
+                        FathersName = c.String(nullable: false, maxLength: 255),
                         Email = c.String(),
                         DateOfBirth = c.DateTime(nullable: false),
                         IdentificationCardNo = c.String(),
                         SSN = c.String(),
                         VatNumber = c.String(),
                         CreatedDate = c.DateTime(nullable: false),
-                        IsActive = c.Int(nullable: false),
-                        AddressId = c.Int(nullable: false),
-                        PhoneId = c.Int(nullable: false),
+                        Status = c.Int(nullable: false),
+                        PrimaryAddressId = c.Int(nullable: false),
+                        SecondaryAddressId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Addresses", t => t.AddressId, cascadeDelete: true)
-                .ForeignKey("dbo.Phones", t => t.PhoneId, cascadeDelete: true)
-                .Index(t => t.AddressId)
-                .Index(t => t.PhoneId);
+                .ForeignKey("dbo.Addresses", t => t.PrimaryAddressId)
+                .ForeignKey("dbo.Addresses", t => t.SecondaryAddressId)
+                .Index(t => t.PrimaryAddressId)
+                .Index(t => t.SecondaryAddressId);
             
             CreateTable(
                 "dbo.Phones",
@@ -128,11 +120,11 @@ namespace TSMbank.Migrations
                         CountryCode = c.String(),
                         PhoneNumber = c.String(),
                         PhoneType = c.Int(nullable: false),
-                        Customer_Id = c.Int(),
+                        CustomerId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Customers", t => t.Customer_Id)
-                .Index(t => t.Customer_Id);
+                .ForeignKey("dbo.Customers", t => t.CustomerId, cascadeDelete: true)
+                .Index(t => t.CustomerId);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -210,15 +202,13 @@ namespace TSMbank.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Phones", "Customer_Id", "dbo.Customers");
-            DropForeignKey("dbo.Customers", "PhoneId", "dbo.Phones");
-            DropForeignKey("dbo.Addresses", "Customer_Id", "dbo.Customers");
-            DropForeignKey("dbo.Customers", "AddressId", "dbo.Addresses");
+            DropForeignKey("dbo.Customers", "SecondaryAddressId", "dbo.Addresses");
+            DropForeignKey("dbo.Customers", "PrimaryAddressId", "dbo.Addresses");
+            DropForeignKey("dbo.Phones", "CustomerId", "dbo.Customers");
             DropForeignKey("dbo.Accounts", "Customer_Id", "dbo.Customers");
-            DropForeignKey("dbo.Transactions", "Account_AccountNumber1", "dbo.Accounts");
-            DropForeignKey("dbo.Transactions", "Account_AccountNumber", "dbo.Accounts");
-            DropForeignKey("dbo.Transactions", "DebitAccount_AccountNumber", "dbo.Accounts");
-            DropForeignKey("dbo.Transactions", "CreditAccount_AccountNumber", "dbo.Accounts");
+            DropForeignKey("dbo.Transactions", "DebitAccountNo", "dbo.Accounts");
+            DropForeignKey("dbo.Transactions", "CreditAccountNo", "dbo.Accounts");
+            DropForeignKey("dbo.Transactions", "CancelledTransactionId", "dbo.Transactions");
             DropForeignKey("dbo.Accounts", "AccountType_Id", "dbo.AccountTypes");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
@@ -226,14 +216,12 @@ namespace TSMbank.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.Phones", new[] { "Customer_Id" });
-            DropIndex("dbo.Customers", new[] { "PhoneId" });
-            DropIndex("dbo.Customers", new[] { "AddressId" });
-            DropIndex("dbo.Addresses", new[] { "Customer_Id" });
-            DropIndex("dbo.Transactions", new[] { "Account_AccountNumber1" });
-            DropIndex("dbo.Transactions", new[] { "Account_AccountNumber" });
-            DropIndex("dbo.Transactions", new[] { "DebitAccount_AccountNumber" });
-            DropIndex("dbo.Transactions", new[] { "CreditAccount_AccountNumber" });
+            DropIndex("dbo.Phones", new[] { "CustomerId" });
+            DropIndex("dbo.Customers", new[] { "SecondaryAddressId" });
+            DropIndex("dbo.Customers", new[] { "PrimaryAddressId" });
+            DropIndex("dbo.Transactions", new[] { "CancelledTransactionId" });
+            DropIndex("dbo.Transactions", new[] { "DebitAccountNo" });
+            DropIndex("dbo.Transactions", new[] { "CreditAccountNo" });
             DropIndex("dbo.Accounts", new[] { "Customer_Id" });
             DropIndex("dbo.Accounts", new[] { "AccountType_Id" });
             DropTable("dbo.AspNetUserLogins");

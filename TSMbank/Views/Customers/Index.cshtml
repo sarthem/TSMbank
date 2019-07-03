@@ -15,38 +15,48 @@ else
 {
     <table id="customers" class="table table-bordered table-hover">
         <thead>
-            <tr>                
+            <tr>
                 <th>Full Name</th>
-                <th>Father Name</th>
-                <th>IBAN</th>
+                <th>Father's Name</th>
+                <th>Accounts</th>
                 <th>Address</th>
-                <th>Calling Number</th>
+                <th>Phone Numbers</th>
 
             </tr>
         </thead>
         @foreach (var customer in Model)
-            {
-                <tr>                   
-                    <td>@Html.ActionLink(customer.FullName, "Details", "Customers", new { id = customer.Id }, null)</td>                   
-                    <td>@customer.FatherName</td>
-                    <td>@if (!customer.Accounts.Any())
-                           {
-                        <p>No Account yet</p>
-                    }</td>
-                    @*else
+        {
+            <tr>
+                <td>@Html.ActionLink(customer.FullName, "Details", "Customers", new { id = customer.Id }, null)</td>
+                <td>@customer.FathersName</td>
+                <td>
+                    @if (!customer.Accounts.Any())
                     {
-                        foreach (var IBAN in customer.Accounts)
+                        <p>No related Accounts</p>
+                        <p>@Html.ActionLink("Add new account", "New", "Accounts", new { customerId = customer.Id }, new { @class = "link-grey" })</p>
+                    }
+                    else
+                    {
+                        foreach (var account in customer.Accounts)
                         {
-                        <td>No Account yet</td>
-                        }
-                    }</td>*@
+                            <p>@Html.ActionLink(account.IBAN, "Edit", "Accounts", new { accountNo = account.AccountNumber }, null)</p>
 
-                    <td>@Html.ActionLink(customer.Address.FullAddress, "Edit", "Customers", new { id = customer.Id, modify = (int)ModificationAction.EditAddress }, null)</td>
-                    <td>@Html.ActionLink(customer.Phone.CallingNumber, "Edit", "Customers", new { id = customer.Id, modify = (int)ModificationAction.EditPhone }, null)</td>
-                </tr>
-            }
+                        }
+                        <p>@Html.ActionLink("Add new account", "New", "Accounts", new { customerId = customer.Id }, new { @class = "link-grey" })</p>
+
+                    }
+                </td>
+                <td>@Html.ActionLink(customer.PrimaryAddress.FullAddress, "Edit", "Customers", new { id = customer.Id, modify = (int)ModificationAction.EditAddresses }, null)</td>
+                <td>
+                    @foreach (var phone in customer.Phones)
+                    {
+                        <p>@Html.ActionLink(phone.CallingNumber, "Edit", "Customers", new { id = customer.Id, modify = (int)ModificationAction.EditPhones }, null) (@phone.PhoneType)</p>
+                    }
+                </td>
+            </tr>
+        }
     </table>
 }
-    <p>
-        @Html.ActionLink("New Customer", "New", "customers", null, new { @class = "btn btn-primary" })
-    </p>
+<p>
+    @Html.ActionLink("New Customer", "New", "customers", null, new { @class = "btn btn-primary" })
+</p>
