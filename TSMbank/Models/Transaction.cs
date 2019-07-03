@@ -6,15 +6,6 @@ using System.Web;
 
 namespace TSMbank.Models
 {
-    public enum TransactionType
-    {
-        Deposit,
-        Withdrawal,
-        Payment,
-        Bankfee,
-        Cancellation
-    }
-
     public enum TransactionApprovedReview
     {
         Approve,
@@ -24,7 +15,11 @@ namespace TSMbank.Models
     public class Transaction
     {       
         public int TransactionId { get; set; }
+
+        [ForeignKey("Type")]
+        public int TypeId { get; set; }
         public TransactionType Type { get; set; }
+
         public DateTime ValueDateTime { get; set; } // timestamp
 
         public string CreditAccountNo { get; set; }
@@ -38,10 +33,9 @@ namespace TSMbank.Models
         public string DebitIBAN { get; set; }
         public decimal DebitAccountBalance { get; set; }
         public decimal DebitAccountCurrency { get; set; }
-        public int DebitAmount { get; set; }
-        public int DebitAccountBalanceAfterTransaction { get; set; }
+        public decimal DebitAmount { get; set; }
+        public decimal DebitAccountBalanceAfterTransaction { get; set; }
 
-        public int BankFee { get; set; } 
         public bool ApprovedFromBankManager { get; set; }
         public bool PendingForApproval { get; set; }
         public TransactionApprovedReview TransactionApprovedReview { get; set; }

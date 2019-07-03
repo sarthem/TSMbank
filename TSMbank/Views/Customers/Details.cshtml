@@ -9,7 +9,7 @@
 <h2>Customer Personal Details</h2>
 <h3>@Model.FullName</h3>
 
-
+<p><label>Id</label>: <span id="id">@Model.Id</span></p>
 <p><label>Fathers Name</label>: @Model.FathersName</p>
 <p><label>Date of Birth</label>: @Model.DateOfBirth.ToLongDateString()</p>
 <p><label>Date Created</label>: @Model.CreatedDate.ToLongDateString()</p>
@@ -17,12 +17,23 @@
 <p><label>Identity Card Number</label>: @Model.IdentificationCardNo</p>
 <p><label>Social Security Number</label>: @Model.SSN</p>
 <p><label>Vat Number</label>: @Model.VatNumber</p>
-<p><label>Status</label>: @Model.Status  @Html.ActionLink("Change Customer Status", "ActivateAccount", "Customers", new { id = Model.Id }, new { @class = "btn btn-primary" })</p>
+<p>
+    <label>Status</label>: @Model.Status  <input type="button" id="change-customer-status" class="btn btn-sm" value= "Change Customer Status"/>
+</p>
+<div>
+    @Html.ActionLink("Edit Customer", "Edit", "Customers", new { id = Model.Id, modify = (int)ModificationAction.EditCustomer }, new { @class = "btn btn-primary" })
+</div>
 
-
-@Html.ActionLink("Edit Customer", "Edit", "Customers", new { id = Model.Id, modify = (int)ModificationAction.EditCustomer }, new { @class = "btn btn-primary" })
-
-@if (Model.Status == CustomerStatus.Active)
+@section scripts
 {
-    @Html.ActionLink("Create Account", "New", "Accounts", new { id = Model.Id }, new { @class = "btn btn-primary" })
+    <script>
+        $(document).ready(function () {
+            $("#change-customer-status").on("click", function () {
+
+                bootbox.confirm("Are you sure you want to change the status of the customer?", function (result) {
+
+                });
+            });
+        });
+    </script>
 }

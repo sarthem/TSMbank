@@ -174,36 +174,92 @@
     }
     if (Model.ModificationAction == ModificationAction.NewCustomer || Model.ModificationAction == ModificationAction.EditPhones)
     {
-        for (int i = 0; i < Model.Phones.Count; i++)
+        <h3>Phone Numbers</h3>
+        <div id="section-phones">
+
+        </div>
+        if (Model.ModificationAction == ModificationAction.EditPhones)
         {
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        @Html.LabelFor(m => Model.Phones[i].CountryCode)
-                        @Html.TextBoxFor(m => Model.Phones[i].CountryCode, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => Model.Phones[i].CountryCode)
+            for (int i = 0; i < Model.Phones.Count; i++)
+            {
+                <div class="row">
+                    @Html.HiddenFor(m => Model.Phones[i].Id)
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Phones[i].CountryCode)
+                            @Html.TextBoxFor(m => Model.Phones[i].CountryCode, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.Phones[i].CountryCode)
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Phones[i].PhoneType)
+                            @Html.EnumDropDownListFor(m => Model.Phones[i].PhoneType, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.Phones[i].PhoneType)
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Phones[i].PhoneNumber)
+                            @Html.TextBoxFor(m => Model.Phones[i].PhoneNumber, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.Phones[i].PhoneNumber)
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        @Html.LabelFor(m => Model.Phones[i].PhoneType)
-                        @Html.EnumDropDownListFor(m => Model.Phones[i].PhoneType, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => Model.Phones[i].PhoneType)
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        @Html.LabelFor(m => Model.Phones[i].PhoneNumber)
-                        @Html.TextBoxFor(m => Model.Phones[i].PhoneNumber, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => Model.Phones[i].PhoneNumber)
-                    </div>
-                </div>
-            </div>
+            }
         }
+        else
+        {
+            <input type="button" value="Add new Phone" class="btn btn-primary" id="add-phone" />
+        }
+
     }
 
     <button type="submit" class="btn btn-primary">Save</button>
+}
 
+@section scripts
+{
+    <script>
+        let idx = 0;
+        document.getElementById("add-phone").addEventListener("click", function () {
+
+            let sectionPhones = document.getElementById("section-phones");
+            var fieldset = document.createElement("div");
+            fieldset.classList.add("row");
+
+            fieldset.innerHTML =
+
+                `<div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="Phones_${idx}__CountryCode">CountryCode</label>
+                                            <input class="form-control" id="Phones_${idx}__CountryCode" name="Phones[${idx}].CountryCode" type="text"
+                                                   value>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="Phones_${idx}__PhoneType">PhoneType</label>
+                                            <select class="form-control" data-val="true" data-val-required="The PhoneType field is required."
+                                                    id="Phones_${idx}__PhoneType" name="Phones[${idx}].PhoneType">
+                                                <option value="0">Mobile</option>
+                                                <option value="1">Home</option>
+                                                <option value="2">Work</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="Phones_${idx}__PhoneNumber">PhoneNumber</label>
+                                            <input class="form-control" id="Phones_${idx}__PhoneNumber" name="Phones[${idx}].PhoneNumber" type="text"
+                                                   value>
+                                        </div>
+                                    </div>`;
+
+            sectionPhones.appendChild(fieldset);
+            idx++;
+        });
+    </script>
 
 }
 

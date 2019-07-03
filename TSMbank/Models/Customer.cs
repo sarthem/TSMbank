@@ -57,5 +57,11 @@ namespace TSMbank.Models
 
         public ICollection<Phone> Phones { get; set; }
         public ICollection<Account> Accounts { get; set; }
+
+        public Customer()
+        {
+            CreatedDate = DateTime.Now;
+            Status = CustomerStatus.Inactive;
+        }
     }
 }

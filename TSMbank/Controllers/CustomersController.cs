@@ -63,9 +63,7 @@ namespace TSMbank.Controllers
                 var customer = customerViewFormModel.Customer;
                 customer.Phones = customerViewFormModel.Phones;
                 customer.PrimaryAddress = customerViewFormModel.PrimaryAddress;
-                //context.Customers.Add(customerViewFormModel.Customer);
-                //context.Phones.Add(customerViewFormModel.Phone);
-                //context.Addresses.Add(customerViewFormModel.PrimaryAddress);
+                context.Customers.Add(customer);
             }
             else
             {
