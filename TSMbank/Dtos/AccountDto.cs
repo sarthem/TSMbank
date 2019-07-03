@@ -20,5 +20,6 @@ namespace TSMbank.Dtos
 
         public int CustomerId { get; set; }
         public byte AccountTypeId { get; set; }
+        //hello world!!!
     }
 }
