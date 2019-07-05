@@ -68,8 +68,8 @@
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Customer.Email)
-                    @Html.TextBoxFor(m => m.Customer.Email, new { @class = "form-control" })
+                    @Html.LabelFor(m => m.Customer.Email)                   
+                    @Html.TextBoxFor(m => m.Customer.Email, new { @class = "form-control", @readonly = "true" })                   
                     @Html.ValidationMessageFor(m => m.Customer.Email)
                 </div>
             </div>

@@ -11,15 +11,7 @@
 <body>
     
     <div>
-        @if (User.Identity.IsAuthenticated)
-        {
-            @Html.Partial("_navBarCustomer")
-        }
-        else
-        {
-            @Html.Partial("_navBar")
-        }
-
+        @Html.Partial("_navBar")
     </div>
     <div class="container body-content">
         @RenderBody()

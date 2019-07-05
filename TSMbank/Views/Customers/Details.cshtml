@@ -27,13 +27,35 @@
 @section scripts
 {
     <script>
-        $(document).ready(function () {
-            $("#change-customer-status").on("click", function () {
+      
+        //$(document).ready(function () {
+        //    $("#change-customer-status").on("click", function () {
 
-                bootbox.confirm("Are you sure you want to change the status of the customer?", function (result) {
+        //        bootbox.confirm("Are you sure you want to change the status of the customer?", function (result) {
 
-                });
-            });
-        });
+        //        });
+        //    });
+        //});
+
+        var modelid = @Model.Id;//gia reference
+
+        @*var modelid = @Html.Raw(Json.Encode(Model.Id));*@       
+        let path = `/customers/ActivateAccount/${modelid}`;
+
+        document.getElementById("change-customer-status").onclick = function () {
+            myFunction()
+        };
+        
+        function myFunction() {
+            var r = confirm("Are you sure you want to change the status of the customer?")            
+
+            if (r == true) {
+
+                window.location.href = path;
+            } else {
+                txt = "Account is not Active!";
+            }
+        };
+
     </script>
 }

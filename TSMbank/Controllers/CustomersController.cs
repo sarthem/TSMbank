@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace TSMbank.Controllers
     public class CustomersController : Controller
     {
         private ApplicationDbContext context;
+        private ApplicationUser appUser;
 
         public CustomersController()
         {
             context = new ApplicationDbContext();
+            appUser = new ApplicationUser();
         }
 
         protected override void Dispose(bool disposing)
@@ -24,29 +27,58 @@ namespace TSMbank.Controllers
             context.Dispose();
         }
 
-
-        // GET: Customers
-        public ActionResult Index()
+        public ActionResult Index()////changes
         {
-            var customers = context.Customers.Include(c => c.Phones).Include(c => c.PrimaryAddress).Include(c => c.Accounts).ToList();
+            appUser = context.Users.Find(User.Identity.GetUserId());
+            var customer = context.Customers
+                            .Include(c => c.Phones)
+                            .Include(c => c.PrimaryAddress)
+                            .Include(c => c.Accounts)
+                            .SingleOrDefault(c => c.ApplicationUserId == appUser.Id);
 
-            return View(customers);
+            return View("Index", customer);
+        }
+
+
+
+
+        // GET: Customers/newcustomers
+        public ActionResult newCustomer()////changes
+        {
+            var customer = context.Customers
+                .Include(c => c.Phones)
+                .Include(c => c.PrimaryAddress)
+                .Include(c => c.Accounts)
+                .SingleOrDefault(c => c.Id == 0);
+                
+            return View("Index", customer);
         }
 
         public ActionResult New()
         {
-            var customer = new CustomerFormViewModel()
+            var userId = User.Identity.GetUserId();
+            ApplicationUser appUser = new ApplicationUser();//
+            appUser = context.Users.Find(userId);
+
+            var modelView = new CustomerFormViewModel()
             {
-                Customer = new Customer(),
+                Customer = new Customer()
+                {
+                    Email = appUser.Email
+
+                },
                 ModificationAction = ModificationAction.NewCustomer,
             };
-
-            return View("CustomerForm", customer);
+            
+            return View("CustomerForm", modelView);
         }
 
         [HttpPost]
         public ActionResult Save(CustomerFormViewModel customerViewFormModel)
         {
+            ApplicationUser appUser = new ApplicationUser();
+            appUser = context.Users.Find(User.Identity.GetUserId());
+
             if (!ModelState.IsValid)
             {
                 var viewModel = new CustomerFormViewModel()
@@ -61,6 +93,9 @@ namespace TSMbank.Controllers
             if (customerViewFormModel.CustomerId == 0)
             {
                 var customer = customerViewFormModel.Customer;
+                customer.ApplicationUserId = appUser.Id;
+                appUser.RegisterCompletion = true;
+                
                 customer.Phones = customerViewFormModel.Phones;
                 customer.PrimaryAddress = customerViewFormModel.PrimaryAddress;
                 context.Customers.Add(customer);
@@ -70,14 +105,14 @@ namespace TSMbank.Controllers
                 var customerDB = context.Customers.Include(c => c.Phones)
                                                     .Include(c => c.PrimaryAddress)
                                                     .Include(c => c.SecondaryAddress)
-                                                    .Include(c => c.Phones)
+                                                    .Include(c => c.Phones)//???
                                                     .SingleOrDefault(c => c.Id == customerViewFormModel.CustomerId);
 
                 switch (customerViewFormModel.ModificationAction)
                 {
                     case ModificationAction.EditCustomer:
                         customerDB.DateOfBirth = customerViewFormModel.Customer.DateOfBirth;
-                        customerDB.Email = customerViewFormModel.Customer.Email;
+                        customerDB.Email = customerViewFormModel.Customer.Email;//?????
                         customerDB.FathersName = customerViewFormModel.Customer.FathersName;
                         customerDB.FirstName = customerViewFormModel.Customer.FirstName;
                         customerDB.IdentificationCardNo = customerViewFormModel.Customer.IdentificationCardNo;
@@ -152,6 +187,23 @@ namespace TSMbank.Controllers
             return View(customer);
         }
 
+        public ActionResult ActivateAccount(int? id)
+        {
+            if (!id.HasValue) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var customer = context.Customers.Include(ph => ph.Phones).Include(a => a.PrimaryAddress)
+                .SingleOrDefault(c => c.Id == id);
+
+            if (customer == null) return HttpNotFound();
+
+            if (customer.Status == CustomerStatus.Active)
+                customer.Status = CustomerStatus.Inactive;
+            else customer.Status = CustomerStatus.Active;
+
+            context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
 
 
     }

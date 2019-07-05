@@ -6,16 +6,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            @Html.ActionLink("TSM bank", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("TSM bank", "Index", "Customers", new { area = "" }, new { @class = "navbar-brand" })
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Our Bank", "Index", "Home")</li>
-                <li>@Html.ActionLink("Bank Accounts", "Index", "Home")</li>
-                <li>@Html.ActionLink("Cards", "About", "Home")</li>
+            <ul class="nav navbar-nav">               
+                <li>@Html.ActionLink("deposits", "Index", "Home")</li>
+                <li>@Html.ActionLink("money transfers", "Index", "Home")</li>
+                <li>@Html.ActionLink("my bills", "Index", "Home")</li>
+                <li>@Html.ActionLink("cards", "About", "Home")</li>
                 <li>@Html.ActionLink("Loans", "Contact", "Home")</li>
                 <li>@Html.ActionLink("Investments", "Contact", "Home")</li>
-                <li>@Html.ActionLink("Contact us", "Contact", "Home")</li>
             </ul>
             @Html.Partial("_LoginPartial")
         </div>
