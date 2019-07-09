@@ -98,12 +98,12 @@ namespace TSMbank.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (UserManager.IsInRoleAsync(user.Id,"Customer").Result)
+                    if (UserManager.IsInRoleAsync(user.Id, RoleName.Customer).Result)
                     {
                         if (user.RegisterCompletion == true) return RedirectToAction("Index", "Customers");
                         
                         return RedirectToAction("newCustomer", "Customers");
-                    }else if (UserManager.IsInRoleAsync(user.Id, "Administrator").Result)
+                    }else if (UserManager.IsInRoleAsync(user.Id, RoleName.Administrator).Result)
                     {
                         return RedirectToAction("index", "Admins");
                     }
@@ -186,33 +186,20 @@ namespace TSMbank.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-
                     //temp code
                     var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
                     var roleManager = new RoleManager<IdentityRole>(roleStore);
-                    await roleManager.CreateAsync(new IdentityRole("Customer"));
-                    await UserManager.AddToRoleAsync(user.Id, "Customer");
-
-                   // await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    await roleManager.CreateAsync(new IdentityRole(RoleName.Customer));
+                    await UserManager.AddToRoleAsync(user.Id, RoleName.Customer);
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
-
                     ViewBag.Message = "Check your email and confirm your account, you must be confirmed "
                                     + "before you can log in.";
 
                     return View("Info");
-
-                   // return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }

@@ -43,7 +43,7 @@ namespace TSMbank.Controllers
             {
                 Account = account,
                 CustomerFullName = customer.FullName,
-                AccountTypes = context.AccountTypes.ToList(),
+                AccountTypes = context.BankAccountTypes.ToList(),
             };
 
             return View("AccountForm",viewModel);
@@ -54,7 +54,7 @@ namespace TSMbank.Controllers
             if (accountNo == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var account = context.Accounts.Include(a => a.Customer).SingleOrDefault(a => a.AccountNumber == accountNo);
+            var account = context.BankAccounts.Include(a => a.Customer).SingleOrDefault(a => a.AccountNumber == accountNo);
 
             if (account == null)
                 return HttpNotFound();
@@ -62,7 +62,7 @@ namespace TSMbank.Controllers
             var viewModel = new BankAccountFormViewModel()
             {
                 Account = account,
-                AccountTypes = context.AccountTypes.ToList(),
+                AccountTypes = context.BankAccountTypes.ToList(),
                 CustomerFullName = account.Customer.FullName
                 
             };
@@ -75,18 +75,18 @@ namespace TSMbank.Controllers
             if (accountNo == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var account = context.Accounts
+            var account = context.BankAccounts
                 .Include(a => a.Customer)
                 .Include(a => a.AccountType)
                 .SingleOrDefault(a => a.AccountNumber == accountNo);
-            var actype = context.AccountTypes.SingleOrDefault(a => a.Id == account.AccountTypeId);
+            var actype = context.BankAccountTypes.SingleOrDefault(a => a.Id == account.AccountTypeId);
             if (account == null)
                 return HttpNotFound();
 
             var viewModel = new BankAccountFormViewModel()
             {
                 Account = account,
-                AccountTypes = context.AccountTypes.ToList(),
+                AccountTypes = context.BankAccountTypes.ToList(),
                 CustomerFullName = account.Customer.FullName,
                 AccoutTypeDescription = actype.Summary
                 
@@ -104,7 +104,7 @@ namespace TSMbank.Controllers
                 {
                     Account = account,
                     CustomerFullName = context.Customers.SingleOrDefault(c => c.Id == account.CustomerId).FullName,
-                    AccountTypes = context.AccountTypes.ToList(),
+                    AccountTypes = context.BankAccountTypes.ToList(),
                 };
                 return View("AccountForm", viewModel);
             }
@@ -114,11 +114,11 @@ namespace TSMbank.Controllers
                 account.AccountNumber = BankAccount.CreateRandomAccountNumber();
                 account.OpenedDate = DateTime.Now;
                 account.StatusUpdatedDateTime = DateTime.Now;
-                context.Accounts.Add(account);
+                context.BankAccounts.Add(account);
             }
             else
             {
-                var accountInDb = context.Accounts.SingleOrDefault(a => a.AccountNumber == account.AccountNumber);
+                var accountInDb = context.BankAccounts.SingleOrDefault(a => a.AccountNumber == account.AccountNumber);
                 accountInDb.WithdrawalLimit = account.WithdrawalLimit;
                 accountInDb.AccountTypeId = account.AccountTypeId;
             }
@@ -132,7 +132,7 @@ namespace TSMbank.Controllers
             if (accountNo == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var account = context.Accounts.SingleOrDefault(a => a.AccountNumber == accountNo);
+            var account = context.BankAccounts.SingleOrDefault(a => a.AccountNumber == accountNo);
 
             if (account == null)
                 return HttpNotFound();

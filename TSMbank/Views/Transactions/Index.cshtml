@@ -12,40 +12,39 @@
 }
 else
 {
-    foreach (var trans in Model.Transactions)
-    {
-    <ul>
-
-        <p><label>Date</label>: @Html.ActionLink(trans.ValueDateTime.ToLongDateString(), "Details", "Transactions", new { id = trans.TransactionId, accountNumber = Model.AccountNumber }, null)</p>
-        @if (Model.AccountNumber == trans.CreditAccountNo)
+    <table id="transactions" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Account</th>
+                <th>Amount</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        @foreach (var trans in Model.Transactions)
         {
-            <p><label>Transfered To </label>: @trans.DebitAccountNo</p>
-            <p><label>Amount</label>: @trans.CreditAmount</p>
+            <tr>
+                <td>@Html.ActionLink(trans.ValueDateTime.ToLongDateString(), "Details", "Transactions", new { id = trans.TransactionId, accountNumber = Model.AccountNumber }, null)</td>
+                @if (Model.AccountNumber == trans.CreditAccountNo)
+                {
+                    <td><label>Transfered To </label>: @trans.DebitIBAN</td>
+                    <td>- @trans.CreditAmount</td>
+                    <td> @trans.CreditAccountBalanceAfterTransaction</td>
 
+                }
+                else
+                {
+                    <td><label>Transfered From </label>: @trans.CreditIBAN</td>
+                    <td> @trans.CreditAmount</td>
+                    <td> @trans.DebitAccountBalanceAfterTransaction</td>
+                }
+            </tr>
         }
-        else
-        {
-            <p><label>Transfered From </label>: @trans.CreditAccountNo</p>
-            <p><label>Amount</label>: @trans.CreditAmount</p>
+    </table>
 
-        }
-
-
-        @*<p><label>Bank Account</label>: @trans.CreditAccountNo</p>
-        <span><label>Account Holder</label>@trans.CreditAccount.Customer.LastName </span></p>
-            <p><label>Amount</label>: @trans.CreditAmount</p>
-            <p><label>Transfered to </label>: @trans.DebitAccountNo</p>*@
-
-
-        <p> </p>
-        @*<li>@trans.CreditAccountBalance</li>
-        <li>@trans.CreditAmount</li>
-        <li>@trans.CreditAccountBalanceAfterTransaction</li>
-        <li>to</li>
-        <li>@trans.DebitAccountNo</li>*@
-    </ul>
-    }
 }
-    <p>
-        @Html.ActionLink("back", "Index", "Customers", null, new { @class = "btn btn-primary" })
-    </p>
+<p>
+    @Html.ActionLink("back", "Index", "Customers", null, new { @class = "btn btn-primary" })
+</p>
+
+

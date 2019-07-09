@@ -12,22 +12,24 @@
     <h2>@transaction.ValueDateTime</h2>
     if (Model.AccountNumber == transaction.CreditAccountNo)
     {
-        <p><label>From my Account</label>: @transaction.CreditAccountNo </p>
+        <p><label>From my Account</label>: @transaction.CreditIBAN </p>
         <p><label>Amount</label>: @transaction.CreditAmount</p>
         <p><label>balance</label>: @transaction.CreditAccountBalanceAfterTransaction</p>
-        <p><label>To Account</label>: @transaction.DebitAccount</p>
+        <p><label>To Account</label>: @transaction.DebitIBAN</p>
     }
     else
     {
-        <p><label>From Account</label>: @transaction.CreditAccountNo </p>
+        <p><label>From Account</label>: @transaction.CreditIBAN </p>
         <p><label>Amount</label>: @transaction.CreditAmount</p>
         <p><label>balance</label>: @transaction.DebitAccountBalanceAfterTransaction</p>
-        <p><label>To My Account</label>: @transaction.DebitAccountNo</p>
+        <p><label>To My Account</label>: @transaction.DebitIBAN</p>
     }
 
 
 }
-
+<p>
+    @Html.ActionLink("back", "Index", "Customers", null, new { @class = "btn btn-primary" })
+</p>
 
 
 

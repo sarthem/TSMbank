@@ -12,8 +12,8 @@ namespace TSMbank.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Phone> Phones { get; set; }
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<BankAccount> Accounts { get; set; }
-        public DbSet<BankAccountType> AccountTypes { get; set; }
+        public DbSet<BankAccount> BankAccounts { get; set; }
+        public DbSet<BankAccountType> BankAccountTypes { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
 

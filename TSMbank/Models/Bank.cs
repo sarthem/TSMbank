@@ -12,5 +12,7 @@ namespace TSMbank.Models
         public static readonly string BankCode = "893";
         public static readonly string BranchCode = "101";
         public static Random random = new Random();
+       
+
     }
 }

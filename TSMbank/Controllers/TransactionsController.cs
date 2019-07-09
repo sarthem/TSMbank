@@ -42,41 +42,41 @@ namespace TSMbank.Controllers
         }
 
         // GET: Transactions
-        public ActionResult Index(string AccountNumber)
+        public ActionResult Index(string accountNumber)
         {
-            var appUser = context.Users.Find(User.Identity.GetUserId());
+            //var appUser = context.Users.Find(User.Identity.GetUserId());
 
             //var creditTransaction = context.Transactions
             //    .Include(customer => customer.CreditAccount)
             //    .Where(c => c.CreditAccount.Customer.ApplicationUserId == appUser.Id)
             //    .Include(c => c.CreditAccount.Customer)
-            //    .Where(c => c.CreditAccount.Customer.ApplicationUserId == appUser.Id).ToList();
+            //    .Where(c => c.CreditAccount.AccountNumber == accountNumber).ToList();
 
             //var debitTransaction = context.Transactions
-            //   .Include(customer => customer.DebitAccount)
-            //   .Where(c => c.DebitAccount.Customer.ApplicationUserId == appUser.Id)
-            //   .Include(c => c.DebitAccount.Customer)
-            //   .Where(c => c.DebitAccount.Customer.ApplicationUserId == appUser.Id).ToList();
+            //    .Include(customer => customer.DebitAccount)
+            //    .Where(c => c.DebitAccount.Customer.ApplicationUserId == appUser.Id)
+            //    .Include(c => c.DebitAccount.Customer)
+            //    .Where(c => c.DebitAccount.AccountNumber == accountNumber).ToList();
 
-            var creditTransaction = context.Transactions
-                .Include(customer => customer.CreditAccount)
-                .Where(c => c.CreditAccount.Customer.ApplicationUserId == appUser.Id)
-                .Include(c => c.CreditAccount.Customer)
-                .Where(c => c.CreditAccount.AccountNumber == AccountNumber).ToList();
+            var bankAccount = context.BankAccounts
+                .Include(a => a.CreditTransactions)
+                .Include(a => a.DebitTransactions)
+                .SingleOrDefault(a => a.AccountNumber == accountNumber);
 
-            var debitTransaction = context.Transactions
-                .Include(customer => customer.DebitAccount)
-                .Where(c => c.DebitAccount.Customer.ApplicationUserId == appUser.Id)
-                .Include(c => c.DebitAccount.Customer)
-                .Where(c => c.DebitAccount.AccountNumber == AccountNumber).ToList();
 
-            var transactions = creditTransaction.Concat(debitTransaction);
-            transactions.OrderBy(t => t.ValueDateTime);
+
+
+            //var transactions = creditTransaction.Concat(debitTransaction);
+
+            var transactions = bankAccount.DebitTransactions.Concat(bankAccount.CreditTransactions);
+            var orderedTransactions = transactions.OrderByDescending(t => t.ValueDateTime);
+           
+
 
             var viewModel = new TransactionsDetailsViewModel()
             {
-                Transactions = transactions,
-                AccountNumber = AccountNumber
+                Transactions = orderedTransactions,
+                AccountNumber = accountNumber
             };
 
             return View(viewModel);
@@ -87,7 +87,7 @@ namespace TSMbank.Controllers
         {
             var appUser = context.Users.Find(User.Identity.GetUserId());
             var customer = context.Customers.Include(c => c.Accounts).SingleOrDefault(c => c.ApplicationUserId == appUser.Id);
-            var bankAccount = context.Accounts.Where(c => c.CustomerId == customer.Id);
+            var bankAccount = context.BankAccounts.Where(c => c.CustomerId == customer.Id);
             var viewModel = new TransactionDepositViewForm()
             {
                 Customer = customer,
@@ -98,11 +98,25 @@ namespace TSMbank.Controllers
             return View(viewModel);
         }
 
+
+
         public ActionResult TransferToAccount(TransactionDepositViewForm transactionDepositView)
         {
-            var creditAccount = context.Accounts.SingleOrDefault(ac => ac.AccountNumber == transactionDepositView.AccountId);
-            var debitAccount = context.Accounts.SingleOrDefault(ac => ac.AccountNumber == transactionDepositView.DebitAccount);
-
+            string debitNumber = "";
+            string debitAccountNumber = "";
+            if ( transactionDepositView.DebitIBAN != null)
+            {
+                debitNumber = transactionDepositView.DebitIBAN;
+                debitAccountNumber = debitNumber.Substring(10);
+            }
+            else
+            {
+                debitAccountNumber = transactionDepositView.DebitAccount;
+            }
+            
+            var creditAccount = context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == transactionDepositView.AccountId);
+            var debitAccount = context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == debitAccountNumber);
+                        
             var transaction = new Transaction()
             {
                 ValueDateTime = DateTime.Now,
@@ -135,7 +149,8 @@ namespace TSMbank.Controllers
 
             context.Transactions.Add(transaction);
             context.SaveChanges();
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Index", new { AccountNumber = transactionDepositView.AccountId });//, transactionDepositView.AccountId
         }
     }
 }

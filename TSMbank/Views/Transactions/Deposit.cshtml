@@ -15,20 +15,23 @@
         @Html.Label("From Account")
         @Html.DropDownListFor(m => m.AccountId, new SelectList(Model.Accounts, "AccountNumber", "IBAN"), "Select IBAN", new { @class = "form-control" })
     </div>
-    @Html.Label("To Account")
-    <div class="form-group form-inline">
-        @Html.Label("IBAN", new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.DebitIBAN , new { @maxlength = "10", @class = "form-control", @style = "text-transform:uppercase;width:110px" })  
-
-        @Html.Label("Account Number", new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.DebitAccount, new { @maxlength = "16", @class = "form-control", style = "width:160px" })
-    </div>
-        
     <div class="form-group">
 
         @Html.Label("Ammount")
         @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
     </div>
+    @Html.Label("To Account")
+    <div class="form-group form-inline">
+        @Html.Label("IBAN", new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.DebitIBAN, new { @maxlength = "26", @class = "form-control", @style = "text-transform:uppercase;width:260px" })
+    </div>
+    <div class="form-group form-inline">
+        <p>@Html.Label("OR")</p>
+        @Html.Label("Account Number", new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.DebitAccount, new { @maxlength = "16", @class = "form-control", style = "width:160px" })
+    </div>
+
+
 
     <button type="submit" class="btn btn-primary">Save</button>
 }

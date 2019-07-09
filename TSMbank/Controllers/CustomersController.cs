@@ -99,15 +99,14 @@ namespace TSMbank.Controllers
             {
                 var customerDB = context.Customers.Include(c => c.Phones)
                                                     .Include(c => c.PrimaryAddress)
-                                                    .Include(c => c.SecondaryAddress)
-                                                    .Include(c => c.Phones)//???
+                                                    .Include(c => c.SecondaryAddress)                                                    
                                                     .SingleOrDefault(c => c.Id == customerViewFormModel.CustomerId);
 
                 switch (customerViewFormModel.ModificationAction)
                 {
                     case ModificationAction.EditCustomer:
                         customerDB.DateOfBirth = customerViewFormModel.Customer.DateOfBirth;
-                        customerDB.Email = customerViewFormModel.Customer.Email;//?????
+                        customerDB.Email = customerViewFormModel.Customer.Email;
                         customerDB.FathersName = customerViewFormModel.Customer.FathersName;
                         customerDB.FirstName = customerViewFormModel.Customer.FirstName;
                         customerDB.IdentificationCardNo = customerViewFormModel.Customer.IdentificationCardNo;
