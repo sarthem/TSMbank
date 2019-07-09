@@ -1,4 +1,4 @@
-﻿@model TSMbank.ViewModels.AccountFormViewModel
+﻿@model TSMbank.ViewModels.BankAccountFormViewModel
 @{
     ViewBag.Title = Model.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,7 +6,7 @@
 
 <h2>@Model.Title</h2>
 <h3>@Model.CustomerFullName</h3>
-@using (Html.BeginForm("Save", "Accounts", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Save", "BankAccounts", FormMethod.Post, new { @class = "form-horizontal" }))
 {
 
     @Html.HiddenFor(m => m.Account.CustomerId)

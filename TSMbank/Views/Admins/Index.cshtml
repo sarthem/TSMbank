@@ -33,16 +33,16 @@ else
                     @if (!customer.Accounts.Any())
                     {
                         <p>No related Accounts</p>
-                        <p>@Html.ActionLink("Add new account", "New", "Accounts", new { customerId = customer.Id }, new { @class = "link-grey" })</p>
+                        <p>@Html.ActionLink("Add new account", "New", "BankAccounts", new { customerId = customer.Id }, new { @class = "link-grey" })</p>
                     }
                     else
                     {
                         foreach (var account in customer.Accounts)
                         {
-                            <p>@Html.ActionLink(account.IBAN, "Edit", "Accounts", new { accountNo = account.AccountNumber }, null)</p>
+                        <p>@Html.ActionLink(account.IBAN, "Edit", "BankAccounts", new { accountNo = account.AccountNumber }, null)</p>
 
                         }
-                        <p>@Html.ActionLink("Add new account", "New", "Accounts", new { customerId = customer.Id }, new { @class = "link-grey" })</p>
+                        <p>@Html.ActionLink("Add new account", "New", "BankAccounts", new { customerId = customer.Id }, new { @class = "link-grey" })</p>
 
                     }
                 </td>

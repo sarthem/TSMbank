@@ -12,7 +12,7 @@ namespace TSMbank.Models
         Term
     }
 
-    public class AccountType
+    public class BankAccountType
     {
 
         //Properties
@@ -24,6 +24,6 @@ namespace TSMbank.Models
 
 
         //Navigation Properties
-        public virtual ICollection<Account> Accounts { get; set; }
+        public virtual ICollection<BankAccount> Accounts { get; set; }
     }
 }

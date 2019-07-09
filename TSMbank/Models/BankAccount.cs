@@ -13,7 +13,7 @@ namespace TSMbank.Models
         Inactive
     }
 
-    public class Account
+    public class BankAccount
     {
         [Key]
         [StringLength(16,MinimumLength = 16)]
@@ -46,7 +46,7 @@ namespace TSMbank.Models
         }
 
         //Navigation Properties
-        public AccountType AccountType { get; set; }
+        public BankAccountType AccountType { get; set; }
 
         [Display(Name = "Account Type")]
         public byte AccountTypeId { get; set; }
@@ -81,7 +81,7 @@ namespace TSMbank.Models
             return accountNumber;
         }
 
-        public Account()
+        public BankAccount()
         {
             Balance = 0;
             WithdrawalLimit = 1500;

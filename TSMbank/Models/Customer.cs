@@ -56,7 +56,7 @@ namespace TSMbank.Models
         public int? SecondaryAddressId { get; set; }
 
         public ICollection<Phone> Phones { get; set; }
-        public ICollection<Account> Accounts { get; set; }
+        public ICollection<BankAccount> Accounts { get; set; }
 
         //new code
         public virtual ApplicationUser ApplicationUser { get; set; }

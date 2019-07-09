@@ -53,11 +53,6 @@ namespace TSMbank
                 await Task.FromResult(0);
             }
         }
-
-
-
-
-
     }
 
     public class SmsService : IIdentityMessageService

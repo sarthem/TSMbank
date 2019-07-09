@@ -11,15 +11,14 @@ using TSMbank.ViewModels;
 
 namespace TSMbank.Controllers
 {
+    [Authorize]
     public class CustomersController : Controller
     {
-        private ApplicationDbContext context;
-        private ApplicationUser appUser;
+        private ApplicationDbContext context;        
 
         public CustomersController()
         {
-            context = new ApplicationDbContext();
-            appUser = new ApplicationUser();
+            context = new ApplicationDbContext();           
         }
 
         protected override void Dispose(bool disposing)
@@ -27,9 +26,11 @@ namespace TSMbank.Controllers
             context.Dispose();
         }
 
-        public ActionResult Index()////changes
+
+        public ActionResult Index()
         {
-            appUser = context.Users.Find(User.Identity.GetUserId());
+            var appUser = context.Users.Find(User.Identity.GetUserId());
+
             var customer = context.Customers
                             .Include(c => c.Phones)
                             .Include(c => c.PrimaryAddress)
@@ -38,12 +39,10 @@ namespace TSMbank.Controllers
 
             return View("Index", customer);
         }
-
-
-
+           
 
         // GET: Customers/newcustomers
-        public ActionResult newCustomer()////changes
+        public ActionResult newCustomer()
         {
             var customer = context.Customers
                 .Include(c => c.Phones)
@@ -54,31 +53,27 @@ namespace TSMbank.Controllers
             return View("Index", customer);
         }
 
+
         public ActionResult New()
         {
-            var userId = User.Identity.GetUserId();
-            ApplicationUser appUser = new ApplicationUser();//
-            appUser = context.Users.Find(userId);
-
+            var userId = User.Identity.GetUserId();            
+            var appUser = context.Users.Find(userId);
             var modelView = new CustomerFormViewModel()
             {
                 Customer = new Customer()
                 {
                     Email = appUser.Email
-
                 },
                 ModificationAction = ModificationAction.NewCustomer,
             };
-            
             return View("CustomerForm", modelView);
         }
 
+
         [HttpPost]
         public ActionResult Save(CustomerFormViewModel customerViewFormModel)
-        {
-            ApplicationUser appUser = new ApplicationUser();
-            appUser = context.Users.Find(User.Identity.GetUserId());
-
+        {           
+            var appUser = context.Users.Find(User.Identity.GetUserId());
             if (!ModelState.IsValid)
             {
                 var viewModel = new CustomerFormViewModel()
@@ -137,21 +132,23 @@ namespace TSMbank.Controllers
                             customerDB.Phones.ElementAt(i).PhoneNumber = customerViewFormModel.Phones[i].PhoneNumber;
                             customerDB.Phones.ElementAt(i).PhoneType = customerViewFormModel.Phones[i].PhoneType;
                         }
-
                         break;
-
                     default:
                         break;
                 }
             }
             context.SaveChanges();
-
             return RedirectToAction("Index");
         }
 
+
         public ActionResult Edit(int? id, int modify)
         {
-            var customer = context.Customers.Include(c => c.Phones).Include(c => c.PrimaryAddress).Include(c => c.SecondaryAddress).SingleOrDefault(c => c.Id == id);
+            var customer = context.Customers
+                            .Include(c => c.Phones)
+                            .Include(c => c.PrimaryAddress)
+                            .Include(c => c.SecondaryAddress)
+                            .SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
                 return HttpNotFound();
@@ -168,31 +165,51 @@ namespace TSMbank.Controllers
             return View("CustomerForm", viewModel);
         }
 
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, string detail)
         {
             if (!id.HasValue)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-
-            var customer = context.Customers.Include(c => c.Phones).Include(c => c.PrimaryAddress)
-                .SingleOrDefault(c => c.Id == id);
+            var customer = context.Customers
+                            .Include(c => c.Phones)
+                            .Include(c => c.PrimaryAddress)
+                            .SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
             {
                 return HttpNotFound();
             }
 
-            return View(customer);
+            switch (detail)
+            {
+                case "PersonalInfo":
+                    return View("Details", customer);                    
+                case "AddressInfo":
+                    return View("DetailsAddress", customer);                    
+                case "PhoneInfo":
+                    return View("DetailsPhone", customer);
+                default:
+                    return View(customer);
+            }
         }
 
+            
+
+
+
+
+
         public ActionResult ActivateAccount(int? id)
+
         {
             if (!id.HasValue) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var customer = context.Customers.Include(ph => ph.Phones).Include(a => a.PrimaryAddress)
-                .SingleOrDefault(c => c.Id == id);
+            var customer = context.Customers
+                            .Include(ph => ph.Phones)
+                            .Include(a => a.PrimaryAddress)
+                            .SingleOrDefault(c => c.Id == id);
 
             if (customer == null) return HttpNotFound();
 

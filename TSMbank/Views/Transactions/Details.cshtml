@@ -1,0 +1,33 @@
+﻿@model TSMbank.ViewModels.TransactionsDetailsViewModel
+@{
+    /**/
+
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@foreach (var transaction in Model.Transactions)
+{
+    <h2>@transaction.ValueDateTime</h2>
+    if (Model.AccountNumber == transaction.CreditAccountNo)
+    {
+        <p><label>From my Account</label>: @transaction.CreditAccountNo </p>
+        <p><label>Amount</label>: @transaction.CreditAmount</p>
+        <p><label>balance</label>: @transaction.CreditAccountBalanceAfterTransaction</p>
+        <p><label>To Account</label>: @transaction.DebitAccount</p>
+    }
+    else
+    {
+        <p><label>From Account</label>: @transaction.CreditAccountNo </p>
+        <p><label>Amount</label>: @transaction.CreditAmount</p>
+        <p><label>balance</label>: @transaction.DebitAccountBalanceAfterTransaction</p>
+        <p><label>To My Account</label>: @transaction.DebitAccountNo</p>
+    }
+
+
+}
+
+
+
+

@@ -18,11 +18,14 @@
 <p><label>Social Security Number</label>: @Model.SSN</p>
 <p><label>Vat Number</label>: @Model.VatNumber</p>
 <p>
-    <label>Status</label>: @Model.Status  <input type="button" id="change-customer-status" class="btn btn-sm" value= "Change Customer Status"/>
+    <label>Status</label>: @Model.Status  <input type="button" id="change-customer-status" class="btn btn-sm" value= "Request Activation"/>
 </p>
 <div>
-    @Html.ActionLink("Edit Customer", "Edit", "Customers", new { id = Model.Id, modify = (int)ModificationAction.EditCustomer }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Back", "Index", "Customers", new { @class = "btn btn-primary" })
 </div>
+@*<div>
+    @Html.ActionLink("Edit Customer", "Edit", "Customers", new { id = Model.Id, modify = (int)ModificationAction.EditCustomer }, new { @class = "btn btn-primary" })
+</div>*@
 
 @section scripts
 {

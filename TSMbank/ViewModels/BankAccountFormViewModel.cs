@@ -8,10 +8,11 @@ using TSMbank.Models;
 
 namespace TSMbank.ViewModels
 {
-    public class AccountFormViewModel
+    public class BankAccountFormViewModel
     {
-        public Account Account { get; set; }
-        public List<AccountType> AccountTypes { get; set; }
+        public BankAccount Account { get; set; }
+        public List<BankAccountType> AccountTypes { get; set; }
+        public string AccoutTypeDescription { get; set; }
         public string CustomerFullName { get; set; }
 
         public string Title

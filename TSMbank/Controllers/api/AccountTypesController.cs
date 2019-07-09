@@ -21,7 +21,7 @@ namespace TSMbank.Controllers.api
 
         public IHttpActionResult GetAccountTypes()
         {
-            var accountTypes = context.AccountTypes.ToList().Select(Mapper.Map<AccountType, AccountTypeDto>);
+            var accountTypes = context.AccountTypes.ToList().Select(Mapper.Map<BankAccountType, AccountTypeDto>);
             return Ok(accountTypes);
         }
 

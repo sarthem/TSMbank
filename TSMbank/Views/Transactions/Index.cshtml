@@ -1,0 +1,51 @@
+﻿@model TSMbank.ViewModels.TransactionsDetailsViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My Transactions</h2>
+
+@if (Model == null)
+{
+    <label>No transactions yet</label>
+}
+else
+{
+    foreach (var trans in Model.Transactions)
+    {
+    <ul>
+
+        <p><label>Date</label>: @Html.ActionLink(trans.ValueDateTime.ToLongDateString(), "Details", "Transactions", new { id = trans.TransactionId, accountNumber = Model.AccountNumber }, null)</p>
+        @if (Model.AccountNumber == trans.CreditAccountNo)
+        {
+            <p><label>Transfered To </label>: @trans.DebitAccountNo</p>
+            <p><label>Amount</label>: @trans.CreditAmount</p>
+
+        }
+        else
+        {
+            <p><label>Transfered From </label>: @trans.CreditAccountNo</p>
+            <p><label>Amount</label>: @trans.CreditAmount</p>
+
+        }
+
+
+        @*<p><label>Bank Account</label>: @trans.CreditAccountNo</p>
+        <span><label>Account Holder</label>@trans.CreditAccount.Customer.LastName </span></p>
+            <p><label>Amount</label>: @trans.CreditAmount</p>
+            <p><label>Transfered to </label>: @trans.DebitAccountNo</p>*@
+
+
+        <p> </p>
+        @*<li>@trans.CreditAccountBalance</li>
+        <li>@trans.CreditAmount</li>
+        <li>@trans.CreditAccountBalanceAfterTransaction</li>
+        <li>to</li>
+        <li>@trans.DebitAccountNo</li>*@
+    </ul>
+    }
+}
+    <p>
+        @Html.ActionLink("back", "Index", "Customers", null, new { @class = "btn btn-primary" })
+    </p>

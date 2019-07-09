@@ -1,0 +1,34 @@
+﻿@model TSMbank.ViewModels.TransactionDepositViewForm
+@{
+    /**/
+
+    ViewBag.Title = "Deposit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>I wish to transfer money</h2>
+
+@using (Html.BeginForm("TransferToAccount", "Transactions"))
+{
+
+    <div class="form-group">
+        @Html.Label("From Account")
+        @Html.DropDownListFor(m => m.AccountId, new SelectList(Model.Accounts, "AccountNumber", "IBAN"), "Select IBAN", new { @class = "form-control" })
+    </div>
+    @Html.Label("To Account")
+    <div class="form-group form-inline">
+        @Html.Label("IBAN", new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.DebitIBAN , new { @maxlength = "10", @class = "form-control", @style = "text-transform:uppercase;width:110px" })  
+
+        @Html.Label("Account Number", new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.DebitAccount, new { @maxlength = "16", @class = "form-control", style = "width:160px" })
+    </div>
+        
+    <div class="form-group">
+
+        @Html.Label("Ammount")
+        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}
