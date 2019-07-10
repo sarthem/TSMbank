@@ -26,27 +26,28 @@ namespace TSMbank.Controllers
             return View();
         }
 
-        [Route("BankAccounts/New/{customerId}")]
-        public ActionResult New(int? customerId)
+
+        [Route("bankAccounts/New/{individualId}")]
+        public ActionResult New(int? individualId)
         {
-            if (!customerId.HasValue)
+            if (!individualId.HasValue)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var customer = context.Customers.SingleOrDefault(c => c.Id == customerId);
-            if (customer == null)
+            var individual = context.Individuals.SingleOrDefault(c => c.Id == individualId);
+            if (individual == null)
                 return HttpNotFound();
 
             var account = new BankAccount();
-            account.CustomerId = customer.Id;
+            account.IndividualId = individual.Id;
 
             var viewModel = new BankAccountFormViewModel()
             {
-                Account = account,
-                CustomerFullName = customer.FullName,
-                AccountTypes = context.BankAccountTypes.ToList(),
+                BankAccount = account,
+                IndividualFullName = individual.FullName,
+                BankAccountTypes = context.BankAccountTypes.ToList(),
             };
 
-            return View("AccountForm",viewModel);
+            return View("BankAccountForm",viewModel);
         }
 
         public ActionResult Edit(string accountNo)
@@ -54,20 +55,20 @@ namespace TSMbank.Controllers
             if (accountNo == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var account = context.BankAccounts.Include(a => a.Customer).SingleOrDefault(a => a.AccountNumber == accountNo);
+            var bankAccount = context.BankAccounts.Include(a => a.Individual).SingleOrDefault(a => a.AccountNumber == accountNo);
 
-            if (account == null)
+            if (bankAccount == null)
                 return HttpNotFound();
 
             var viewModel = new BankAccountFormViewModel()
             {
-                Account = account,
-                AccountTypes = context.BankAccountTypes.ToList(),
-                CustomerFullName = account.Customer.FullName
+                BankAccount = bankAccount,
+                BankAccountTypes = context.BankAccountTypes.ToList(),
+                IndividualFullName = bankAccount.Individual.FullName
                 
             };
 
-            return View("AccountForm", viewModel);
+            return View("BankAccountForm", viewModel);
         }
 
         public ActionResult Details(string accountNo)
@@ -75,19 +76,19 @@ namespace TSMbank.Controllers
             if (accountNo == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var account = context.BankAccounts
-                .Include(a => a.Customer)
-                .Include(a => a.AccountType)
+            var bankAccount = context.BankAccounts
+                .Include(a => a.Individual)
+                .Include(a => a.BankAccountType)
                 .SingleOrDefault(a => a.AccountNumber == accountNo);
-            var actype = context.BankAccountTypes.SingleOrDefault(a => a.Id == account.AccountTypeId);
-            if (account == null)
+            var actype = context.BankAccountTypes.SingleOrDefault(a => a.Id == bankAccount.BankAccountTypeId);
+            if (bankAccount == null)
                 return HttpNotFound();
 
             var viewModel = new BankAccountFormViewModel()
             {
-                Account = account,
-                AccountTypes = context.BankAccountTypes.ToList(),
-                CustomerFullName = account.Customer.FullName,
+                BankAccount = bankAccount,
+                BankAccountTypes = context.BankAccountTypes.ToList(),
+                IndividualFullName = bankAccount.Individual.FullName,
                 AccoutTypeDescription = actype.Summary
                 
             };
@@ -96,48 +97,48 @@ namespace TSMbank.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(BankAccount account)
+        public ActionResult Save(BankAccount bankAccount)
         {
             if (!ModelState.IsValid)
             {
                 var viewModel = new BankAccountFormViewModel()
                 {
-                    Account = account,
-                    CustomerFullName = context.Customers.SingleOrDefault(c => c.Id == account.CustomerId).FullName,
-                    AccountTypes = context.BankAccountTypes.ToList(),
+                    BankAccount = bankAccount,
+                    IndividualFullName = context.Individuals.SingleOrDefault(c => c.Id == bankAccount.IndividualId).FullName,
+                    BankAccountTypes = context.BankAccountTypes.ToList(),
                 };
                 return View("AccountForm", viewModel);
             }
 
-            if (account.AccountNumber == null)
+            if (bankAccount.AccountNumber == null)
             {
-                account.AccountNumber = BankAccount.CreateRandomAccountNumber();
-                account.OpenedDate = DateTime.Now;
-                account.StatusUpdatedDateTime = DateTime.Now;
-                context.BankAccounts.Add(account);
+                bankAccount.AccountNumber = BankAccount.CreateRandomAccountNumber();
+                bankAccount.OpenedDate = DateTime.Now;
+                bankAccount.StatusUpdatedDateTime = DateTime.Now;
+                context.BankAccounts.Add(bankAccount);
             }
             else
             {
-                var accountInDb = context.BankAccounts.SingleOrDefault(a => a.AccountNumber == account.AccountNumber);
-                accountInDb.WithdrawalLimit = account.WithdrawalLimit;
-                accountInDb.AccountTypeId = account.AccountTypeId;
+                var bankAccountInDb = context.BankAccounts.SingleOrDefault(a => a.AccountNumber == bankAccount.AccountNumber);
+                bankAccountInDb.WithdrawalLimit = bankAccount.WithdrawalLimit;
+                bankAccountInDb.BankAccountTypeId = bankAccount.BankAccountTypeId;
             }
             context.SaveChanges();
-            return RedirectToAction("Index", "Customers");
+            return RedirectToAction("Index", "Individuals");
         }
 
-        [Route("Accounts/ChangeStatus/{customerId}")]
+        [Route("Accounts/ChangeStatus/{individualId}")]
         public ActionResult ChangeStatus(string accountNo)
         {
             if (accountNo == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var account = context.BankAccounts.SingleOrDefault(a => a.AccountNumber == accountNo);
+            var bankAccount = context.BankAccounts.SingleOrDefault(a => a.AccountNumber == accountNo);
 
-            if (account == null)
+            if (bankAccount == null)
                 return HttpNotFound();
 
-            account.AccountStatus = account.AccountStatus == AccountStatus.Active ? AccountStatus.Inactive : AccountStatus.Active;
+            bankAccount.AccountStatus = bankAccount.AccountStatus == AccountStatus.Active ? AccountStatus.Inactive : AccountStatus.Active;
             context.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -100,9 +100,9 @@ namespace TSMbank.Controllers
                 case SignInStatus.Success:
                     if (UserManager.IsInRoleAsync(user.Id, RoleName.Customer).Result)
                     {
-                        if (user.RegisterCompletion == true) return RedirectToAction("Index", "Customers");
+                        if (user.RegisterCompletion == true) return RedirectToAction("Index", "Individuals");
                         
-                        return RedirectToAction("newCustomer", "Customers");
+                        return RedirectToAction("newIndividual", "Individuals");
                     }else if (UserManager.IsInRoleAsync(user.Id, RoleName.Administrator).Result)
                     {
                         return RedirectToAction("index", "Admins");

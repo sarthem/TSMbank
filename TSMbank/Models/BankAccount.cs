@@ -26,8 +26,8 @@ namespace TSMbank.Models
         public DateTime OpenedDate { get; set; }
         public DateTime? StatusUpdatedDateTime { get; set; }
 
-        public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public int IndividualId { get; set; }
+        public Individual Individual { get; set; }
 
         public string BBAN
         {
@@ -46,10 +46,10 @@ namespace TSMbank.Models
         }
 
         //Navigation Properties
-        public BankAccountType AccountType { get; set; }
+        public BankAccountType BankAccountType { get; set; }
 
         [Display(Name = "Account Type")]
-        public byte AccountTypeId { get; set; }
+        public byte BankAccountTypeId { get; set; }
 
         public ICollection<Transaction> CreditTransactions { get; set; }
 

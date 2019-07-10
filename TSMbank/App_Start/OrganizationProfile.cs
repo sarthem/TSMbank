@@ -12,12 +12,12 @@ namespace TSMbank.App_Start
     {
         public OrganizationProfile()
         {
-            CreateMap<BankAccount, AccountDto>();
-            CreateMap<AccountDto, BankAccount>();
-            CreateMap<BankAccountType, AccountTypeDto>();
-            CreateMap<AccountTypeDto, BankAccountType>();   
-            CreateMap<Customer, CustomerDto>();
-            CreateMap<CustomerDto, Customer>();
+            CreateMap<BankAccount, BankAccountDto>();
+            CreateMap<BankAccountDto, BankAccount>();
+            CreateMap<BankAccountType, BankAccountTypeDto>();
+            CreateMap<BankAccountTypeDto, BankAccountType>();   
+            CreateMap<Individual, IndividualDto>();
+            CreateMap<IndividualDto, Individual>();
         }
     }
 }

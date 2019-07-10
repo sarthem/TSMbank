@@ -213,63 +213,26 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\BankAccountsController.cs" />
-    <Compile Include="Controllers\api\AccountsController.cs" />
-    <Compile Include="Controllers\api\AccountTypesController.cs" />
-    <Compile Include="Controllers\api\CustomersController.cs" />
-    <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\api\BankAccountTypesController.cs" />
+    <Compile Include="Controllers\api\IndividualsController.cs" />
+    <Compile Include="Controllers\IndividualsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
-    <Compile Include="Dtos\AccountDto.cs" />
-    <Compile Include="Dtos\AccountTypeDto.cs" />
-    <Compile Include="Dtos\CustomerDto.cs" />
-    <Compile Include="Dtos\CustomerStatusDto.cs" />
+    <Compile Include="Dtos\BankAccountDto.cs" />
+    <Compile Include="Dtos\BankAccountTypeDto.cs" />
+    <Compile Include="Dtos\IndividualDto.cs" />
+    <Compile Include="Dtos\IndividualStatusDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906291025376_InitialModel.cs" />
-    <Compile Include="Migrations\201906291025376_InitialModel.Designer.cs">
-      <DependentUpon>201906291025376_InitialModel.cs</DependentUpon>
+    <Compile Include="Migrations\201907100051439_InitialiazeDB.cs" />
+    <Compile Include="Migrations\201907100051439_InitialiazeDB.Designer.cs">
+      <DependentUpon>201907100051439_InitialiazeDB.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906291238456_AddCustomerFkToAccount.cs" />
-    <Compile Include="Migrations\201906291238456_AddCustomerFkToAccount.Designer.cs">
-      <DependentUpon>201906291238456_AddCustomerFkToAccount.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906291244229_PopulateAccountTypes.cs" />
-    <Compile Include="Migrations\201906291244229_PopulateAccountTypes.Designer.cs">
-      <DependentUpon>201906291244229_PopulateAccountTypes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906291358175_ChangeAccountStatusUpdatedDateTimeToNullable.cs" />
-    <Compile Include="Migrations\201906291358175_ChangeAccountStatusUpdatedDateTimeToNullable.Designer.cs">
-      <DependentUpon>201906291358175_ChangeAccountStatusUpdatedDateTimeToNullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907031811142_CreateTransaction.cs" />
-    <Compile Include="Migrations\201907031811142_CreateTransaction.Designer.cs">
-      <DependentUpon>201907031811142_CreateTransaction.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907032238538_newchanges.cs" />
-    <Compile Include="Migrations\201907032238538_newchanges.Designer.cs">
-      <DependentUpon>201907032238538_newchanges.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907041016108_addBoolAAplicationuserOnregister.cs" />
-    <Compile Include="Migrations\201907041016108_addBoolAAplicationuserOnregister.Designer.cs">
-      <DependentUpon>201907041016108_addBoolAAplicationuserOnregister.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907050055242_changeTransactionProperty.cs" />
-    <Compile Include="Migrations\201907050055242_changeTransactionProperty.Designer.cs">
-      <DependentUpon>201907050055242_changeTransactionProperty.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907052227373_correctIdTypeONTansactionId.cs" />
-    <Compile Include="Migrations\201907052227373_correctIdTypeONTansactionId.Designer.cs">
-      <DependentUpon>201907052227373_correctIdTypeONTansactionId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907052228468_populateTransactionTypesAndRoles.cs" />
-    <Compile Include="Migrations\201907052228468_populateTransactionTypesAndRoles.Designer.cs">
-      <DependentUpon>201907052228468_populateTransactionTypesAndRoles.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907052327282_ChangeClassNameFromAccountToBankAccountsANdtoControllers.cs" />
-    <Compile Include="Migrations\201907052327282_ChangeClassNameFromAccountToBankAccountsANdtoControllers.Designer.cs">
-      <DependentUpon>201907052327282_ChangeClassNameFromAccountToBankAccountsANdtoControllers.cs</DependentUpon>
+    <Compile Include="Migrations\201907100052483_populatedata.cs" />
+    <Compile Include="Migrations\201907100052483_populatedata.Designer.cs">
+      <DependentUpon>201907100052483_populatedata.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccount.cs" />
@@ -278,7 +241,7 @@
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Bank.cs" />
-    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Individual.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Phone.cs" />
@@ -288,7 +251,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\BankAccountFormViewModel.cs" />
-    <Compile Include="ViewModels\CustomerFormViewModel.cs" />
+    <Compile Include="ViewModels\IndividualFormViewModel.cs" />
     <Compile Include="ViewModels\TransactionDepositViewForm.cs" />
     <Compile Include="ViewModels\TransactionsDetailsViewModel.cs" />
   </ItemGroup>
@@ -355,11 +318,11 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_navBar.cshtml" />
-    <Content Include="Views\Customers\CustomerForm.cshtml" />
-    <Content Include="Views\Customers\Details.cshtml" />
-    <Content Include="Views\BankAccounts\AccountForm.cshtml" />
-    <Content Include="Views\Customers\Index.cshtml" />
-    <Content Include="Views\Customers\_Layout.cshtml" />
+    <Content Include="Views\Individuals\IndividualForm.cshtml" />
+    <Content Include="Views\Individuals\Details.cshtml" />
+    <Content Include="Views\BankAccounts\BankAccountForm.cshtml" />
+    <Content Include="Views\Individuals\Index.cshtml" />
+    <Content Include="Views\Individuals\_Layout.cshtml" />
     <Content Include="Views\Shared\_navBarCustomer.cshtml" />
     <Content Include="Views\Shared\Info.cshtml" />
     <Content Include="Views\Transactions\Index.cshtml" />
@@ -367,13 +330,13 @@
     <Content Include="Views\BankAccounts\Details.cshtml" />
     <Content Include="Views\Shared\_navBarAdmin.cshtml" />
     <Content Include="Views\Admins\Index.cshtml" />
-    <Content Include="Views\Customers\DetailsAddress.cshtml" />
-    <Content Include="Views\Customers\DetailsPhone.cshtml" />
+    <Content Include="Views\Individuals\DetailsAddress.cshtml" />
+    <Content Include="Views\Individuals\DetailsPhone.cshtml" />
     <Content Include="Views\Transactions\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Customers\EditorTemplates\" />
+    <Folder Include="Views\Individuals\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -389,38 +352,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906291025376_InitialModel.resx">
-      <DependentUpon>201906291025376_InitialModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907100051439_InitialiazeDB.resx">
+      <DependentUpon>201907100051439_InitialiazeDB.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906291238456_AddCustomerFkToAccount.resx">
-      <DependentUpon>201906291238456_AddCustomerFkToAccount.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906291244229_PopulateAccountTypes.resx">
-      <DependentUpon>201906291244229_PopulateAccountTypes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906291358175_ChangeAccountStatusUpdatedDateTimeToNullable.resx">
-      <DependentUpon>201906291358175_ChangeAccountStatusUpdatedDateTimeToNullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907031811142_CreateTransaction.resx">
-      <DependentUpon>201907031811142_CreateTransaction.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907032238538_newchanges.resx">
-      <DependentUpon>201907032238538_newchanges.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907041016108_addBoolAAplicationuserOnregister.resx">
-      <DependentUpon>201907041016108_addBoolAAplicationuserOnregister.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907050055242_changeTransactionProperty.resx">
-      <DependentUpon>201907050055242_changeTransactionProperty.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907052227373_correctIdTypeONTansactionId.resx">
-      <DependentUpon>201907052227373_correctIdTypeONTansactionId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907052228468_populateTransactionTypesAndRoles.resx">
-      <DependentUpon>201907052228468_populateTransactionTypesAndRoles.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907052327282_ChangeClassNameFromAccountToBankAccountsANdtoControllers.resx">
-      <DependentUpon>201907052327282_ChangeClassNameFromAccountToBankAccountsANdtoControllers.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907100052483_populatedata.resx">
+      <DependentUpon>201907100052483_populatedata.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -13,7 +13,7 @@
 
     <div class="form-group">
         @Html.Label("From Account")
-        @Html.DropDownListFor(m => m.AccountId, new SelectList(Model.Accounts, "AccountNumber", "IBAN"), "Select IBAN", new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.BankAccountId, new SelectList(Model.BankAccounts, "AccountNumber", "IBAN"), "Select IBAN", new { @class = "form-control" })
     </div>
     <div class="form-group">
 
@@ -23,12 +23,12 @@
     @Html.Label("To Account")
     <div class="form-group form-inline">
         @Html.Label("IBAN", new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.DebitIBAN, new { @maxlength = "26", @class = "form-control", @style = "text-transform:uppercase;width:260px" })
+        @Html.TextBoxFor(m => m.CreditIBAN, new { @maxlength = "26", @class = "form-control", @style = "text-transform:uppercase;width:260px" })
     </div>
     <div class="form-group form-inline">
         <p>@Html.Label("OR")</p>
         @Html.Label("Account Number", new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.DebitAccount, new { @maxlength = "16", @class = "form-control", style = "width:160px" })
+        @Html.TextBoxFor(m => m.CreditAccount, new { @maxlength = "16", @class = "form-control", style = "width:160px" })
     </div>
 
 

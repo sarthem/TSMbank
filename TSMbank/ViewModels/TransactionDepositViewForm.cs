@@ -8,12 +8,12 @@ namespace TSMbank.ViewModels
 {
     public class TransactionDepositViewForm
     {
-        public Customer Customer { get; set; }
-        public List<BankAccount> Accounts { get; set; }
-        public string AccountId { get; set; }
-        public string DebitAccount { get; set; }
+        public Individual Individual { get; set; }
+        public List<BankAccount> BankAccounts { get; set; }
+        public string BankAccountId { get; set; }
+        public string CreditAccount { get; set; }
         public decimal Amount { get; set; }
-        public string DebitIBAN { get; set; }
+        public string CreditIBAN { get; set; }
 
     }
 }

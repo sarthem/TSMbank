@@ -9,7 +9,7 @@ namespace TSMbank.Models
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Individual> Individuals { get; set; }
         public DbSet<Phone> Phones { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
@@ -39,22 +39,22 @@ namespace TSMbank.Models
                         .HasForeignKey(tr => tr.DebitAccountNo)
                         .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Customer>()
+            modelBuilder.Entity<Individual>()
                         .HasRequired(c => c.PrimaryAddress)
                         .WithMany()
                         .HasForeignKey(c => c.PrimaryAddressId)
                         .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Customer>()
+            modelBuilder.Entity<Individual>()
                         .HasOptional(c => c.SecondaryAddress)
                         .WithMany()
                         .HasForeignKey(c => c.SecondaryAddressId)
                         .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Customer>()
+            modelBuilder.Entity<Individual>()
                         .HasMany(c => c.Phones)
-                        .WithRequired(p => p.Customer)
-                        .HasForeignKey(p => p.CustomerId)
+                        .WithRequired(p => p.Individual)
+                        .HasForeignKey(p => p.IndividualId)
                         .WillCascadeOnDelete(true);
 
             base.OnModelCreating(modelBuilder);

@@ -27,15 +27,15 @@ else
                 <td>@Html.ActionLink(trans.ValueDateTime.ToLongDateString(), "Details", "Transactions", new { id = trans.TransactionId, accountNumber = Model.AccountNumber }, null)</td>
                 @if (Model.AccountNumber == trans.CreditAccountNo)
                 {
-                    <td><label>Transfered To </label>: @trans.DebitIBAN</td>
-                    <td>- @trans.CreditAmount</td>
+                    <td><label>Transfered From </label>: @trans.DebitIBAN</td>
+                    <td> @trans.CreditAmount</td>
                     <td> @trans.CreditAccountBalanceAfterTransaction</td>
 
                 }
                 else
                 {
-                    <td><label>Transfered From </label>: @trans.CreditIBAN</td>
-                    <td> @trans.CreditAmount</td>
+                    <td><label>Transfered To </label>: @trans.CreditIBAN</td>
+                    <td> - @trans.CreditAmount</td>
                     <td> @trans.DebitAccountBalanceAfterTransaction</td>
                 }
             </tr>
@@ -44,7 +44,7 @@ else
 
 }
 <p>
-    @Html.ActionLink("back", "Index", "Customers", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("back", "Index", "Individuals", null, new { @class = "btn btn-primary" })
 </p>
 
 

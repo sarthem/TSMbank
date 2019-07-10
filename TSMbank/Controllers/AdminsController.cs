@@ -27,12 +27,12 @@ namespace TSMbank.Controllers
         // GET: Admins
         public ActionResult Index()
         {
-            var customers = context.Customers
+            var individuals = context.Individuals
                             .Include(c => c.Phones)
                             .Include(c => c.PrimaryAddress)
-                            .Include(c => c.Accounts).ToList();                            
+                            .Include(c => c.BankAccounts).ToList();                            
 
-            return View("Index", customers);
+            return View("Index", individuals);
             
         }
     }

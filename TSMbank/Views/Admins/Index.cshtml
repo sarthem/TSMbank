@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TSMbank.Models.Customer>
+﻿@model IEnumerable<TSMbank.Models.Individual>
 @using TSMbank.ViewModels;
 
 @{
@@ -24,33 +24,33 @@ else
 
             </tr>
         </thead>
-        @foreach (var customer in Model)
+        @foreach (var individual in Model)
         {
             <tr>
-                <td>@Html.ActionLink(customer.FullName, "Details", "Customers", new { id = customer.Id }, null)</td>
-                <td>@customer.FathersName</td>
+                <td>@Html.ActionLink(individual.FullName, "Details", "Individuals", new { id = individual.Id }, null)</td>
+                <td>@individual.FathersName</td>
                 <td>
-                    @if (!customer.Accounts.Any())
+                    @if (!individual.BankAccounts.Any())
                     {
                         <p>No related Accounts</p>
-                        <p>@Html.ActionLink("Add new account", "New", "BankAccounts", new { customerId = customer.Id }, new { @class = "link-grey" })</p>
+                        <p>@Html.ActionLink("Add new account", "New", "BankAccounts", new { individualId = individual.Id }, new { @class = "link-grey" })</p>
                     }
                     else
                     {
-                        foreach (var account in customer.Accounts)
+                        foreach (var account in individual.BankAccounts)
                         {
                         <p>@Html.ActionLink(account.IBAN, "Edit", "BankAccounts", new { accountNo = account.AccountNumber }, null)</p>
 
                         }
-                        <p>@Html.ActionLink("Add new account", "New", "BankAccounts", new { customerId = customer.Id }, new { @class = "link-grey" })</p>
+                        <p>@Html.ActionLink("Add new account", "New", "BankAccounts", new { individualId = individual.Id }, new { @class = "link-grey" })</p>
 
                     }
                 </td>
-                <td>@Html.ActionLink(customer.PrimaryAddress.FullAddress, "Edit", "Customers", new { id = customer.Id, modify = (int)ModificationAction.EditAddresses }, null)</td>
+                <td>@Html.ActionLink(individual.PrimaryAddress.FullAddress, "Edit", "Individuals", new { id = individual.Id, modify = (int)ModificationAction.EditAddresses }, null)</td>
                 <td>
-                    @foreach (var phone in customer.Phones)
+                    @foreach (var phone in individual.Phones)
                     {
-                        <p>@Html.ActionLink(phone.CallingNumber, "Edit", "Customers", new { id = customer.Id, modify = (int)ModificationAction.EditPhones }, null) (@phone.PhoneType)</p>
+                        <p>@Html.ActionLink(phone.CallingNumber, "Edit", "Individuals", new { id = individual.Id, modify = (int)ModificationAction.EditPhones }, null) (@phone.PhoneType)</p>
                     }
                 </td>
             </tr>
@@ -58,5 +58,5 @@ else
     </table>
 }
 <p>
-    @Html.ActionLink("New Customer", "New", "customers", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("New Customer", "New", "Individuals", null, new { @class = "btn btn-primary" })
 </p>

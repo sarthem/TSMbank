@@ -10,14 +10,14 @@ namespace TSMbank.ViewModels
 {
     public class BankAccountFormViewModel
     {
-        public BankAccount Account { get; set; }
-        public List<BankAccountType> AccountTypes { get; set; }
+        public BankAccount BankAccount { get; set; }
+        public List<BankAccountType> BankAccountTypes { get; set; }
         public string AccoutTypeDescription { get; set; }
-        public string CustomerFullName { get; set; }
+        public string IndividualFullName { get; set; }
 
         public string Title
         {
-            get { return Account.AccountNumber == null ? "Create New Account" : "Edit Account"; }
+            get { return BankAccount.AccountNumber == null ? "Create New Account" : "Edit Account"; }
         }
     }
 }
