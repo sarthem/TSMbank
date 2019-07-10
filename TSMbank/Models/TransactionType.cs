@@ -16,7 +16,7 @@ namespace TSMbank.Models
 
     public class TransactionType
     {
-        public int Id { get; set; }
+        public byte Id { get; set; }
         public TransactionCategory Category { get; set; }
         public decimal Fee { get; set; }
     }

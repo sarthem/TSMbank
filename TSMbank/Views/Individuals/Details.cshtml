@@ -1,0 +1,64 @@
+﻿@model TSMbank.Models.Individual
+@using TSMbank.ViewModels;
+@using TSMbank.Models;
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customer Personal Details</h2>
+<h3>@Model.FullName</h3>
+
+<p><label>Id</label>: <span id="id">@Model.Id</span></p>
+<p><label>Fathers Name</label>: @Model.FathersName</p>
+<p><label>Date of Birth</label>: @Model.DateOfBirth.ToLongDateString()</p>
+<p><label>Date Created</label>: @Model.CreatedDate.ToLongDateString()</p>
+<p><label>E-mail</label>: @Model.Email</p>
+<p><label>Identity Card Number</label>: @Model.IdentificationCardNo</p>
+<p><label>Social Security Number</label>: @Model.SSN</p>
+<p><label>Vat Number</label>: @Model.VatNumber</p>
+<p>
+    <label>Status</label>: @Model.Status  <input type="button" id="change-individual-status" class="btn btn-sm" value="Request Activation" />
+</p>
+<div>
+    @Html.ActionLink("Back", "Index", "Individuals", new { @class = "btn btn-primary" })
+</div>
+@*<div>
+        @Html.ActionLink("Edit Individual", "Edit", "Individuals", new { id = Model.Id, modify = (int)ModificationAction.EditIndividual }, new { @class = "btn btn-primary" })
+    </div>*@
+
+@section scripts
+{
+    <script>
+
+        //$(document).ready(function () {
+        //    $("#change-individual-status").on("click", function () {
+
+        //        bootbox.confirm("Are you sure you want to change the status of the customer?", function (result) {
+
+        //        });
+        //    });
+        //});
+
+        var modelid = @Model.Id;//gia reference
+
+        @*var modelid = @Html.Raw(Json.Encode(Model.Id));*@
+        let path = `/individuals/ActivateAccount/${modelid}`;
+
+        document.getElementById("change-individual-status").onclick = function () {
+            myFunction()
+        };
+
+        function myFunction() {
+            var r = confirm("Are you sure you want to change the status of the customer?")
+
+            if (r == true) {
+
+                window.location.href = path;
+            } else {
+                txt = "Account is not Active!";
+            }
+        };
+
+    </script>
+}

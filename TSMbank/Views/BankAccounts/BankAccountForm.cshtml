@@ -1,0 +1,85 @@
+﻿@model TSMbank.ViewModels.BankAccountFormViewModel
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Title</h2>
+<h3>@Model.IndividualFullName</h3>
+@using (Html.BeginForm("Save", "BankAccounts", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+
+    @Html.HiddenFor(m => m.BankAccount.IndividualId)
+    if (Model.BankAccount.AccountNumber != null)
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.BankAccount.AccountNumber, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.BankAccount.AccountNumber, new { @class = "form-control", @readonly = "true" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.BankAccount.IBAN, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.BankAccount.IBAN, new { @class = "form-control", @readonly = "true" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.BankAccount.OpenedDate, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.BankAccount.OpenedDate, new { @class = "form-control", @readonly = "true" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.BankAccount.Balance, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.BankAccount.Balance, new { @class = "form-control", @readonly = "true" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.BankAccount.AccountStatus, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.BankAccount.AccountStatus, new { @class = "form-control", @readonly = "true" })
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        @Html.LabelFor(m => m.BankAccount.WithdrawalLimit, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.BankAccount.WithdrawalLimit, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.BankAccount.BankAccountTypeId, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.DropDownListFor(m => m.BankAccount.BankAccountTypeId, new SelectList(Model.BankAccountTypes, "Id", "Summary"), "Select Account Type", new { @class = "form-control" })
+        </div>
+    </div>
+    <ul id="accountTypeInfo"></ul>
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+            let accountTypeInfoUl = $('#accountTypeInfo');
+            $('#Account_AccountTypeId').on('change', function () {
+                accountTypeInfoUl.empty();
+                if (this.value !== "") {
+                    $.ajax({
+                        url: '/api/bankAccountTypes/' + this.value,
+                        method: "GET",
+                        datatype: "json",
+                        success: function (data) {
+                            accountTypeInfoUl.append("<li>Interest Rate: " + data.interestRate + "</li>");
+                            accountTypeInfoUl.append("<li>Periodic Fee: " + data.periodicFee + "</li>");
+                        }
+                    })
+                }
+            });
+        });
+    </script>
+}

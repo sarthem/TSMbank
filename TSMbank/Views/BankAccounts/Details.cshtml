@@ -1,0 +1,67 @@
+﻿@model TSMbank.ViewModels.BankAccountFormViewModel
+@{
+    ViewBag.Title = "BankAccountDetailsForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Account Details</h2>
+
+<h3>@Model.IndividualFullName</h3>
+@using (Html.BeginForm("Index", "Individuals", new { @class = "form-horizontal" }))
+{
+
+    @Html.HiddenFor(m => m.BankAccount.IndividualId)
+    if (Model.BankAccount.AccountNumber != null)
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.BankAccount.AccountNumber, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.BankAccount.AccountNumber, new { @class = "form-control", @readonly = "true" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.BankAccount.IBAN, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.BankAccount.IBAN, new { @class = "form-control", @readonly = "true" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.BankAccount.OpenedDate, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.BankAccount.OpenedDate, new { @class = "form-control", @readonly = "true" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.BankAccount.Balance, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.BankAccount.Balance, new { @class = "form-control", @readonly = "true" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.BankAccount.AccountStatus, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.BankAccount.AccountStatus, new { @class = "form-control", @readonly = "true" })
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        @Html.LabelFor(m => m.BankAccount.WithdrawalLimit, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.BankAccount.WithdrawalLimit, new { @class = "form-control", @readonly = "true" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.BankAccount.BankAccountTypeId, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.AccoutTypeDescription, new { @class = "form-control", @readonly = "true" })
+        </div>
+    </div>
+    <ul id="accountTypeInfo"></ul>
+    <button type="submit" class="btn btn-primary">Back</button>
+}
+
+<div>
+    @Html.ActionLink("View your Transactions", "Index", "Transactions", new { AccountNumber = Model.BankAccount.AccountNumber}, new { @class = "btn btn-primary" })
+</div>
+
+

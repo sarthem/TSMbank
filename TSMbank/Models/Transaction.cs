@@ -17,10 +17,17 @@ namespace TSMbank.Models
         public int TransactionId { get; set; }
 
         [ForeignKey("Type")]
-        public int TypeId { get; set; }
+        public byte TypeId { get; set; }
         public TransactionType Type { get; set; }
 
         public DateTime ValueDateTime { get; set; } // timestamp
+
+        public string DebitAccountNo { get; set; }
+        public string DebitIBAN { get; set; }
+        public decimal DebitAccountBalance { get; set; }
+        public string DebitAccountCurrency { get; set; }
+        public decimal DebitAmount { get; set; }
+        public decimal DebitAccountBalanceAfterTransaction { get; set; }
 
         public string CreditAccountNo { get; set; }
         public string CreditIBAN { get; set; }
@@ -29,13 +36,6 @@ namespace TSMbank.Models
         public decimal CreditAmount { get; set; }
         public decimal CreditAccountBalanceAfterTransaction { get; set; }
 
-        public string DebitAccountNo { get; set; }
-        public string DebitIBAN { get; set; }
-        public decimal DebitAccountBalance { get; set; }
-        public decimal DebitAccountCurrency { get; set; }
-        public decimal DebitAmount { get; set; }
-        public decimal DebitAccountBalanceAfterTransaction { get; set; }
-
         public bool ApprovedFromBankManager { get; set; }
         public bool PendingForApproval { get; set; }
         public TransactionApprovedReview TransactionApprovedReview { get; set; }
@@ -43,12 +43,9 @@ namespace TSMbank.Models
         public int? CancelledTransactionId { get; set; } //reference old transaction
 
         //Navigation properties
-
-        public Account CreditAccount { get; set; }
-        public Account DebitAccount { get; set; }
-
-
-
+        public BankAccount DebitAccount { get; set; }
+        public BankAccount CreditAccount { get; set; }
+       
         [ForeignKey("CancelledTransactionId")]
         public Transaction CancelledTransaction { get; set; }
     }
