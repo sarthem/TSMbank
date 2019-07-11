@@ -9,7 +9,6 @@
 <h2>Customer Personal Details</h2>
 <h3>@Model.FullName</h3>
 
-<p><label>Id</label>: <span id="id">@Model.Id</span></p>
 <p><label>Fathers Name</label>: @Model.FathersName</p>
 <p><label>Date of Birth</label>: @Model.DateOfBirth.ToLongDateString()</p>
 <p><label>Date Created</label>: @Model.CreatedDate.ToLongDateString()</p>
@@ -40,25 +39,19 @@
         //    });
         //});
 
-        var modelid = @Model.Id;//gia reference
+        var modelid = '@Model.Id';//gia reference
 
         @*var modelid = @Html.Raw(Json.Encode(Model.Id));*@
         let path = `/individuals/ActivateAccount/${modelid}`;
 
-        document.getElementById("change-individual-status").onclick = function () {
-            myFunction()
-        };
-
-        function myFunction() {
+        document.getElementById("change-individual-status").addEventListener("click", function () {
             var r = confirm("Are you sure you want to change the status of the customer?")
 
             if (r == true) {
-
                 window.location.href = path;
             } else {
-                txt = "Account is not Active!";
+               let txt = "Account is not Active!";
             }
-        };
-
+        });
     </script>
 }

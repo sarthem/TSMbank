@@ -8,7 +8,7 @@ namespace TSMbank.Dtos
 {
     public class IndividualStatusDto
     {
-        public int IndividualId { get; set; }
+        public string IndividualId { get; set; }
         public IndividualStatus Status { get; set; }
     }
 }

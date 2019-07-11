@@ -35,22 +35,22 @@ namespace TSMbank.Controllers
                             .Include(c => c.Phones)
                             .Include(c => c.PrimaryAddress)
                             .Include(c => c.BankAccounts)
-                            .SingleOrDefault(c => c.ApplicationUserId == appUser.Id);
+                            .SingleOrDefault(c => c.Id == appUser.Id);
 
             return View("Index", individual);
         }
            
 
         // GET: Individuals/newIndividuals
-        public ActionResult newIndividual()
+        public ActionResult NewIndividual()
         {
-            var individual = context.Individuals
-                .Include(c => c.Phones)
-                .Include(c => c.PrimaryAddress)
-                .Include(c => c.BankAccounts)
-                .SingleOrDefault(c => c.Id == 0);
-                
-            return View("Index", individual);
+            //var individual = context.Individuals
+            //    .Include(c => c.Phones)
+            //    .Include(c => c.PrimaryAddress)
+            //    .Include(c => c.BankAccounts)
+            //    .SingleOrDefault(c => c.Id == null);
+
+            return View("Index");//, individual);
         }
 
 
@@ -85,10 +85,10 @@ namespace TSMbank.Controllers
                 return View("IndividualForm", viewModel);
             }
 
-            if (individualViewFormModel.IndividualId == 0)
+            if (individualViewFormModel.IndividualId == null)
             {
                 var individual = individualViewFormModel.Individual;
-                individual.ApplicationUserId = appUser.Id;
+                individual.Id = appUser.Id;
                 appUser.RegisterCompletion = true;
 
                 individual.Phones = individualViewFormModel.Phones;
@@ -141,7 +141,7 @@ namespace TSMbank.Controllers
         }
 
 
-        public ActionResult Edit(int? id, int modify)
+        public ActionResult Edit(string id, int modify)
         {
             var individual = context.Individuals
                             .Include(c => c.Phones)
@@ -164,9 +164,9 @@ namespace TSMbank.Controllers
             return View("IndividualForm", viewModel);
         }
 
-        public ActionResult Details(int? id, string detail)
+        public ActionResult Details(string id, string detail)
         {
-            if (!id.HasValue)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -200,10 +200,10 @@ namespace TSMbank.Controllers
 
 
 
-        public ActionResult ActivateAccount(int? id)
+        public ActionResult ActivateAccount(string id)
 
         {
-            if (!id.HasValue) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var individual = context.Individuals
                             .Include(ph => ph.Phones)

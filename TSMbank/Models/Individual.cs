@@ -18,9 +18,9 @@ namespace TSMbank.Models
     public class Individual
     {
         
-        
-        //[ForeignKey("AspNetUsersId")]
-        public int Id { get; set; }
+        [Key]
+        [ForeignKey("User")]
+        public string Id { get; set; }
         
         [StringLength(255)]
         [Required]
@@ -61,8 +61,8 @@ namespace TSMbank.Models
         public ICollection<BankAccount> BankAccounts { get; set; }
 
         //new code
-        public virtual ApplicationUser ApplicationUser { get; set; }
-        public string ApplicationUserId { get; set; }
+        public ApplicationUser User { get; set; }
+        
 
         public Individual()
         {

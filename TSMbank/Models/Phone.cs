@@ -22,7 +22,7 @@ namespace TSMbank.Models
         public string PhoneNumber { get; set; }
         public PhoneType PhoneType { get; set; }
 
-        public int IndividualId { get; set; }
+        public string IndividualId { get; set; }
         public Individual Individual { get; set; }
 
         [Display(Name = "Calling Number")]

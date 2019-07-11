@@ -3,7 +3,7 @@ namespace TSMbank.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class populatedata : DbMigration
+    public partial class populateBankAccountTypesAndTransactionTypes : DbMigration
     {
         public override void Up()
         {

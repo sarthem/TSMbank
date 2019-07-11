@@ -12,7 +12,7 @@ namespace TSMbank.Controllers.api
     {
         private ApplicationDbContext context;
 
-        public IHttpActionResult ChangeCustomerStatus(int id)
+        public IHttpActionResult ChangeCustomerStatus(string id)
         {
             var individual = context.Individuals.SingleOrDefault(c => c.Id == id);
 

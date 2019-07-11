@@ -22,7 +22,7 @@ namespace TSMbank.ViewModels
         public List<Phone> Phones { get; set; }
         public Address PrimaryAddress { get; set; }
         public Address SecondaryAddress { get; set; }
-        public int IndividualId { get; set; }
+        public string IndividualId { get; set; }
         public ModificationAction ModificationAction { get; set; }
 
         public string Title

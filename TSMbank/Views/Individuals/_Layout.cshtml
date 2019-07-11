@@ -9,19 +9,34 @@
     
 </head>
 <body>
-    
-    <div>
-        @Html.Partial("_navBar")
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - TSM bank for Afdemp</p>
-        </footer>
-    </div>
+    <div id="main-header">
 
-    @Scripts.Render("~/bundles/lib")
-    @RenderSection("scripts", required: false)
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Our Bank", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Bank Accounts", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Cards", "About", "Home")</li>
+                    <li>@Html.ActionLink("Loans", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Investments", "Contact", "Home")</li>
+                    
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+</div>
+        <div>
+            @Html.Partial("_navBarNEW")
+        </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - TSM bank for Afdemp</p>
+            </footer>
+        </div>
+
+        @Scripts.Render("~/bundles/lib")
+        @RenderSection("scripts", required: false)
 </body>
 </html>

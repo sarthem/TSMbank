@@ -26,7 +26,7 @@ namespace TSMbank.Models
         public DateTime OpenedDate { get; set; }
         public DateTime? StatusUpdatedDateTime { get; set; }
 
-        public int IndividualId { get; set; }
+        public string IndividualId { get; set; }
         public Individual Individual { get; set; }
 
         public string BBAN

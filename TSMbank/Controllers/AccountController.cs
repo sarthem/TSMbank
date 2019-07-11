@@ -102,7 +102,7 @@ namespace TSMbank.Controllers
                     {
                         if (user.RegisterCompletion == true) return RedirectToAction("Index", "Individuals");
                         
-                        return RedirectToAction("newIndividual", "Individuals");
+                        return RedirectToAction("NewIndividual", "Individuals");
                     }else if (UserManager.IsInRoleAsync(user.Id, RoleName.Administrator).Result)
                     {
                         return RedirectToAction("index", "Admins");

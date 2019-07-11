@@ -6,7 +6,7 @@ using TSMbank.Models;
 
 namespace TSMbank.ViewModels
 {
-    public class TransactionDepositViewForm
+    public class TransactionViewForm
     {
         public Individual Individual { get; set; }
         public List<BankAccount> BankAccounts { get; set; }
@@ -14,6 +14,7 @@ namespace TSMbank.ViewModels
         public string CreditAccount { get; set; }
         public decimal Amount { get; set; }
         public string CreditIBAN { get; set; }
+        public TransactionCategory Category { get; set; }
 
     }
 }
