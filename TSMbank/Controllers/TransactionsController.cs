@@ -88,7 +88,7 @@ namespace TSMbank.Controllers
             var appUser = context.Users.Find(User.Identity.GetUserId());
             var individual = context.Individuals.Include(c => c.BankAccounts).SingleOrDefault(c => c.Id == appUser.Id);
             var bankAccount = context.BankAccounts.Where(c => c.IndividualId == individual.Id);
-            var viewModel = new TransactionViewForm()
+            var viewModel = new TransactionViewModel()
             {
                 Individual = individual,
                 BankAccounts = bankAccount.ToList(),                             
@@ -100,7 +100,7 @@ namespace TSMbank.Controllers
 
 
 
-        public ActionResult TransferToAccount(TransactionViewForm transactionView)
+        public ActionResult TransferToAccount(TransactionViewModel transactionView)
         {
             var transactionType = context.TransactionTypes.SingleOrDefault(tr => tr.Category == transactionView.Category);
 

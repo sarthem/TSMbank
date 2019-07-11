@@ -252,7 +252,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\BankAccountFormViewModel.cs" />
     <Compile Include="ViewModels\IndividualFormViewModel.cs" />
-    <Compile Include="ViewModels\TransactionViewForm.cs" />
+    <Compile Include="ViewModels\TransactionViewModel.cs" />
     <Compile Include="ViewModels\TransactionsDetailsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
