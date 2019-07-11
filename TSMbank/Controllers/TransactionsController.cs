@@ -86,12 +86,12 @@ namespace TSMbank.Controllers
         public ActionResult Deposit()
         {
             var appUser = context.Users.Find(User.Identity.GetUserId());
-            var individual = context.Individuals.Include(c => c.BankAccounts).SingleOrDefault(c => c.ApplicationUserId == appUser.Id);
+            var individual = context.Individuals.Include(c => c.BankAccounts).SingleOrDefault(c => c.Id == appUser.Id);
             var bankAccount = context.BankAccounts.Where(c => c.IndividualId == individual.Id);
-            var viewModel = new TransactionDepositViewForm()
+            var viewModel = new TransactionViewForm()
             {
                 Individual = individual,
-                BankAccounts = bankAccount.ToList()
+                BankAccounts = bankAccount.ToList(),                             
             };
 
 
@@ -100,24 +100,25 @@ namespace TSMbank.Controllers
 
 
 
-        public ActionResult TransferToAccount(TransactionDepositViewForm transactionDepositView)
+        public ActionResult TransferToAccount(TransactionViewForm transactionView)
         {
+            var transactionType = context.TransactionTypes.SingleOrDefault(tr => tr.Category == transactionView.Category);
 
-            var debitAccount = context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == transactionDepositView.BankAccountId);
+            var debitAccount = context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == transactionView.BankAccountId);
 
             string creditNumber = "";
             string creditAccountNumber = "";
-            if ( transactionDepositView.CreditIBAN != null)
+            if ( transactionView.CreditIBAN != null)
             {
-                creditNumber = transactionDepositView.CreditIBAN;
+                creditNumber = transactionView.CreditIBAN;
                 creditAccountNumber = creditNumber.Substring(10);
             }
             else
             {
-                creditAccountNumber = transactionDepositView.CreditAccount;
+                creditAccountNumber = transactionView.CreditAccount;
             }            
             var creditAccount = context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == creditAccountNumber);
-                        
+
             var transaction = new Transaction()
             {
                 ValueDateTime = DateTime.Now,
@@ -127,24 +128,30 @@ namespace TSMbank.Controllers
                 DebitIBAN = debitAccount.IBAN,
                 DebitAccountBalance = debitAccount.Balance,
                 DebitAccountCurrency = "EURO",
-                DebitAmount = transactionDepositView.Amount,
-                DebitAccountBalanceAfterTransaction = debitAccount.Balance - transactionDepositView.Amount,
+                DebitAmount = transactionView.Amount,
+                DebitAccountBalanceAfterTransaction = 
+                debitAccount.Balance 
+                - transactionView.Amount
+                - transactionType.Fee,
                 //to
                 CreditAccount = creditAccount,
-                CreditAccountNo = transactionDepositView.CreditAccount,
+                CreditAccountNo = creditAccount.AccountNumber,
                 CreditIBAN = creditAccount.IBAN,
                 CreditAccountBalance = creditAccount.Balance,
                 CreditAccountCurrency = "EURO",
-                CreditAmount = transactionDepositView.Amount,
-                CreditAccountBalanceAfterTransaction = creditAccount.Balance + transactionDepositView.Amount,
+                CreditAmount = transactionView.Amount,
 
-               
+                CreditAccountBalanceAfterTransaction = creditAccount.Balance + transactionView.Amount ,
 
-                TypeId = 1,
+
+
+                TypeId = transactionType.Id,
                 ApprovedFromBankManager = true,
                 PendingForApproval = false,
                 TransactionApprovedReview = TransactionApprovedReview.Approve,
                 IsCompleted = true,
+                Type = transactionType,
+                
                 
             };
             creditAccount.Balance = transaction.CreditAccountBalanceAfterTransaction;
@@ -153,7 +160,7 @@ namespace TSMbank.Controllers
             context.Transactions.Add(transaction);
             context.SaveChanges();
 
-            return RedirectToAction("Index", new { AccountNumber = transactionDepositView.BankAccountId });
+            return RedirectToAction("Index", new { AccountNumber = transactionView.BankAccountId });
         }
     }
 }

@@ -1,0 +1,25 @@
+﻿@model TSMbank.Models.Individual
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("TSM bank", "Index", "Individuals", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Model.FullName</li>
+                <li>@DateTime.Now.Date</li>
+                <li>@Html.ActionLink("my bills", "Index", "Individuals")</li>
+                <li>@Html.ActionLink("cards", "Index", "Individuals")</li>
+                <li>@Html.ActionLink("Loans", "Index", "Individuals")</li>
+                <li>@Html.ActionLink("Investments", "Index", "Individuals")</li>
+            </ul>
+           
+        </div>
+    </div>
+</div>
+

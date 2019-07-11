@@ -9,7 +9,7 @@ namespace TSMbank.Dtos
 {
     public class IndividualDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [StringLength(255)]
         [Required]

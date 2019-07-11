@@ -18,7 +18,7 @@ namespace TSMbank.Dtos
         public DateTime OpenedDate { get; set; }
         public DateTime? StatusUpdatedDateTime { get; set; }
 
-        public int IndividualId { get; set; }
+        public string IndividualId { get; set; }
         public byte AccountTypeId { get; set; }
         
     }

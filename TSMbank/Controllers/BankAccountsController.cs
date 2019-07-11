@@ -27,10 +27,10 @@ namespace TSMbank.Controllers
         }
 
 
-        [Route("bankAccounts/New/{individualId}")]
-        public ActionResult New(int? individualId)
+        
+        public ActionResult New(string individualId)
         {
-            if (!individualId.HasValue)
+            if (individualId == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var individual = context.Individuals.SingleOrDefault(c => c.Id == individualId);
@@ -107,7 +107,7 @@ namespace TSMbank.Controllers
                     IndividualFullName = context.Individuals.SingleOrDefault(c => c.Id == bankAccount.IndividualId).FullName,
                     BankAccountTypes = context.BankAccountTypes.ToList(),
                 };
-                return View("AccountForm", viewModel);
+                return View("BankAccountForm", viewModel);
             }
 
             if (bankAccount.AccountNumber == null)

@@ -11,7 +11,7 @@ namespace TSMbank.Models
     public class ApplicationUser : IdentityUser
     {
         
-        //public virtual Individual Individual { get; set; }
+        public Individual Individual { get; set; }
         public bool RegisterCompletion { get; set; } = false;
 
 
