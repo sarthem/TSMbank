@@ -6,7 +6,7 @@ using TSMbank.Models;
 
 namespace TSMbank.ViewModels
 {
-    public class TransactionViewForm
+    public class TransactionViewModel
     {
         public Individual Individual { get; set; }
         public List<BankAccount> BankAccounts { get; set; }
