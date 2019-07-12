@@ -226,13 +226,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907101835344_InitialModel.cs" />
-    <Compile Include="Migrations\201907101835344_InitialModel.Designer.cs">
-      <DependentUpon>201907101835344_InitialModel.cs</DependentUpon>
+    <Compile Include="Migrations\201907111057242_InitialModel.cs" />
+    <Compile Include="Migrations\201907111057242_InitialModel.Designer.cs">
+      <DependentUpon>201907111057242_InitialModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907101840259_populateBankAccountTypesAndTransactionTypes.cs" />
-    <Compile Include="Migrations\201907101840259_populateBankAccountTypesAndTransactionTypes.Designer.cs">
-      <DependentUpon>201907101840259_populateBankAccountTypesAndTransactionTypes.cs</DependentUpon>
+    <Compile Include="Migrations\201907111058205_PopulateBankAccountTypes.cs" />
+    <Compile Include="Migrations\201907111058205_PopulateBankAccountTypes.Designer.cs">
+      <DependentUpon>201907111058205_PopulateBankAccountTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907111148454_AddDescriptionToTransactionType.cs" />
+    <Compile Include="Migrations\201907111148454_AddDescriptionToTransactionType.Designer.cs">
+      <DependentUpon>201907111148454_AddDescriptionToTransactionType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907111149147_PopulateTransactionTypes.cs" />
+    <Compile Include="Migrations\201907111149147_PopulateTransactionTypes.Designer.cs">
+      <DependentUpon>201907111149147_PopulateTransactionTypes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccount.cs" />
@@ -245,6 +253,7 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Phone.cs" />
+    <Compile Include="Models\Request.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\TransactionType.cs" />
@@ -252,6 +261,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\BankAccountFormViewModel.cs" />
     <Compile Include="ViewModels\IndividualFormViewModel.cs" />
+    <Compile Include="ViewModels\CheckingAccApplicationViewModel.cs" />
     <Compile Include="ViewModels\TransactionViewModel.cs" />
     <Compile Include="ViewModels\TransactionsDetailsViewModel.cs" />
   </ItemGroup>
@@ -334,6 +344,7 @@
     <Content Include="Views\Individuals\DetailsPhone.cshtml" />
     <Content Include="Views\Transactions\Details.cshtml" />
     <Content Include="Views\Shared\_navbarNEW.cshtml" />
+    <Content Include="Views\BankAccounts\CheckingAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -353,11 +364,17 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907101835344_InitialModel.resx">
-      <DependentUpon>201907101835344_InitialModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907111057242_InitialModel.resx">
+      <DependentUpon>201907111057242_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907101840259_populateBankAccountTypesAndTransactionTypes.resx">
-      <DependentUpon>201907101840259_populateBankAccountTypesAndTransactionTypes.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907111058205_PopulateBankAccountTypes.resx">
+      <DependentUpon>201907111058205_PopulateBankAccountTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907111148454_AddDescriptionToTransactionType.resx">
+      <DependentUpon>201907111148454_AddDescriptionToTransactionType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907111149147_PopulateTransactionTypes.resx">
+      <DependentUpon>201907111149147_PopulateTransactionTypes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

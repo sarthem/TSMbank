@@ -17,7 +17,6 @@
         @Html.DropDownListFor(m => m.BankAccountId, new SelectList(Model.BankAccounts, "AccountNumber", "IBAN"), "Select IBAN", new { @class = "form-control" })
     </div>
     <div class="form-group">
-
         @Html.Label("Ammount")
         @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
     </div>

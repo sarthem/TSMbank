@@ -194,12 +194,6 @@ namespace TSMbank.Controllers
             }
         }
 
-            
-
-
-
-
-
         public ActionResult ActivateAccount(string id)
 
         {

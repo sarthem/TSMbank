@@ -187,9 +187,9 @@ namespace TSMbank.Controllers
                 if (result.Succeeded)
                 {
                     //temp code
-                    var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
-                    var roleManager = new RoleManager<IdentityRole>(roleStore);
-                    await roleManager.CreateAsync(new IdentityRole(RoleName.Customer));
+                    //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                    //var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    //await roleManager.CreateAsync(new IdentityRole(RoleName.Customer));
                     await UserManager.AddToRoleAsync(user.Id, RoleName.Customer);
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");

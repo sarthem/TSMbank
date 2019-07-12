@@ -1,0 +1,55 @@
+﻿@model TSMbank.ViewModels.CheckingAccApplicationViewModel
+@using TSMbank.Models;
+
+@{
+    ViewBag.Title = "CurrentAccount";
+}
+
+<div class="jumbotron u-margin-top-small">
+    <h2>Checking Account</h2>
+    <p>
+        TSMbank's Cheking Account is a flexible banking tool that meets the needs of today’s customers,
+        covering your everyday deposit account transaction needs.
+    </p>
+    <p>Click the button below to apply for a new checking account.</p>
+
+    @if (Model.IndividualStatus == IndividualStatus.Active)
+    {
+        <p><input id="btn-apply" type="button" class="btn btn-primary" value="Apply" /></p>
+    }
+</div>
+
+<div class="form-container">
+
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            let formContainer = $('.form-container');
+            let accountTypes = [];
+
+            //let prom = fetch('http://localhost:55081/api/bankaccounttypes?description=0').then(blob => blob.json).then(data => accountTypes.push(...data));
+            //console.log(accountTypes);
+
+            $.ajax({
+                url: '/api/bankaccounttypes?description=0',
+                method: 'GET',
+                success: function (data) {
+                    dataType: 'json',
+                    data.forEach(t => accountTypes.push(t));
+                }
+            });
+
+            $('btn-apply').click(function (e) {
+                formContainer.append('<form action="#" clas>')
+            });
+
+            
+        });
+    </script>
+}
+
+
+

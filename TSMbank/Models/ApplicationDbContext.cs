@@ -55,7 +55,7 @@ namespace TSMbank.Models
                         .HasMany(c => c.Phones)
                         .WithRequired(p => p.Individual)
                         .HasForeignKey(p => p.IndividualId)
-                        .WillCascadeOnDelete(true);
+                        .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);
         }
