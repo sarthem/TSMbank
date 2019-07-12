@@ -10,7 +10,7 @@ namespace TSMbank.ViewModels
     {
         public Individual Individual { get; set; }
         public List<BankAccount> BankAccounts { get; set; }
-        public string BankAccountId { get; set; }
+        public string BankAccountId { get; set; }//no
         public string CreditAccount { get; set; }
         public decimal Amount { get; set; }
         public string CreditIBAN { get; set; }
