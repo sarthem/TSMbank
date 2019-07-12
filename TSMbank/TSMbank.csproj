@@ -226,21 +226,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907111057242_InitialModel.cs" />
-    <Compile Include="Migrations\201907111057242_InitialModel.Designer.cs">
-      <DependentUpon>201907111057242_InitialModel.cs</DependentUpon>
+    <Compile Include="Migrations\201907122326162_InitializeDB.cs" />
+    <Compile Include="Migrations\201907122326162_InitializeDB.Designer.cs">
+      <DependentUpon>201907122326162_InitializeDB.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907111058205_PopulateBankAccountTypes.cs" />
-    <Compile Include="Migrations\201907111058205_PopulateBankAccountTypes.Designer.cs">
-      <DependentUpon>201907111058205_PopulateBankAccountTypes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907111148454_AddDescriptionToTransactionType.cs" />
-    <Compile Include="Migrations\201907111148454_AddDescriptionToTransactionType.Designer.cs">
-      <DependentUpon>201907111148454_AddDescriptionToTransactionType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907111149147_PopulateTransactionTypes.cs" />
-    <Compile Include="Migrations\201907111149147_PopulateTransactionTypes.Designer.cs">
-      <DependentUpon>201907111149147_PopulateTransactionTypes.cs</DependentUpon>
+    <Compile Include="Migrations\201907122327144_populateData.cs" />
+    <Compile Include="Migrations\201907122327144_populateData.Designer.cs">
+      <DependentUpon>201907122327144_populateData.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccount.cs" />
@@ -365,17 +357,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907111057242_InitialModel.resx">
-      <DependentUpon>201907111057242_InitialModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907122326162_InitializeDB.resx">
+      <DependentUpon>201907122326162_InitializeDB.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907111058205_PopulateBankAccountTypes.resx">
-      <DependentUpon>201907111058205_PopulateBankAccountTypes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907111148454_AddDescriptionToTransactionType.resx">
-      <DependentUpon>201907111148454_AddDescriptionToTransactionType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907111149147_PopulateTransactionTypes.resx">
-      <DependentUpon>201907111149147_PopulateTransactionTypes.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907122327144_populateData.resx">
+      <DependentUpon>201907122327144_populateData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -7,13 +7,13 @@ namespace TSMbank.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddDescriptionToTransactionType : IMigrationMetadata
+    public sealed partial class InitializeDB : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddDescriptionToTransactionType));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitializeDB));
         
         string IMigrationMetadata.Id
         {
-            get { return "201907111148454_AddDescriptionToTransactionType"; }
+            get { return "201907122326162_InitializeDB"; }
         }
         
         string IMigrationMetadata.Source
