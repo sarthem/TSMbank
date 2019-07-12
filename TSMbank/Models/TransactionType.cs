@@ -10,8 +10,11 @@ namespace TSMbank.Models
         Deposit,
         Withdrawal,
         Payment,
-        Bankfee,
-        Cancellation
+        Cancellation,
+        MoneyTransfer,
+        Purchase,
+        InterestFee,
+        OverdueFee
     }
 
     public class TransactionType
@@ -19,5 +22,6 @@ namespace TSMbank.Models
         public byte Id { get; set; }
         public TransactionCategory Category { get; set; }
         public decimal Fee { get; set; }
+        public string Description { get; set; }
     }
 }

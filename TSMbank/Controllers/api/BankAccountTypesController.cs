@@ -19,12 +19,23 @@ namespace TSMbank.Controllers.api
             context = new ApplicationDbContext();
         }
 
-        public IHttpActionResult GetAccountTypes()
+
+        // GET /api/bankaccounttypes?description=1
+        public IHttpActionResult GetAccountTypes(Description? description = null)
         {
-            var bankAccountTypes = context.BankAccountTypes.ToList().Select(Mapper.Map<BankAccountType, BankAccountTypeDto>);
-            return Ok(bankAccountTypes);
+            var bankAccountTypes = from t in context.BankAccountTypes
+                                   select t;
+
+            if (description.HasValue)
+            {
+                bankAccountTypes = bankAccountTypes.Where(t => t.Description == description);
+            }
+            
+            var bankAccountTypeDtos = bankAccountTypes.ToList().Select(Mapper.Map<BankAccountType,BankAccountTypeDto>);
+            return Ok(bankAccountTypeDtos);
         }
 
+        // GET /api/bankaccounttypes/5
         public IHttpActionResult GetAccountType(int id)
         {
             var bankAccountTypes = context.BankAccountTypes.SingleOrDefault(a => a.Id == id);
@@ -32,7 +43,6 @@ namespace TSMbank.Controllers.api
                 return NotFound();
             return Ok(Mapper.Map<BankAccountTypeDto>(bankAccountTypes));
         }
-
 
         protected override void Dispose(bool disposing)
         {

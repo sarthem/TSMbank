@@ -136,7 +136,7 @@ namespace TSMbank.Migrations
                         IndividualId = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Individuals", t => t.IndividualId, cascadeDelete: true)
+                .ForeignKey("dbo.Individuals", t => t.IndividualId)
                 .Index(t => t.IndividualId);
             
             CreateTable(

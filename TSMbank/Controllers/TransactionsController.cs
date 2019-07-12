@@ -82,7 +82,7 @@ namespace TSMbank.Controllers
             return View(viewModel);
         }
 
-
+        // Get 
         public ActionResult Deposit()
         {
             var appUser = context.Users.Find(User.Identity.GetUserId());
@@ -95,11 +95,8 @@ namespace TSMbank.Controllers
                 
             };
 
-
             return View(viewModel);
         }
-
-
 
         public ActionResult TransferToAccount(TransactionViewModel transactionView)
         {
