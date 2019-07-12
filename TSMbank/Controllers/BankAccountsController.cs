@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using TSMbank.Models;
 using TSMbank.ViewModels;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity;
 
 namespace TSMbank.Controllers
 {
@@ -27,7 +28,7 @@ namespace TSMbank.Controllers
         }
 
 
-        
+        // GET
         public ActionResult New(string individualId)
         {
             if (individualId == null)
@@ -35,14 +36,14 @@ namespace TSMbank.Controllers
 
             var individual = context.Individuals.SingleOrDefault(c => c.Id == individualId);
             if (individual == null)
-                return HttpNotFound();
+                return HttpNotFound(); 
 
-            var account = new BankAccount();
-            account.IndividualId = individual.Id;
+            var bankAccount = new BankAccount();
+            bankAccount.IndividualId = individual.Id;
 
             var viewModel = new BankAccountFormViewModel()
             {
-                BankAccount = account,
+                BankAccount = bankAccount,
                 IndividualFullName = individual.FullName,
                 BankAccountTypes = context.BankAccountTypes.ToList(),
             };
@@ -50,6 +51,7 @@ namespace TSMbank.Controllers
             return View("BankAccountForm",viewModel);
         }
 
+        // GET 
         public ActionResult Edit(string accountNo)
         {
             if (accountNo == null)
@@ -142,6 +144,22 @@ namespace TSMbank.Controllers
             context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        // GET
+        [Authorize(Roles = RoleName.Customer)]
+        public ActionResult CheckingAccount()
+        {
+            var userId = User.Identity.GetUserId();
+            var individual = context.Individuals.SingleOrDefault(i => i.Id == userId);
+            var viewModel = new CheckingAccApplicationViewModel() { IndividualStatus = individual.Status};
+            return View(viewModel);
+        }
+
+
+
+
+
 
         protected override void Dispose(bool disposing)
         {

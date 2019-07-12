@@ -9,7 +9,8 @@ namespace TSMbank.Models
     {
         Checking,
         Savings,
-        Term
+        Term,
+        CreditCard
     }
 
     public class BankAccountType

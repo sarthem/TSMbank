@@ -45,7 +45,6 @@ namespace TSMbank.Models
             }
         }
 
-        //Navigation Properties
         public BankAccountType BankAccountType { get; set; }
 
         [Display(Name = "Account Type")]
@@ -54,6 +53,14 @@ namespace TSMbank.Models
         public ICollection<Transaction> CreditTransactions { get; set; }
 
         public ICollection<Transaction> DebitTransactions { get; set; }
+
+        // Constructors
+        public BankAccount()
+        {
+            Balance = 0;
+            WithdrawalLimit = 1500;
+            AccountStatus = AccountStatus.Inactive;
+        }
 
         //Methods
         public static string CreateRandomAccountNumber()
@@ -79,13 +86,6 @@ namespace TSMbank.Models
 
             }
             return accountNumber;
-        }
-
-        public BankAccount()
-        {
-            Balance = 0;
-            WithdrawalLimit = 1500;
-            AccountStatus = AccountStatus.Inactive;
         }
     }
 }

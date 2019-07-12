@@ -49,3 +49,54 @@ textarea {
         text-decoration: none;
     }
 
+
+/* Bootstrap Jumbotron */
+
+.jumbotron p {
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 200;
+}
+
+/* Bootstrap btn overrides */
+
+.btn-primary {
+    color: #ffffff;
+    background-color: #772953;
+    border-color: #772953;
+    transition: all .2s;
+}
+
+    .btn-primary:hover {
+        color: #ffffff;
+        background-color: #b94282;
+        border-color: #b94282;
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
+    }
+
+
+/* Utilities */
+
+.u-margin-bottom-small {
+    margin-bottom: 1.5rem !important;
+}
+
+.u-margin-bottom-medium {
+    margin-bottom: 4rem !important;
+}
+
+.u-margin-bottom-big {
+    margin-bottom: 8rem !important;
+}
+
+.u-margin-top-small {
+    margin-top: 3rem !important;
+}
+
+.u-margin-top-big {
+    margin-top: 8rem !important;
+}
+
+.u-margin-top-huge {
+    margin-top: 10rem !important;
+}
