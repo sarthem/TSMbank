@@ -1,12 +1,15 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #a799a0;
+   
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -24,7 +27,8 @@ textarea {
 }
 
 .navbar-brand {
-    font-size: 30px
+    font-size: 30px;
+  
 }
 
 /*.navbar-inverse {
@@ -57,6 +61,31 @@ textarea {
     font-size: 16px;
     font-weight: 200;
 }
+.jumbotron p {
+    margin-top:30px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 200;
+}
+
+.indent-1 {
+    float: left;
+    background-color: #c1bebe
+}
+    .indent-1 section {
+        width: 50%;
+        float: left;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-bottom: 15px;
+    }
+
+.indent-2 {
+    float: left;
+    background-color: #c1bebe;
+    padding-left: 30px;
+    padding-right: 30px;
+}
 
 /* Bootstrap btn overrides */
 
@@ -74,9 +103,17 @@ textarea {
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
     }
 
+#customers td{
+    text-align:center
+}
+#customers th {
+    text-align: center
+}
+.green-ok{
+    color: #0be41d;
+}
 
 /* Utilities */
-
 .u-margin-bottom-small {
     margin-bottom: 1.5rem !important;
 }

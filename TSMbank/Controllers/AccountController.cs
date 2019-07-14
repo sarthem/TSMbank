@@ -105,7 +105,7 @@ namespace TSMbank.Controllers
                         return RedirectToAction("NewIndividual", "Individuals");
                     }else if (UserManager.IsInRoleAsync(user.Id, RoleName.Administrator).Result)
                     {
-                        return RedirectToAction("index", "Admins");
+                        return RedirectToAction("GetIndividuals", "Individuals");
                     }
                     else
                     {
@@ -187,9 +187,9 @@ namespace TSMbank.Controllers
                 if (result.Succeeded)
                 {
                     //temp code
-                    var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
-                    var roleManager = new RoleManager<IdentityRole>(roleStore);
-                    await roleManager.CreateAsync(new IdentityRole(RoleName.Customer));
+                    //var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                    //var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    //await roleManager.CreateAsync(new IdentityRole(RoleName.Customer));
                     await UserManager.AddToRoleAsync(user.Id, RoleName.Customer);
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Confirm your account");
@@ -204,7 +204,16 @@ namespace TSMbank.Controllers
             return View(model);
         }
 
-       
+        private async Task<string> SendEmailConfirmationTokenAsync(string userID, string subject)
+        {
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account",
+               new { userId = userID, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(userID, subject,
+               "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+            return callbackUrl;
+        }
 
         //
         // GET: /Account/ConfirmEmail
@@ -458,16 +467,7 @@ namespace TSMbank.Controllers
         }
 
 
-        private async Task<string> SendEmailConfirmationTokenAsync(string userID, string subject)
-        {
-            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
-            var callbackUrl = Url.Action("ConfirmEmail", "Account",
-               new { userId = userID, code = code }, protocol: Request.Url.Scheme);
-            await UserManager.SendEmailAsync(userID, subject,
-               "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-            
-            return callbackUrl;
-        }
+        
 
         #region Helpers
         // Used for XSRF protection when adding external logins

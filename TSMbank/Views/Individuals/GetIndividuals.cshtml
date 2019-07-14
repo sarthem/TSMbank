@@ -2,9 +2,10 @@
 @using TSMbank.ViewModels;
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "GetIndividuals";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <h2>Customers</h2>
 @if (!Model.Any())
@@ -39,7 +40,7 @@ else
                     {
                         foreach (var account in individual.BankAccounts)
                         {
-                        <p>@Html.ActionLink(account.IBAN, "Edit", "BankAccounts", new { accountNo = account.AccountNumber }, null)</p>
+                            <p>@Html.ActionLink(account.IBAN, "Edit", "BankAccounts", new { accountNo = account.AccountNumber }, null)</p>
 
                         }
                         <p>@Html.ActionLink("Add new account", "New", "BankAccounts", new { individualId = individual.Id }, new { @class = "link-grey" })</p>

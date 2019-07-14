@@ -156,7 +156,16 @@ namespace TSMbank.Controllers
             return View(viewModel);
         }
 
+        // GET
+        [Authorize(Roles = RoleName.Customer)]
+        public ActionResult SavingAccount()
+        {
+            var userId = User.Identity.GetUserId();
+            var individual = context.Individuals.SingleOrDefault(i => i.Id == userId);
+            var viewModel = new CheckingAccApplicationViewModel() { IndividualStatus = individual.Status };
 
+            return View(viewModel);
+        }
 
 
 

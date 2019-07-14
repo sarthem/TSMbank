@@ -211,13 +211,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\BankAccountsController.cs" />
     <Compile Include="Controllers\api\BankAccountTypesController.cs" />
     <Compile Include="Controllers\api\IndividualsController.cs" />
     <Compile Include="Controllers\IndividualsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RequestsController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Dtos\BankAccountDto.cs" />
     <Compile Include="Dtos\BankAccountTypeDto.cs" />
@@ -233,6 +233,10 @@
     <Compile Include="Migrations\201907122327144_populateData.cs" />
     <Compile Include="Migrations\201907122327144_populateData.Designer.cs">
       <DependentUpon>201907122327144_populateData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907131714593_addRequestClass.cs" />
+    <Compile Include="Migrations\201907131714593_addRequestClass.Designer.cs">
+      <DependentUpon>201907131714593_addRequestClass.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccount.cs" />
@@ -332,12 +336,14 @@
     <Content Include="Views\Transactions\Deposit.cshtml" />
     <Content Include="Views\BankAccounts\Details.cshtml" />
     <Content Include="Views\Shared\_navBarAdmin.cshtml" />
-    <Content Include="Views\Admins\Index.cshtml" />
     <Content Include="Views\Individuals\DetailsAddress.cshtml" />
     <Content Include="Views\Individuals\DetailsPhone.cshtml" />
     <Content Include="Views\Transactions\Details.cshtml" />
     <Content Include="Views\Shared\_navbarNEW.cshtml" />
     <Content Include="Views\BankAccounts\CheckingAccount.cshtml" />
+    <Content Include="Views\BankAccounts\SavingAccount.cshtml" />
+    <Content Include="Views\Individuals\GetIndividuals.cshtml" />
+    <Content Include="Views\Requests\GetRequests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -362,6 +368,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907122327144_populateData.resx">
       <DependentUpon>201907122327144_populateData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907131714593_addRequestClass.resx">
+      <DependentUpon>201907131714593_addRequestClass.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
