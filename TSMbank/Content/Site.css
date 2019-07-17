@@ -4,6 +4,7 @@
     /*background-color: #a799a0;*/
     background-color: #d4e0f5;
 }
+/*hide scrollbar*/
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -195,6 +196,10 @@ textarea {
 
  /*admin menu collapse*/
 #admincollapseFathersName{
+    padding-left: 50px;
+}
+
+#admincollapseDateCreated {
     padding-left: 50px;
 }
 /*maybe hor header*/

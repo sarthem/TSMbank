@@ -22,9 +22,10 @@ else
             <div class="panel panel-default" id="panel_@i">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-target="#collapseOne_@i" href="#collapseOne_@i" >
+                        <a data-toggle="collapse" data-target="#collapseOne_@i" href="#collapseOne_@i">
                             @Html.DisplayFor(m => individual.FullName)
                         </a><span id="admincollapseFathersName">Fathers name: @Html.DisplayFor(m => individual.FathersName)</span>
+                        <span id="admincollapseDateCreated">Account Created: @Html.DisplayFor(m => individual.CreatedDate)</span>
                     </h4>
                 </div>
                 <div id="collapseOne_@i" class="panel-collapse collapse">
@@ -42,7 +43,7 @@ else
                             </thead>
 
                             <tr>
-                                <td>@Html.ActionLink(individual.FullName, "Details", "Individuals", new { id = individual.Id }, null)</td>
+                                <td>@Html.ActionLink(individual.FullName, "Edit", "Individuals", new { id = individual.Id, modify = (int)ModificationAction.EditIndividual }, null)</td>
                                 <td>@individual.FathersName</td>
                                 <td>
                                     @if (!individual.BankAccounts.Any())
