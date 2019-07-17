@@ -1,0 +1,158 @@
+﻿@model TSMbank.ViewModels.CheckingAccApplicationViewModel
+@using TSMbank.Models;
+@{
+    ViewBag.Title = "SavingAccount";
+}
+<h2>Savings Account</h2>
+<style></style>
+<div>
+    <section class="indent-1">
+        <!-- Section 1 -->
+        <section>
+            <h2>Basic</h2>
+            <div class="jumbotron u-margin-top-small">
+                <h4>Savings Basic</h4>
+                <p>
+                    The Basic Savings Account at TSM is the simplest type of deposit account with no restrictions.
+                    There is no limit on the amount you can deposit or with draw and there is no need to maintain
+                    a minimum balance at any time.
+                    It offers instant access to your account whenever you need cash or wish to make any other transactions.
+                </p>
+                <p>Click the button to see more details for the new savings account.</p>
+                <div>
+                    <input type="button" id="btnBasic" class="btn btn-default" value="more details">
+                </div>
+            </div>
+        </section>
+        <!-- Section 2 -->
+        <section>           
+            <h2>Gold</h2>      
+            <div class="jumbotron u-margin-top-small">
+                <h4>Savings Gold</h4>
+                <p>
+                    Dynamic Return Deposits" is the branded series of structured deposits issued 
+                    by TSM Bank that provides the probability of enhanced returns based on the
+                    performance in a variety underlying assets (e.g. foreign exchange, commodity markets etc) 
+                    without any risk on the initial capital.nimum amount required to 
+                    open a Premier account is Euro 300.
+                </p>
+                <p>Click the button to see more details for a new savings account.</p>
+                <div>
+                    <input type="button" id="btnGold" class="btn btn-default" value="more details">
+                </div>
+            </div>               
+        </section>
+    </section>
+</div>
+<section class="indent-2">
+    <div id="reveal-gold" style="display:none">
+        <div class="jumbotron b">
+            <h2>Checking Account</h2>
+            <p>
+                <ul>
+                    <li>Capital protection</li>
+                    Your initial capital is protected in full throughout the term of the deposit, regardless of the performance of the underlying asset.
+                    <li>Minimum Interest Yield</li>
+                    Depending on the issue, you may receive a minimum predetermined yield, which is not affected by the performance of the underlying asset.
+                    <li>Enhanced returns</li>
+                    You may receive enhanced returns which are significantly higher than those of simple time deposits. The payout of the higher return depends on the fulfillment of a predefined condition, which is related to the performance of the underlying asset.
+                    <li>Minimum deposit amount of €10.000</li>
+                    <li>Option of early redemption</li>
+                    You are recommended to hold the structured deposit until the maturity date. If however you need your money earlier, you may apply for an early redemption. In that case, you will receive your initial capital without any return.
+                    <li>Short term deposit</li>
+                    "Dynamic Return Deposits" are usually offered for short term durations (3 to 6 months), but occasionally may have longer tenor.
+                </ul>
+            </p>
+            <p>Click the button to see more details for a new savings account.</p>
+
+            @if (Model.IndividualStatus == IndividualStatus.Active)
+            {
+                <a id="GoldId" class="btn btn-primary" href="">Account Petition</a>
+            }
+        </div>
+    </div>
+    <div id="reveal-basic" style="display:none">
+        <div class="jumbotron b">
+            <h3>Savings Basic</h3>
+            <ul>
+                <li>Tiered interest rate is applied, depending on your account balance
+                The Basic Savings Account pays interest on every cent that you deposit.
+                    Interest is paid semi-annually, on June 30 and December 31.</li>
+                <li>
+                    Cash deposits and withdrawals
+                </li>
+                <li>
+                    Payments
+                    <ul>
+                        <li>Electricity</li>
+                        <li>Water</li>
+                        <li>Telephony/Internet</li>
+                        <li>Taxes</li>
+                    </ul>
+                </li>
+                <li> Use your debit card for all your transactions, without charge of interest.</li>
+            </ul>     
+            <p>Click the button to submit your petition.</p>
+            @if (Model.IndividualStatus == IndividualStatus.Active)
+            {
+                @*<p id="gold"> @Html.ActionLink("Account petition", "New", "BankAccounts", new { bankAccountType = Description.Savings }, new { @class = "link-grey" })</p>*@
+                <a id="basicId" class="btn btn-primary" href="">Account Petition</a>
+            }
+        </div>
+    </div>
+
+</section>
+
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            let formContainer = $('.form-container');
+            let accountTypes = [];
+
+            $.ajax({
+                url: '/api/bankaccounttypes?description=1',
+                method: 'GET',
+                success: function (data) {
+                    dataType: 'json',
+                        data.forEach(t => accountTypes.push(t));
+                    let goldId = accountTypes.filter(function (type) {
+                        return type.id == 6;
+                    })
+                    let basicId = accountTypes.filter(function (type) {
+                        return type.id == 2;
+                    })
+
+                    $('#basicId').attr("href", `/individuals/BankAccountPetition?id=${basicId[0].id}`)
+                    $('#GoldId').attr("href", `/individuals/BankAccountPetition?id=${goldId[0].id}`)
+                }
+            });
+
+
+            $("#btnGold").click(function () {
+                if ($("#reveal-gold").is(":visible")) {
+                    $("#reveal-gold").hide();
+                    $("#btnGold").val("more details");
+                } else {
+                    $("#btnGold").val("close details");
+                    $("#reveal-gold").show();
+                }
+                $("#reveal-basic").hide();
+            });
+
+            $("#btnBasic").click(function () {
+                if ($("#reveal-basic").is(":visible")) {
+                    $("#reveal-basic").hide();
+                    $("#btnBasic").val("more details");
+                } else {
+                    $("#btnBasic").val("close details");
+                    $("#reveal-basic").show();
+                }
+                $("#reveal-gold").hide();
+            });
+        });
+    </script>
+}
+

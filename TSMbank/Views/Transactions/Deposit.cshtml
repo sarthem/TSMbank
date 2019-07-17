@@ -11,14 +11,14 @@
 
 @using (Html.BeginForm("TransferToAccount", "Transactions", Model.Category = TransactionCategory.Deposit))
 {
-
     <div class="form-group">
         @Html.Label("From Account")
         @Html.DropDownListFor(m => m.BankAccountId, new SelectList(Model.BankAccounts, "AccountNumber", "IBAN"), "Select IBAN", new { @class = "form-control" })
+        
     </div>
     <div class="form-group">
         @Html.Label("Ammount")
-        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })        
     </div>
     @Html.Label("To Account")
     <div class="form-group form-inline">
@@ -30,8 +30,5 @@
         @Html.Label("Account Number", new { @class = "control-label" })
         @Html.TextBoxFor(m => m.CreditAccount, new { @maxlength = "16", @class = "form-control", style = "width:160px" })
     </div>
-
-
-
     <button type="submit" class="btn btn-primary">Save</button>
 }

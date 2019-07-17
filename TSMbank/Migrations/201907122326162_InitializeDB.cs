@@ -3,7 +3,7 @@ namespace TSMbank.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialModel : DbMigration
+    public partial class InitializeDB : DbMigration
     {
         public override void Up()
         {
@@ -96,6 +96,7 @@ namespace TSMbank.Migrations
                         Id = c.Byte(nullable: false),
                         Category = c.Int(nullable: false),
                         Fee = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Description = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             

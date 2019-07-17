@@ -91,7 +91,8 @@ namespace TSMbank.Controllers
             var viewModel = new TransactionViewModel()
             {
                 Individual = individual,
-                BankAccounts = bankAccount.ToList(),                             
+                BankAccounts = bankAccount.ToList(),
+                
             };
 
             return View(viewModel);

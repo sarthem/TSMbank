@@ -105,7 +105,7 @@ namespace TSMbank.Controllers
                         return RedirectToAction("NewIndividual", "Individuals");
                     }else if (UserManager.IsInRoleAsync(user.Id, RoleName.Administrator).Result)
                     {
-                        return RedirectToAction("index", "Admins");
+                        return RedirectToAction("GetIndividuals", "Individuals");
                     }
                     else
                     {
@@ -204,7 +204,18 @@ namespace TSMbank.Controllers
             return View(model);
         }
 
-       
+
+        //new method
+        private async Task<string> SendEmailConfirmationTokenAsync(string userID, string subject)
+        {
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account",
+               new { userId = userID, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(userID, subject,
+               "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+            return callbackUrl;
+        }
 
         //
         // GET: /Account/ConfirmEmail
@@ -458,16 +469,7 @@ namespace TSMbank.Controllers
         }
 
 
-        private async Task<string> SendEmailConfirmationTokenAsync(string userID, string subject)
-        {
-            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
-            var callbackUrl = Url.Action("ConfirmEmail", "Account",
-               new { userId = userID, code = code }, protocol: Request.Url.Scheme);
-            await UserManager.SendEmailAsync(userID, subject,
-               "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-            
-            return callbackUrl;
-        }
+        
 
         #region Helpers
         // Used for XSRF protection when adding external logins

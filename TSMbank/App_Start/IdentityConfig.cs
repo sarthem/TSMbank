@@ -32,16 +32,16 @@ namespace TSMbank
 
         private async Task configSendGridasync(IdentityMessage message)
         {
-            Environment.SetEnvironmentVariable("sendGridApiKey", "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");
-            var apiKey = Environment.GetEnvironmentVariable("sendGridApiKey");
+            //Environment.SetEnvironmentVariable("sendGridApiKey", "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");
+            var apiKey = Environment.GetEnvironmentVariable("sendGridApiKey2");
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("RegistrationDepartment@TSMbank.com", "Example User");
+            var from = new EmailAddress("RegistrationDepartment@TSMbank.com", "TSM Bank");
             var subject = message.Subject;
             var to = new EmailAddress(message.Destination, message.Subject);
             var plainTextContent = message.Body;
             var htmlContent = message.Body;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            var response = await client.SendEmailAsync(msg);
+           // var response = await client.SendEmailAsync(msg);
 
             // Send the email.
             if (client != null)
