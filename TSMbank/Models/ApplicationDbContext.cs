@@ -17,7 +17,7 @@ namespace TSMbank.Models
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<Request> Requests { get; set; }
-        public DbSet<BankAccRequest> bankAccRequests { get; set; }
+        public DbSet<BankAccRequest> BankAccRequests { get; set; }
 
 
         public ApplicationDbContext()

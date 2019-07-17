@@ -204,6 +204,8 @@ namespace TSMbank.Controllers
             return View(model);
         }
 
+
+        //new method
         private async Task<string> SendEmailConfirmationTokenAsync(string userID, string subject)
         {
             string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);

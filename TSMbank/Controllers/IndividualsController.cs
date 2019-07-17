@@ -34,7 +34,7 @@ namespace TSMbank.Controllers
             var individual = context.Individuals
                             .Include(c => c.Phones)
                             .Include(c => c.PrimaryAddress)
-                            .Include(c => c.BankAccounts)
+                            .Include(c => c.BankAccounts)                            
                             .SingleOrDefault(c => c.Id == appUser.Id);
 
             return View("Index", individual);
@@ -55,13 +55,7 @@ namespace TSMbank.Controllers
         // GET: Individuals/newIndividuals
         public ActionResult NewIndividual()
         {
-            //var individual = context.Individuals
-            //    .Include(c => c.Phones)
-            //    .Include(c => c.PrimaryAddress)
-            //    .Include(c => c.BankAccounts)
-            //    .SingleOrDefault(c => c.Id == null);
-
-            return View("Index");//, individual);
+            return View("Index");
         }
 
 
@@ -118,8 +112,6 @@ namespace TSMbank.Controllers
                     Type = RequestType.UserAccActivation
                 };
                 context.Requests.Add(petition);
-
-
             }
             else
             {
@@ -244,22 +236,33 @@ namespace TSMbank.Controllers
         {
             var userId = User.Identity.GetUserId();
             var user = context.Individuals.SingleOrDefault(u => u.Id == userId);
-            var request = new BankAccRequest()
+            var accountType = context.BankAccountTypes.SingleOrDefault(a => a.Id == Id);
+
+            var petition = context.BankAccRequests
+                    .SingleOrDefault(r => r.BankAccTypeId == accountType.Id && r.Status == RequestStatus.Pending);
+            if (petition == null)
             {
-                IndividualId = user.Id,
-                SubmissionDate = DateTime.Now,
-                Individual = user.User,
-                Type = RequestType.BankAccActivation,
-                Status = RequestStatus.Pending,
-                BankAccount = new BankAccount
+                var request = new BankAccRequest()
                 {
-                    
-                    BankAccountTypeId = Id
-                }
-            };
-            context.bankAccRequests.Add(request);
-            context.SaveChanges();
-            return RedirectToAction("Index");
+                    IndividualId = user.Id,
+                    SubmissionDate = DateTime.Now,
+                    Individual = user.User,
+                    Type = RequestType.BankAccActivation,
+                    Status = RequestStatus.Pending,
+                    BankAccTypeId = Id,
+                    BankAccSummury = accountType.Summary
+                };
+                context.BankAccRequests.Add(request);
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(petition);
+            }
+            
+            
+            
         }
 
     }

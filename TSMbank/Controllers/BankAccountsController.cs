@@ -8,6 +8,9 @@ using TSMbank.Models;
 using TSMbank.ViewModels;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity;
+using System.Net.Mail;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace TSMbank.Controllers
 {
@@ -51,6 +54,30 @@ namespace TSMbank.Controllers
             return View("BankAccountForm",viewModel);
         }
 
+        //new method
+        public ActionResult NewAccountRequest(BankAccRequest bankAccRequest)
+        {
+            var individual = context.Individuals.SingleOrDefault(i => i.Id == bankAccRequest.IndividualId);///ta names
+            if (individual == null)
+                return HttpNotFound();
+
+            var accountTypeDiscription = context.BankAccountTypes
+                 .SingleOrDefault(a => a.Id == bankAccRequest.BankAccTypeId);
+           
+            var viewModel = new BankAccountFormViewModel()
+            {
+                IndividualFullName = individual.FullName,
+                BankAccountTypes = context.BankAccountTypes.Where(a => a.Id == accountTypeDiscription.Id).ToList(),
+                AccoutTypeDescription = bankAccRequest.BankAccSummury,
+                BankAccount = new BankAccount()
+                {
+                    IndividualId = individual.Id
+                }
+            };
+
+            return View("BankAccountForm", viewModel);
+        }
+
         // GET 
         public ActionResult Edit(string accountNo)
         {
@@ -73,6 +100,7 @@ namespace TSMbank.Controllers
             return View("BankAccountForm", viewModel);
         }
 
+        //GET
         public ActionResult Details(string accountNo)
         {
             if (accountNo == null)
@@ -116,8 +144,25 @@ namespace TSMbank.Controllers
             {
                 bankAccount.AccountNumber = BankAccount.CreateRandomAccountNumber();
                 bankAccount.OpenedDate = DateTime.Now;
-                bankAccount.StatusUpdatedDateTime = DateTime.Now;
+                bankAccount.StatusUpdatedDateTime = DateTime.Now;                   
                 context.BankAccounts.Add(bankAccount);
+
+                //new code start               
+                var individual = context.Individuals.SingleOrDefault(c => c.Id == bankAccount.IndividualId);
+                var request = context.BankAccRequests.Single(r => r.IndividualId == individual.Id && r.Status == RequestStatus.Processing);
+                request.Status = RequestStatus.Approved;
+                var emailBankAccount = new Email
+                {
+                    From = new EmailAddress("BankAccountDepartment@TSMbank.com", "TSM Bank"),
+                    Subject = "Reply On BankAccount Request By TSM bank",
+                    To = new EmailAddress(individual.Email),
+                    PlainTextContent = "Your Petition has been Approved",
+                    HtmlContent = "Your Petition for new BankAccount has been" +
+                           "APPROVED!!! Thank you for choosing our Bank."
+                };
+                var sendedemailBankAccount = Email.SendMail(emailBankAccount);
+                //new code finish
+
             }
             else
             {
@@ -126,7 +171,8 @@ namespace TSMbank.Controllers
                 bankAccountInDb.BankAccountTypeId = bankAccount.BankAccountTypeId;
             }
             context.SaveChanges();
-            return RedirectToAction("Index", "Individuals");
+            //return RedirectToAction("Index", "Individuals");
+            return RedirectToAction("GetIndividuals", "Individuals");
         }
 
         [Route("Accounts/ChangeStatus/{individualId}")]

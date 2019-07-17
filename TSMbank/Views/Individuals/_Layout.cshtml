@@ -8,25 +8,18 @@
     @Scripts.Render("~/bundles/modernizr")
     
 </head>
-<body>
-    <div id="main-header">
 
-        <div class="container">
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Our Bank", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Bank Accounts", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Cards", "About", "Home")</li>
-                    <li>@Html.ActionLink("Loans", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Investments", "Contact", "Home")</li>
-                    
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+<body>
+    <header id="main-header">
+        
+        <div class="skata">
+
+            <img id="brandLogo" src="~/Image/images (12).png" alt="brandname" /><h1 id="heading-letters">My Personal Website</h1>
+            @Html.Partial("_LoginPartial")
         </div>
-</div>
+    </header>
         <div>
-            @Html.Partial("_navBarNEW")
+            @Html.Partial("_navBarCustomer")
         </div>
         <div class="container body-content">
             @RenderBody()
@@ -35,7 +28,6 @@
                 <p>&copy; @DateTime.Now.Year - TSM bank for Afdemp</p>
             </footer>
         </div>
-
         @Scripts.Render("~/bundles/lib")
         @RenderSection("scripts", required: false)
 </body>

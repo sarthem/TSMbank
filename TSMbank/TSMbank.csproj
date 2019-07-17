@@ -238,6 +238,10 @@
     <Compile Include="Migrations\201907131714593_addRequestClass.Designer.cs">
       <DependentUpon>201907131714593_addRequestClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907151154094_changePropOnBankAccRequest.cs" />
+    <Compile Include="Migrations\201907151154094_changePropOnBankAccRequest.Designer.cs">
+      <DependentUpon>201907151154094_changePropOnBankAccRequest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccount.cs" />
     <Compile Include="Models\BankAccountType.cs" />
@@ -245,6 +249,7 @@
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Bank.cs" />
+    <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Individual.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -344,6 +349,8 @@
     <Content Include="Views\BankAccounts\SavingAccount.cshtml" />
     <Content Include="Views\Individuals\GetIndividuals.cshtml" />
     <Content Include="Views\Requests\GetRequests.cshtml" />
+    <Content Include="Views\Individuals\BankAccountPetition.cshtml" />
+    <None Include="Views\Shared\_navbarMini.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -371,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907131714593_addRequestClass.resx">
       <DependentUpon>201907131714593_addRequestClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907151154094_changePropOnBankAccRequest.resx">
+      <DependentUpon>201907151154094_changePropOnBankAccRequest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

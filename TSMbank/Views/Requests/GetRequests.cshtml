@@ -35,8 +35,8 @@ else
             <td>@request.Type</td>
             <td>@request.SubmissionDate</td>
             <td>@request.Status</td>
-            <td>@Html.ActionLink(" ", "RequestAnswer", "Requests", new { Id = request.Id , requestStatus = RequestStatus.Rejected }, new { @class = "glyphicon glyphicon-remove" })</td>
-            <td>@Html.ActionLink(" ", "RequestAnswer", "Requests", null, new { @class = "glyphicon glyphicon-ok green-ok"})</td>
+            <td>@Html.ActionLink(" ", "RequestAnswer", "Requests", new { Id = request.Id , requestStatus = RequestStatus.Rejected, requestType = request.Type }, new { @class = "glyphicon glyphicon-remove" })</td>
+            <td>@Html.ActionLink(" ", "RequestAnswer", "Requests", new { Id = request.Id, requestStatus = RequestStatus.Approved, requestType = request.Type }, new { @class = "glyphicon glyphicon-ok green-ok"})</td>
         </tr>
         }
     </table>
