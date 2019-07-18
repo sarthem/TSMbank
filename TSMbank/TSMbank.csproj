@@ -226,21 +226,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907122326162_InitializeDB.cs" />
-    <Compile Include="Migrations\201907122326162_InitializeDB.Designer.cs">
-      <DependentUpon>201907122326162_InitializeDB.cs</DependentUpon>
+    <Compile Include="Migrations\201907172259519_initialiazeDb.cs" />
+    <Compile Include="Migrations\201907172259519_initialiazeDb.Designer.cs">
+      <DependentUpon>201907172259519_initialiazeDb.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907122327144_populateData.cs" />
-    <Compile Include="Migrations\201907122327144_populateData.Designer.cs">
-      <DependentUpon>201907122327144_populateData.cs</DependentUpon>
+    <Compile Include="Migrations\201907172300315_PopulateData.cs" />
+    <Compile Include="Migrations\201907172300315_PopulateData.Designer.cs">
+      <DependentUpon>201907172300315_PopulateData.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907131714593_addRequestClass.cs" />
-    <Compile Include="Migrations\201907131714593_addRequestClass.Designer.cs">
-      <DependentUpon>201907131714593_addRequestClass.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907151154094_changePropOnBankAccRequest.cs" />
-    <Compile Include="Migrations\201907151154094_changePropOnBankAccRequest.Designer.cs">
-      <DependentUpon>201907151154094_changePropOnBankAccRequest.cs</DependentUpon>
+    <Compile Include="Migrations\201907180000289_fixPropAnotation.cs" />
+    <Compile Include="Migrations\201907180000289_fixPropAnotation.Designer.cs">
+      <DependentUpon>201907180000289_fixPropAnotation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccount.cs" />
@@ -253,6 +249,7 @@
     <Compile Include="Models\Individual.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Min18Years.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\Request.cs" />
     <Compile Include="Models\RoleName.cs" />
@@ -263,6 +260,7 @@
     <Compile Include="ViewModels\BankAccountFormViewModel.cs" />
     <Compile Include="ViewModels\IndividualFormViewModel.cs" />
     <Compile Include="ViewModels\CheckingAccApplicationViewModel.cs" />
+    <Compile Include="ViewModels\RequestsViewModel.cs" />
     <Compile Include="ViewModels\TransactionViewModel.cs" />
     <Compile Include="ViewModels\TransactionsDetailsViewModel.cs" />
   </ItemGroup>
@@ -370,17 +368,14 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907122326162_InitializeDB.resx">
-      <DependentUpon>201907122326162_InitializeDB.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907172259519_initialiazeDb.resx">
+      <DependentUpon>201907172259519_initialiazeDb.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907122327144_populateData.resx">
-      <DependentUpon>201907122327144_populateData.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907172300315_PopulateData.resx">
+      <DependentUpon>201907172300315_PopulateData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907131714593_addRequestClass.resx">
-      <DependentUpon>201907131714593_addRequestClass.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907151154094_changePropOnBankAccRequest.resx">
-      <DependentUpon>201907151154094_changePropOnBankAccRequest.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907180000289_fixPropAnotation.resx">
+      <DependentUpon>201907180000289_fixPropAnotation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

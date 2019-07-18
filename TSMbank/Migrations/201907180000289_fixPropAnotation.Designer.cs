@@ -7,13 +7,13 @@ namespace TSMbank.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class changePropOnBankAccRequest : IMigrationMetadata
+    public sealed partial class fixPropAnotation : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(changePropOnBankAccRequest));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(fixPropAnotation));
         
         string IMigrationMetadata.Id
         {
-            get { return "201907151154094_changePropOnBankAccRequest"; }
+            get { return "201907180000289_fixPropAnotation"; }
         }
         
         string IMigrationMetadata.Source

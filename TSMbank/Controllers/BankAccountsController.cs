@@ -162,7 +162,7 @@ namespace TSMbank.Controllers
                 };
                 var sendedemailBankAccount = Email.SendMail(emailBankAccount);
                 //new code finish
-
+                
             }
             else
             {
