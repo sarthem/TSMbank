@@ -11,7 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace TSMbank.Controllers
 {
-    
+
     public class BankAccountsController : Controller
     {
         private ApplicationDbContext context;
@@ -36,7 +36,7 @@ namespace TSMbank.Controllers
 
             var individual = context.Individuals.SingleOrDefault(c => c.Id == individualId);
             if (individual == null)
-                return HttpNotFound(); 
+                return HttpNotFound();
 
             var bankAccount = new BankAccount();
             bankAccount.IndividualId = individual.Id;
@@ -48,7 +48,7 @@ namespace TSMbank.Controllers
                 BankAccountTypes = context.BankAccountTypes.ToList(),
             };
 
-            return View("BankAccountForm",viewModel);
+            return View("BankAccountForm", viewModel);
         }
 
         // GET 
@@ -67,7 +67,7 @@ namespace TSMbank.Controllers
                 BankAccount = bankAccount,
                 BankAccountTypes = context.BankAccountTypes.ToList(),
                 IndividualFullName = bankAccount.Individual.FullName
-                
+
             };
 
             return View("BankAccountForm", viewModel);
@@ -92,7 +92,7 @@ namespace TSMbank.Controllers
                 BankAccountTypes = context.BankAccountTypes.ToList(),
                 IndividualFullName = bankAccount.Individual.FullName,
                 AccoutTypeDescription = actype.Summary
-                
+
             };
 
             return View("Details", viewModel);
@@ -152,7 +152,11 @@ namespace TSMbank.Controllers
         {
             var userId = User.Identity.GetUserId();
             var individual = context.Individuals.SingleOrDefault(i => i.Id == userId);
-            var viewModel = new CheckingAccApplicationViewModel() { IndividualStatus = individual.Status};
+            var viewModel = new CheckingAccApplicationViewModel()
+            {
+                IndividualStatus = individual.Status,
+                CheckingAccountTypes = context.BankAccountTypes.Where(t => t.Description == Description.Checking)
+            };
             return View(viewModel);
         }
 
