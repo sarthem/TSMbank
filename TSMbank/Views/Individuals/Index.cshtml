@@ -1,5 +1,6 @@
 ﻿@model TSMbank.Models.Individual
 @using TSMbank.ViewModels;
+@using TSMbank.Models;
 
 @{
     ViewBag.Title = "Index";
@@ -20,47 +21,159 @@ else
             <tr>
                 <th>Full Name</th>
                 <th>Father's Name</th>
-                <th>Accounts</th>
                 <th>Address</th>
                 <th>Phone Numbers</th>
+                <th>Account Status</th>
 
             </tr>
         </thead>
-          <tr>
-                <td>@Html.ActionLink(Model.FullName, "Details", "Individuals", new { id = Model.Id , detail = "PersonalInfo"}, null)</td>
-                <td>@Model.FathersName</td>
-                <td>
+        <tr>
+            <td>@Html.ActionLink(Model.FullName, "Details", "Individuals", new { id = Model.Id, detail = "PersonalInfo" }, null)</td>
+            <td>@Model.FathersName</td>
+            <td>@Html.ActionLink(Model.PrimaryAddress.FullAddress, "Details", "Individuals", new { id = Model.Id, detail = "AddressInfo" }, null)</td>
+            <td>
+                @foreach (var phone in Model.Phones)
+                {
+                    <p>@Html.ActionLink(phone.CallingNumber, "Details", "Individuals", new { id = Model.Id, detail = "PhoneInfo" }, null) (@phone.PhoneType)</p>
+                }
+            </td>
+            <td>
+                <b>@Model.Status</b>
+                <input type="button" id="change-individual-status" class="btn btn-sm" value="Change Account Status" />
+
+            </td>
+        </tr>
+    </table>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Bank Accounts
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+
                     @if (Model.Status == TSMbank.Models.IndividualStatus.Inactive)
                     {
                         <p>Account is not Active yet</p>
                     }
+                    else if (!Model.BankAccounts.Any())
+                    {
+                        <p>No BankAccounts yet.</p>
+                    }
                     else
                     {
-                        if (!Model.BankAccounts.Any())
+                        foreach (var account in Model.BankAccounts)
                         {
-                            <p>No related Accounts</p>
-                            <p>@Html.ActionLink("Add new account", "New", "BankAccounts", new { individualId = Model.Id }, new { @class = "link-grey" })</p>
-                            
-                        }
-                        else
-                        {
-                            foreach (var account in Model.BankAccounts)
-                            {
-                            <p>@Html.ActionLink(account.IBAN, "Details", "BankAccounts", new { accountNo = account.AccountNumber }, null)</p>
 
-                            }
-                            <p>@Html.ActionLink("Add new account", "New", "BankAccounts", new { individualId = Model.Id }, new { @class = "link-grey" })</p>
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="heading">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                @account.IBAN
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            <p>
+                                                <label class="firstLabel">Account number :@Html.ActionLink(account.AccountNumber, "Details", "BankAccounts", new { accountNo = account.AccountNumber }, null)</label>
+                                                <span><label class="secondLabel">Balance : @account.Balance</label></span>
+
+                                                <span><label class="thirdLabel">NickName : @account.NickName</label></span>
+
+                                            </p>
+                                            @Html.Partial("_navBarMini", account)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         }
                     }
-                </td>
-                <td>@Html.ActionLink(Model.PrimaryAddress.FullAddress, "Details", "Individuals", new { id = Model.Id, detail = "AddressInfo" }, null)</td>
-                <td>
-                    @foreach (var phone in Model.Phones)
-                    {
-                        <p>@Html.ActionLink(phone.CallingNumber, "Details", "Individuals", new { id = Model.Id, detail = "PhoneInfo" }, null) (@phone.PhoneType)</p>
-                    }
-                </td>
-            </tr>
-    </table>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Credit Cards
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                    No Credit Cards yet.
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading">
+                <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Loans
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+                    No Loans.
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Investments
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    No Investments.
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model != null)
+{
+    @section scripts
+    {
+        <script>
+
+        var modelid = '@Model.Id';
+        let path = `/individuals/ActivateAccount/${modelid}`;
+        $(document).ready(function () {
+            $(".panel-heading").parent('.panel').hover(function () {
+                $(this).children('.collapse').collapse('show');
+            },
+                function () {
+                    $(this).children('.collapse').collapse('hide');
+                }
+            );
+            document.getElementById("change-individual-status").addEventListener("click", function () {
+                var r = confirm("Are you sure you want to change the status of your Account?")
+
+                if (r == true) {
+                    window.location.href = path;
+                } else {
+                    let txt = "Account is not Active!";
+                }
+            });
+        });
+
+
+
+        </script>
+
+    }
+
 }
 

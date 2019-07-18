@@ -3,7 +3,7 @@ namespace TSMbank.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialModel : DbMigration
+    public partial class initialiazeDb : DbMigration
     {
         public override void Up()
         {
@@ -12,12 +12,12 @@ namespace TSMbank.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Country = c.String(),
-                        City = c.String(),
-                        Street = c.String(),
-                        StreetNumber = c.String(),
-                        PostalCode = c.String(),
-                        Region = c.String(),
+                        Country = c.String(nullable: false, maxLength: 50),
+                        City = c.String(nullable: false, maxLength: 50),
+                        Street = c.String(nullable: false, maxLength: 255),
+                        StreetNumber = c.String(nullable: false, maxLength: 9),
+                        PostalCode = c.String(nullable: false, maxLength: 5),
+                        Region = c.String(maxLength: 255),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -96,6 +96,7 @@ namespace TSMbank.Migrations
                         Id = c.Byte(nullable: false),
                         Category = c.Int(nullable: false),
                         Fee = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Description = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -108,10 +109,10 @@ namespace TSMbank.Migrations
                         LastName = c.String(nullable: false, maxLength: 255),
                         FathersName = c.String(nullable: false, maxLength: 255),
                         Email = c.String(),
-                        DateOfBirth = c.DateTime(nullable: false),
-                        IdentificationCardNo = c.String(),
-                        SSN = c.String(),
-                        VatNumber = c.String(),
+                        DateOfBirth = c.DateTime(),
+                        IdentificationCardNo = c.String(nullable: false, maxLength: 8),
+                        SSN = c.String(nullable: false, maxLength: 11),
+                        VatNumber = c.String(nullable: false, maxLength: 9),
                         CreatedDate = c.DateTime(nullable: false),
                         Status = c.Int(nullable: false),
                         PrimaryAddressId = c.Int(nullable: false),
@@ -130,8 +131,8 @@ namespace TSMbank.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        CountryCode = c.String(),
-                        PhoneNumber = c.String(),
+                        CountryCode = c.String(nullable: false, maxLength: 4),
+                        PhoneNumber = c.String(nullable: false, maxLength: 10),
                         PhoneType = c.Int(nullable: false),
                         IndividualId = c.String(nullable: false, maxLength: 128),
                     })
@@ -199,6 +200,23 @@ namespace TSMbank.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "dbo.Requests",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IndividualId = c.String(maxLength: 128),
+                        Status = c.Int(nullable: false),
+                        SubmissionDate = c.DateTime(nullable: false),
+                        Type = c.Int(nullable: false),
+                        BankAccTypeId = c.Int(),
+                        BankAccSummury = c.String(),
+                        Discriminator = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.IndividualId)
+                .Index(t => t.IndividualId);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -213,6 +231,7 @@ namespace TSMbank.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.Requests", "IndividualId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Individuals", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
@@ -227,6 +246,7 @@ namespace TSMbank.Migrations
             DropForeignKey("dbo.Transactions", "CancelledTransactionId", "dbo.Transactions");
             DropForeignKey("dbo.BankAccounts", "BankAccountType_Id", "dbo.BankAccountTypes");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Requests", new[] { "IndividualId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
@@ -243,6 +263,7 @@ namespace TSMbank.Migrations
             DropIndex("dbo.BankAccounts", new[] { "BankAccountType_Id" });
             DropIndex("dbo.BankAccounts", new[] { "IndividualId" });
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Requests");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");

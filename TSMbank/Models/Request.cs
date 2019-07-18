@@ -9,7 +9,8 @@ namespace TSMbank.Models
     {
         Pending,
         Approved,
-        Rejected
+        Rejected,
+        Processing
     }
 
     public enum RequestType
@@ -35,8 +36,9 @@ namespace TSMbank.Models
 
     public class BankAccRequest : Request
     {
-        public string BankAccNumber { get; set; }
-        public BankAccount BankAccount { get; set; }
+        public int BankAccTypeId { get; set; }
+        public string BankAccSummury { get; set; }
+        
     }
 
     public class CreditCardRequest : Request

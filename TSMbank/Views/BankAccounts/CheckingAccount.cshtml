@@ -36,9 +36,6 @@
         $(document).ready(function () {
             let formContainer = $('.form-container');
             let accountTypes = [];
-            let btnApply = $('#btn-apply');
-            let section = $('.section-acctype');
-            let accTypeForm = $('.acctype-form');
 
             $.ajax({
                 url: '/api/bankaccounttypes?description=0',

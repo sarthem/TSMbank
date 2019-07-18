@@ -17,7 +17,7 @@
 <p><label>Social Security Number</label>: @Model.SSN</p>
 <p><label>Vat Number</label>: @Model.VatNumber</p>
 <p>
-    <label>Status</label>: @Model.Status  <input type="button" id="change-individual-status" class="btn btn-sm" value="Request Activation" />
+    <label>Status</label>: @Model.Status  @*<input type="button" id="change-individual-status" class="btn btn-sm" value="Request Activation" />*@
 </p>
 <div>
     @Html.ActionLink("Back", "Index", "Individuals", new { @class = "btn btn-primary" })
@@ -26,22 +26,10 @@
         @Html.ActionLink("Edit Individual", "Edit", "Individuals", new { id = Model.Id, modify = (int)ModificationAction.EditIndividual }, new { @class = "btn btn-primary" })
     </div>*@
 
-@section scripts
+@*@section scripts
 {
     <script>
-
-        //$(document).ready(function () {
-        //    $("#change-individual-status").on("click", function () {
-
-        //        bootbox.confirm("Are you sure you want to change the status of the customer?", function (result) {
-
-        //        });
-        //    });
-        //});
-
-        var modelid = '@Model.Id';//gia reference
-
-        @*var modelid = @Html.Raw(Json.Encode(Model.Id));*@
+        var modelid = '@Model.Id';
         let path = `/individuals/ActivateAccount/${modelid}`;
 
         document.getElementById("change-individual-status").addEventListener("click", function () {
@@ -54,4 +42,4 @@
             }
         });
     </script>
-}
+}*@

@@ -1,0 +1,21 @@
+﻿@model TSMbank.Models.BankAccRequest
+@{
+    ViewBag.Title = "BankAccountPetition";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bank Account Petition</h2>
+<h3>You have all ready did a petition for a @Model.BankAccSummury bank Account.</h3>
+<h3>Please wait for our Customer Servise responce.</h3>
+<div>
+    <p>Your Pending petition number is: @Model.Id</p>
+    <ul>
+        <li><label>Date submited: @Model.SubmissionDate</label></li>
+        <li><label>For a :@Model.Type</label></li>
+        <li><label>Type of:@Model.BankAccSummury</label></li>
+    </ul>
+</div>
+<div>
+    @Html.ActionLink("Back", "Index", "Individuals", null, new { @class = "btn btn-primary" })
+</div>
+

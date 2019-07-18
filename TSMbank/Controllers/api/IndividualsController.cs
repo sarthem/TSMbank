@@ -25,6 +25,8 @@ namespace TSMbank.Controllers.api
         }
 
 
+
+
         public IndividualsController()
         {
             context = new ApplicationDbContext();

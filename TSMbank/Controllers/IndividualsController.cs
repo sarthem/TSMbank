@@ -34,23 +34,28 @@ namespace TSMbank.Controllers
             var individual = context.Individuals
                             .Include(c => c.Phones)
                             .Include(c => c.PrimaryAddress)
-                            .Include(c => c.BankAccounts)
+                            .Include(c => c.BankAccounts)                            
                             .SingleOrDefault(c => c.Id == appUser.Id);
 
             return View("Index", individual);
         }
-           
+
+        // GET: 
+        public ActionResult GetIndividuals()
+        {
+            var individuals = context.Individuals
+                            .Include(c => c.Phones)
+                            .Include(c => c.PrimaryAddress)
+                            .Include(c => c.BankAccounts).ToList();
+
+            return View(individuals);
+
+        }
 
         // GET: Individuals/newIndividuals
         public ActionResult NewIndividual()
         {
-            //var individual = context.Individuals
-            //    .Include(c => c.Phones)
-            //    .Include(c => c.PrimaryAddress)
-            //    .Include(c => c.BankAccounts)
-            //    .SingleOrDefault(c => c.Id == null);
-
-            return View("Index");//, individual);
+            return View("Index");
         }
 
 
@@ -94,6 +99,19 @@ namespace TSMbank.Controllers
                 individual.Phones = individualViewFormModel.Phones;
                 individual.PrimaryAddress = individualViewFormModel.PrimaryAddress;
                 context.Individuals.Add(individual);
+
+                var userId = User.Identity.GetUserId();
+               
+
+                var petition = new Request()
+                {
+                    IndividualId = userId,
+                    SubmissionDate = DateTime.Now,
+                    Individual = individual.User,
+                    Status = RequestStatus.Pending,
+                    Type = RequestType.UserAccActivation
+                };
+                context.Requests.Add(petition);
             }
             else
             {
@@ -195,7 +213,6 @@ namespace TSMbank.Controllers
         }
 
         public ActionResult ActivateAccount(string id)
-
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -215,6 +232,38 @@ namespace TSMbank.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult BankAccountPetition(byte Id)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = context.Individuals.SingleOrDefault(u => u.Id == userId);
+            var accountType = context.BankAccountTypes.SingleOrDefault(a => a.Id == Id);
+
+            var petition = context.BankAccRequests
+                    .SingleOrDefault(r => r.BankAccTypeId == accountType.Id && r.Status == RequestStatus.Pending);
+            if (petition == null)
+            {
+                var request = new BankAccRequest()
+                {
+                    IndividualId = user.Id,
+                    SubmissionDate = DateTime.Now,
+                    Individual = user.User,
+                    Type = RequestType.BankAccActivation,
+                    Status = RequestStatus.Pending,
+                    BankAccTypeId = Id,
+                    BankAccSummury = accountType.Summary
+                };
+                context.BankAccRequests.Add(request);
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(petition);
+            }
+            
+            
+            
+        }
 
     }
 }

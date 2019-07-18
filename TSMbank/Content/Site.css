@@ -6,12 +6,16 @@
 body {
     padding-top: 50px;
     padding-bottom: 20px;
+    /*background-color: #a799a0;*/
+    background-color: #d4e0f5;
 }
+/*hide scrollbar*/
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -29,17 +33,21 @@ textarea {
 }
 
 .navbar-brand {
-    font-size: 30px
+    font-size: 30px;
+  
 }
 
-/*.navbar-inverse {
-    background-color: #0768d0 !important;
-}*/
 
 /* Custom styles */
 
-/* Links */
 
+/*Validation message */
+.field-validation-error{
+    color: red;
+    
+
+}
+/* Links */
 .link-grey {
     padding: .4rem .6rem;
     color: #8a8a8a;
@@ -53,6 +61,7 @@ textarea {
         border: 1px solid #3e3e3e;
         text-decoration: none;
     }
+ 
 
 
 /* Bootstrap Jumbotron */
@@ -60,11 +69,21 @@ textarea {
     padding: 20px 10px;
 }
 
+
+/* Bootstrap Jumbotron */
 .jumbotron p {
     margin-bottom: 15px;
     font-size: 16px;
     font-weight: 200;
 }
+.jumbotron p {
+    margin-top:30px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 200;
+}
+
+
 
 /* Bootstrap btn overrides */
 
@@ -82,9 +101,20 @@ textarea {
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
     }
 
+#customers td{
+    text-align:center
+}
+#customers th {
+    text-align: center
+}
+.green-ok{
+    color: #0be41d;
+}
 
+.panel-group panel panel-default {
+    padding-top: 50px;
+}
 /* Utilities */
-
 .u-margin-bottom-small {
     margin-bottom: 1.5rem;
 }
@@ -210,4 +240,110 @@ textarea {
     }
 }*/
 
+/*themis changes*/
+.firstLabel {
+    margin-right: 50px;
+}
+.secondLabel {
+    margin-right: 50px;
+}
+/*format at savings bank accounts view*/
+.indent-1 {
+    float: left;
+    background-color: #c1bebe
+}
 
+    .indent-1 section {
+        width: 50%;
+        float: left;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-bottom: 15px;
+    }
+
+.indent-2 {
+    float: left;
+    background-color: #c1bebe;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+/*edw gia dropdown navbar */
+
+.panel-group .panel {
+    margin-bottom: 40px;
+    border-radius: 4px;
+}
+
+#heading {
+    background-color: #772953;
+    color: white;
+}
+
+.panel-body {
+    background-color: #e8e6e6;
+}
+/*gia navbar mesa sto dropdown*/
+
+.navbarmini ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    height: 35px;
+    width: 500px;
+    overflow: hidden;
+    background-color: #161928;
+}
+
+.navbarmini li {
+    float: left;
+}
+
+    .navbarmini li a {
+        display: block;
+        color: #dd2929;
+        text-align: center;
+        padding: 7px 16px;
+        text-decoration: none;
+    }
+
+        .navbarmini li a:hover {
+            background-color: #111;
+        }
+
+
+ /*admin menu collapse*/
+#admincollapseFathersName{
+    padding-left: 50px;
+}
+
+#admincollapseDateCreated {
+    padding-left: 50px;
+}
+/*maybe hor header*/
+
+/*.navbar-inverse {
+    margin-top:10%;
+    background-color: #0768d0 !important;
+}*/
+/*.skata{
+    position:fixed;
+}*/
+
+/*#main-header {
+    background-color: #3e3e3e;
+    height: 100px;
+    margin-top: -50px;
+    color: #fff;
+}*/
+/*#brandLogo{
+    
+    margin-left:30px;
+    height: 50px;
+    width: 100px;
+    border:3px solid #e01111;
+}
+#heading-letters {
+    margin-left: 200px;
+    margin-top:-2%;
+}*/
