@@ -32,6 +32,7 @@ namespace TSMbank.Controllers
 
         public ActionResult GetRequests(RequestStatus status)
         {
+            
             var requests = new List<Request>();
             if (status == RequestStatus.Pending)
             {
@@ -56,14 +57,19 @@ namespace TSMbank.Controllers
                .Where(r => r.Status == RequestStatus.Rejected)
                .ToList();
             }
-            
+            var viewModel = new RequestsViewModel
+            {
+                Requests = requests,
+                Status = status
+            };
 
-            return View(requests);
+            return View(viewModel);
         }
 
 
         public ActionResult RequestAnswer(int Id, RequestStatus requestStatus, RequestType requestType )
-        {          
+        {
+            
             switch (requestType)
             {
                 case RequestType.UserAccActivation:
@@ -87,7 +93,7 @@ namespace TSMbank.Controllers
                         };
                         var sendedemailAccountActivated = Email.SendMail(emailAccountActivated);
                         context.SaveChanges();
-
+                        
                     }
                     else if (requestStatus == RequestStatus.Rejected)
                     {
@@ -103,8 +109,9 @@ namespace TSMbank.Controllers
                         var sendEmailRejection = Email.SendMail(emailRejection);
                         //edw 8a apo8ikevoume an theloume ta email
                         context.SaveChanges();
+                        
                     }
-                    return RedirectToAction("GetRequests");
+                    return RedirectToAction("GetRequests", new { status = RequestStatus.Pending });
 
                 case RequestType.BankAccActivation:
                     var request2 = context.BankAccRequests
@@ -132,9 +139,9 @@ namespace TSMbank.Controllers
                         };
                         var sendEmailRejection = Email.SendMail(emailRejection);
                         context.SaveChanges();
-                        return RedirectToAction("GetRequests");
+                        
                     }
-                    return RedirectToAction("GetRequests");
+                    return RedirectToAction("GetRequests", new { status = RequestStatus.Pending });
 
                 case RequestType.CreditCardActivation:
                     break;
@@ -143,7 +150,7 @@ namespace TSMbank.Controllers
             }
             context.SaveChanges();
 
-            return RedirectToAction("GetRequests");
+            return RedirectToAction("GetRequests", new { status = RequestStatus.Pending });
         }
         
 

@@ -1,13 +1,13 @@
-﻿@model IEnumerable<TSMbank.Models.Request>
+﻿@model TSMbank.ViewModels.RequestsViewModel
 @using TSMbank.Models
 @{
     ViewBag.Title = "GetRequests";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>GetRequests</h2>
+<h2>@Model.Status Requests</h2>
 
-@if (!Model.Any())
+@if (!Model.Requests.Any())
 {
     <p>We dont have any Requests</p>
 }
@@ -26,7 +26,7 @@ else
 
             </tr>
         </thead>
-        @foreach (var request in Model)
+        @foreach (var request in Model.Requests)
         {
         <tr>
 

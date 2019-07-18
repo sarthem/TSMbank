@@ -39,21 +39,22 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     @Html.LabelFor(m => m.Individual.SSN)
-                    @Html.TextBoxFor(m => m.Individual.SSN, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Individual.SSN, new { @maxlength = "11", @class = "form-control"})
                     @Html.ValidationMessageFor(m => m.Individual.SSN)
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
                     @Html.LabelFor(m => m.Individual.VatNumber)
-                    @Html.TextBoxFor(m => m.Individual.VatNumber, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Individual.VatNumber, new { @maxlength = "9", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Individual.VatNumber)
                 </div>
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
                     @Html.LabelFor(m => m.Individual.IdentificationCardNo)
-                    @Html.TextBoxFor(m => m.Individual.IdentificationCardNo, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Individual.IdentificationCardNo, new { @maxlength = "8", @class = "form-control", @style = "text-transform:uppercase;" })
+                    @Html.ValidationMessageFor(m => m.Individual.SSN)
                     @Html.ValidationMessageFor(m => m.Individual.IdentificationCardNo)
                 </div>
             </div>
@@ -119,7 +120,7 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     @Html.LabelFor(m => m.PrimaryAddress.PostalCode)
-                    @Html.TextBoxFor(m => m.PrimaryAddress.PostalCode, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.PrimaryAddress.PostalCode, new { @maxlength = "5", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.PrimaryAddress.PostalCode)
                 </div>
             </div>
@@ -166,7 +167,7 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     @Html.LabelFor(m => m.SecondaryAddress.PostalCode)
-                    @Html.TextBoxFor(m => m.SecondaryAddress.PostalCode, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.SecondaryAddress.PostalCode, new { @maxlength = "5", @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.SecondaryAddress.PostalCode)
                 </div>
             </div>
@@ -187,7 +188,7 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             @Html.LabelFor(m => Model.Phones[i].CountryCode)
-                            @Html.TextBoxFor(m => Model.Phones[i].CountryCode, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => Model.Phones[i].CountryCode, new { @maxlength = "4", @class = "form-control" })
                             @Html.ValidationMessageFor(m => Model.Phones[i].CountryCode)
                         </div>
                     </div>
@@ -201,7 +202,7 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                             @Html.LabelFor(m => Model.Phones[i].PhoneNumber)
-                            @Html.TextBoxFor(m => Model.Phones[i].PhoneNumber, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => Model.Phones[i].PhoneNumber, new { @maxlength = "10", @class = "form-control" })
                             @Html.ValidationMessageFor(m => Model.Phones[i].PhoneNumber)
                         </div>
                     </div>

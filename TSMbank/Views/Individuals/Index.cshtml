@@ -142,10 +142,12 @@ else
     </div>
 }
 
-
-@section scripts
+@if (Model != null)
 {
-    <script>
+    @section scripts
+    {
+        <script>
+
         var modelid = '@Model.Id';
         let path = `/individuals/ActivateAccount/${modelid}`;
         $(document).ready(function () {
@@ -169,6 +171,9 @@ else
 
 
 
-    </script>
+        </script>
+
+    }
 
 }
+
