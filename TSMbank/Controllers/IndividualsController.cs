@@ -306,5 +306,10 @@ namespace TSMbank.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public ActionResult ViewStocks()
+        {
+            return View();
+        }
     }
 }
