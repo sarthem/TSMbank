@@ -354,7 +354,9 @@
     <Content Include="Views\Requests\GetRequests.cshtml" />
     <Content Include="Views\Individuals\BankAccountPetition.cshtml" />
     <Content Include="Views\Individuals\AddSecondAddress.cshtml" />
-    <Content Include="Views\Individuals\ViewStocks.cshtml" />
+    <Content Include="Views\Individuals\ViewCrypto.cshtml" />
+    <Content Include="Views\Individuals\ViewForex.cshtml" />
+    <Content Include="Views\Individuals\ViewHeatMap.cshtml" />
     <None Include="Views\Shared\_navbarMini.cshtml" />
     <Content Include="Views\Transactions\MakePayment.cshtml" />
   </ItemGroup>
