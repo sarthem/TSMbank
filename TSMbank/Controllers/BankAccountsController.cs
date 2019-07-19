@@ -191,30 +191,26 @@ namespace TSMbank.Controllers
             return RedirectToAction("Index");
         }
 
-
-        // GET
-        [Authorize(Roles = RoleName.Customer)]
-        public ActionResult CheckingAccount()
-        {
-            var userId = User.Identity.GetUserId();
-            var individual = context.Individuals.SingleOrDefault(i => i.Id == userId);
-            var viewModel = new CheckingAccApplicationViewModel() { IndividualStatus = individual.Status};
-            return View(viewModel);
-        }
-
-        // GET
-        [Authorize(Roles = RoleName.Customer)]
-        public ActionResult SavingAccount()
+        public ActionResult BankAccountSelection(Description description)
         {
             var userId = User.Identity.GetUserId();
             var individual = context.Individuals.SingleOrDefault(i => i.Id == userId);
             var viewModel = new CheckingAccApplicationViewModel() { IndividualStatus = individual.Status };
-
-            return View(viewModel);
+            switch (description)
+            {
+                case Description.Checking:                    
+                    return View("CheckingAccount", viewModel);
+                case Description.Savings:
+                    return View("SavingAccount", viewModel);
+                case Description.Term:
+                    return View("SavingAccount", viewModel);
+                case Description.CreditCard:
+                    return View("SavingAccount", viewModel);
+                default:
+                    return View("Index");
+            }
+                  
         }
-
-
-
 
         protected override void Dispose(bool disposing)
         {
