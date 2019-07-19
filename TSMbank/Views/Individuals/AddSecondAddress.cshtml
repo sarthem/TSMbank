@@ -1,0 +1,63 @@
+﻿@model TSMbank.Models.Address
+@{
+    ViewBag.Title = "AddSecondAddress";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Second Address</h2>
+
+@using (Html.BeginForm("AddSecondAddressSave", "Individuals"))
+{
+    <h3>Secondary Address</h3>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Street)
+                @Html.TextBoxFor(m => m.Street, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Street)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.StreetNumber)
+                @Html.TextBoxFor(m => m.StreetNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.StreetNumber)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Region)
+                @Html.TextBoxFor(m => m.Region, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Region)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.City)
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.City)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Country)
+                @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Country)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.PostalCode)
+                @Html.TextBoxFor(m => m.PostalCode, new { @maxlength = "5", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PostalCode)
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+
+}
+

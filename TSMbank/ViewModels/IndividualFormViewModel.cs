@@ -19,7 +19,7 @@ namespace TSMbank.ViewModels
     {
         
         public Individual Individual { get; set; }
-        public List<Phone> Phones { get; set; }
+        public List<Phone> Phones { get; set; }        
         public Address PrimaryAddress { get; set; }
         public Address SecondaryAddress { get; set; }
         public string IndividualId { get; set; }

@@ -1,4 +1,5 @@
-﻿<div class="navbar navbar-inverse navbar-fixed-top">
+﻿@using TSMbank.Models;
+<div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -10,21 +11,40 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("deposits", "Index", "Individuals")</li>
+                <li>@Html.ActionLink("Home", "Index", "Individuals")</li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"                    aria-expanded="false">Deposits<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Deposit<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="~/bankaccounts/checkingaccount">Checking Accounts</a></li>
-                        <li><a href="~/bankaccounts/savingaccount">Savings Accounts</a></li>
+                        <li><a href="@Url.Action("BankAccountSelection", "BankAccounts", new { description = Description.Checking })">Checking Accounts</a></li>
+                        <li><a href="@Url.Action("BankAccountSelection", "BankAccounts", new { description = Description.Savings })">Savings Accounts</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="#">My accounts</a></li>
                     </ul>
                 </li>
                 <li>@Html.ActionLink("money transfers", "Deposit", "Transactions")</li>
                 <li>@Html.ActionLink("my bills", "Index", "Individuals")</li>
-                <li>@Html.ActionLink("cards", "Index", "Individuals")</li>
-                <li>@Html.ActionLink("Loans", "Index", "Individuals")</li>
-                <li>@Html.ActionLink("Investments", "Index", "Individuals")</li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Credit Cards<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("Index", "Individuals", new { description = Description.Checking })">Credit Card</a></li>
+                        <li><a href="@Url.Action("Index", "Individuals", new { description = Description.Savings })">Debit Card</a></li>
+                        <li><a href="@Url.Action("Index", "Individuals", new { description = Description.Savings })">Prepaid Card</a></li>                        
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Loans<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("Index", "Individuals", new { description = Description.Checking })">Mortgage Loans</a></li>
+                        <li><a href="@Url.Action("Index", "Individuals", new { description = Description.Savings })">Consumer Loans</a></li>                        
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Investments<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("BankAccountSelection", "BankAccounts", new { description = Description.Term })">Term Accounts</a></li>
+                        <li><a href="@Url.Action("BankAccountSelection", "BankAccounts", new { description = Description.Term })">Bonds</a></li>                        
+                    </ul>
+                </li>
             </ul>
             @Html.Partial("_LoginPartial")
         </div>

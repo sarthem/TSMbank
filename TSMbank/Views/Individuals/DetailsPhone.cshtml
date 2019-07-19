@@ -5,20 +5,22 @@
     ViewBag.Title = "DetailsPhone";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Phone Details</h2>
-
 <h3>@Model.FullName</h3>
-
 <h4>Contact Phone</h4>
 @foreach (var phone in Model.Phones)
 {
-
     <p><label>Country Code</label>: @phone.CountryCode</p>
     <p><label>Phone type</label>: @phone.PhoneType</p>
     <p><label>Phone Number</label>: @phone.PhoneNumber</p><br />
-    
 }
 <div>
-    @Html.ActionLink("Back", "Index", "Individuals", new { @class = "btn btn-primary" })
+    <p>@Html.ActionLink("Back", "Index", "Individuals", new { @class = "btn btn-primary" })</p>
+    @if (Model.Phones.Count() < 5)
+    {
+        <span>@Html.ActionLink("Add new phone", "Edit", "Individuals", new { id = Model.Id, modify = (int)ModificationAction.EditPhones }, null)</span>
+    }
+
 </div>
+
+

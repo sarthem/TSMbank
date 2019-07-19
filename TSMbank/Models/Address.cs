@@ -11,23 +11,23 @@ namespace TSMbank.Models
         //Properties
         public int Id { get; set; } 
         
-        //[Required]
+        [Required]
         [StringLength(50, ErrorMessage = "This field must be maximum 50 characters")]
         public string Country { get; set; }
 
-        //[Required]
+        [Required]
         [StringLength(50, ErrorMessage = "This field must be maximum 50 characters")]
         public string City { get; set; }
 
-        //[Required]
+        [Required]
         [StringLength(255)]
         public string Street { get; set; }
 
-        //[Required]
+        [Required]
         [StringLength(9, MinimumLength = 1, ErrorMessage = "This field must be maximum 9 characters")]
         public string StreetNumber { get; set; }
 
-        //[Required]
+        [Required]
         [StringLength(5, MinimumLength = 5, ErrorMessage = "This field must be 5 numbers")]
         public string PostalCode { get; set; }
 
