@@ -114,6 +114,20 @@ textarea {
 .panel-group panel panel-default {
     padding-top: 50px;
 }
+
+/* Individual form */
+
+.phone-form-hidden {
+    /*display: none;*/
+    height: 0px;
+    overflow: hidden;
+    /*transform: scaleY(0);*/
+    opacity: 0;
+    transition: height .5s, opacity .5s;
+}
+
+
+
 /* Utilities */
 .u-margin-bottom-small {
     margin-bottom: 1.5rem;

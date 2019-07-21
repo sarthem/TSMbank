@@ -3,7 +3,7 @@ namespace TSMbank.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initialiazeDb : DbMigration
+    public partial class InitialModel : DbMigration
     {
         public override void Up()
         {
@@ -12,11 +12,11 @@ namespace TSMbank.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Country = c.String(nullable: false, maxLength: 50),
-                        City = c.String(nullable: false, maxLength: 50),
-                        Street = c.String(nullable: false, maxLength: 255),
-                        StreetNumber = c.String(nullable: false, maxLength: 9),
-                        PostalCode = c.String(nullable: false, maxLength: 5),
+                        Country = c.String(maxLength: 50),
+                        City = c.String(maxLength: 50),
+                        Street = c.String(maxLength: 255),
+                        StreetNumber = c.String(maxLength: 9),
+                        PostalCode = c.String(maxLength: 5),
                         Region = c.String(maxLength: 255),
                     })
                 .PrimaryKey(t => t.Id);

@@ -226,17 +226,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907172259519_initialiazeDb.cs" />
-    <Compile Include="Migrations\201907172259519_initialiazeDb.Designer.cs">
-      <DependentUpon>201907172259519_initialiazeDb.cs</DependentUpon>
+    <Compile Include="Migrations\201907181420526_InitialModel.cs" />
+    <Compile Include="Migrations\201907181420526_InitialModel.Designer.cs">
+      <DependentUpon>201907181420526_InitialModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907172300315_PopulateData.cs" />
-    <Compile Include="Migrations\201907172300315_PopulateData.Designer.cs">
-      <DependentUpon>201907172300315_PopulateData.cs</DependentUpon>
+    <Compile Include="Migrations\201907181421509_PopulateAccTypesAndTransTypes.cs" />
+    <Compile Include="Migrations\201907181421509_PopulateAccTypesAndTransTypes.Designer.cs">
+      <DependentUpon>201907181421509_PopulateAccTypesAndTransTypes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907180000289_fixPropAnotation.cs" />
-    <Compile Include="Migrations\201907180000289_fixPropAnotation.Designer.cs">
-      <DependentUpon>201907180000289_fixPropAnotation.cs</DependentUpon>
+    <Compile Include="Migrations\201907202155140_AddCard.cs" />
+    <Compile Include="Migrations\201907202155140_AddCard.Designer.cs">
+      <DependentUpon>201907202155140_AddCard.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccount.cs" />
@@ -245,6 +245,9 @@
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Bank.cs" />
+    <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\CardStatus.cs" />
+    <Compile Include="Models\CardType.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Individual.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -368,14 +371,14 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907172259519_initialiazeDb.resx">
-      <DependentUpon>201907172259519_initialiazeDb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907181420526_InitialModel.resx">
+      <DependentUpon>201907181420526_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907172300315_PopulateData.resx">
-      <DependentUpon>201907172300315_PopulateData.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907181421509_PopulateAccTypesAndTransTypes.resx">
+      <DependentUpon>201907181421509_PopulateAccTypesAndTransTypes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907180000289_fixPropAnotation.resx">
-      <DependentUpon>201907180000289_fixPropAnotation.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907202155140_AddCard.resx">
+      <DependentUpon>201907202155140_AddCard.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

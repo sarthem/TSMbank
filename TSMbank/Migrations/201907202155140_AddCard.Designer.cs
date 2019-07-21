@@ -7,13 +7,13 @@ namespace TSMbank.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class PopulateData : IMigrationMetadata
+    public sealed partial class AddCard : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateData));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddCard));
         
         string IMigrationMetadata.Id
         {
-            get { return "201907172300315_PopulateData"; }
+            get { return "201907202155140_AddCard"; }
         }
         
         string IMigrationMetadata.Source

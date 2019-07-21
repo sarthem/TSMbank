@@ -79,6 +79,16 @@ namespace TSMbank.Controllers
         public ActionResult Save(IndividualFormViewModel individualViewFormModel)
         {           
             var appUser = context.Users.Find(User.Identity.GetUserId());
+
+            var errors = new List<ModelState>();
+            foreach (ModelState modelState in ModelState.Values)
+            {
+                if(modelState.Errors.Count > 0)
+                {
+                    errors.Add(modelState);
+                }
+            }   
+
             if (!ModelState.IsValid)
             {
                 var viewModel = new IndividualFormViewModel()

@@ -37,7 +37,7 @@ namespace TSMbank.Models
             }
         }
 
-        public string IBAN
+        public string IBAN  
         {
             get
             {
@@ -53,6 +53,10 @@ namespace TSMbank.Models
         public ICollection<Transaction> CreditTransactions { get; set; }
 
         public ICollection<Transaction> DebitTransactions { get; set; }
+
+        //[ForeignKey("Card")]
+        //public string CardNumber { get; set; }
+        public Card Card { get; set; }
 
         // Constructors
         public BankAccount()

@@ -59,6 +59,11 @@ namespace TSMbank.Models
                         .HasForeignKey(p => p.IndividualId)
                         .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<BankAccount>()
+                        .HasOptional(a => a.Card)
+                        .WithRequired(c => c.BankAccount)
+                        .WillCascadeOnDelete(false);
+
             base.OnModelCreating(modelBuilder);
         }
 
