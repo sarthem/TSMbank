@@ -1,9 +1,9 @@
 ﻿@model TSMbank.ViewModels.CheckingAccApplicationViewModel
 @using TSMbank.Models;
-
 @{
     ViewBag.Title = "CurrentAccount";
 }
+<<<<<<< HEAD
 
 <div class="jumbotron u-margin-top-small">
     <h2>Checking Account</h2>
@@ -17,8 +17,94 @@
     {
         <p><input id="btn-apply" type="button" class="btn btn-primary" value="Show more" /></p>
     }
+=======
+<h2>Checkings Account</h2>
+<style></style>
+<div>
+    <section class="indent-1">
+        <!-- Section 1 -->
+        <section>
+            <h2>Personal</h2>
+            <div class="jumbotron u-margin-top-small">
+                <h4>Checking Personal</h4>
+                <p>
+                    A checking account is one of the most important tools for managing your day-to-day finances. 
+                    And whether you’re looking for rewards and lots of extras or just simple, straight forward, 
+                    access to your funds, you can count on Andover Bank for an experience that fits into your life
+                    and tools that put you in charge of your finances - no matter where you are.
+                </p>
+                <p>Click the button to see more details for the new Checking Personal account.</p>
+                <div>
+                    <input type="button" id="btnpersonalId" class="btn btn-default" value="more details">
+                </div>
+            </div>
+        </section>
+        <!-- Section 2 -->
+        <section>
+            <h2>Business</h2>
+            <div class="jumbotron u-margin-top-small">
+                <h4>Business Checking</h4>
+                <p>
+                    With straightforward solutions for managing your cash and payments,
+                    Andover Bank combines local expertise, specialized products, and dedicated
+                    services to make cash management a breeze.
+                    While you focus on running your business, we’ll keep your cashflow accessible and easy to manage..
+                </p>
+                <p>Click the button to see more details for a new Business Checking account.</p>
+                <div>
+                    <input type="button" id="btnbusiness" class="btn btn-default" value="more details">
+                </div>
+            </div>
+        </section>
+    </section>
+>>>>>>> master
 </div>
+<section class="indent-2">
+    <div id="reveal-business" style="display:none">
+        <div class="jumbotron b">
+            <h2>Business Checking</h2>
+            <p>
+                Put your excess funds to work. Tiered interest earning structure and unlimited no-fee
+                electronic transactions mean you spend less time worrying about bank fees, and more time
+                focusing on your business. Plus, get 75 free deposits, checks, and withdrawals per
+                statement cycle ($0.25 each thereafter).
+            </p>
+            @if (Model.IndividualStatus == IndividualStatus.Active)
+            {
+                <p>Click the button to submit your petition.</p>
+                <a id="businessId" class="btn btn-primary" href="">Account Petition</a>
+            }
+        </div>
+    </div>
+    <div id="reveal-personal" style="display:none">
+        <div class="jumbotron b">
+            <h3>Personal Checking</h3>
+            <p>
+                Get your money growing with interest paid on all your balances.
+                A straightforward checking account that gets your money
+                working right from dollar one.
+            </p>
+            <ul>
+                <li>Earns interest on all of your balances monthly</li>
+                <li>$10 monthly fee waived with $1,500 minimum daily balance</li>
+                <li>No minimum required to open account</li>
+                <li>Transfer the Cents</li>
+                <li>Option of early redemption</li>
+                <li>Short term deposit</li>
 
+            </ul>
+
+            @if (Model.IndividualStatus == IndividualStatus.Active)
+            {
+                <p>Click the button to submit your petition.</p>
+                <a id="personalId" class="btn btn-primary" href="">Account Petition</a>
+            }
+        </div>
+    </div>
+
+</section>
+
+<<<<<<< HEAD
 <div class="section-acctype">
     <h2>Choose account type</h2>
     <div class="acctype-container">
@@ -27,8 +113,9 @@
         <div class="acctype-info">
         </div>
     </div>
+=======
+>>>>>>> master
 
-</div>
 
 @section scripts
 {
@@ -42,6 +129,7 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function (data) {
+<<<<<<< HEAD
                     console.log(data);
                     data.forEach(t => {
                         accountTypes.push(t);
@@ -61,10 +149,24 @@
                             )
                         )
                     });
+=======
+                    dataType: 'json',
+                        data.forEach(t => accountTypes.push(t));
+                    let businessId = accountTypes.filter(function (type) {
+                        return type.id == 4;
+                    })
+                    let personalId = accountTypes.filter(function (type) {
+                        return type.id == 1;
+                    })
+
+                    $('#personalId').attr("href", `/individuals/BankAccountPetition?id=${personalId[0].id}`)
+                    $('#businessId').attr("href", `/individuals/BankAccountPetition?id=${businessId[0].id}`)
+>>>>>>> master
                 }
             });
 
 
+<<<<<<< HEAD
             btnApply.on('click', function () {
                 section.addClass('moveintop');
             });
@@ -82,9 +184,30 @@
 
             //let checkingGoldDetails = document.getElementById('Checking Basic-details');
             //checkingGoldDetails.classList.add('hide-custom');
+=======
+            $("#btnbusiness").click(function () {
+                if ($("#reveal-business").is(":visible")) {
+                    $("#reveal-business").hide();
+                    $("#btnbusiness").val("more details");
+                } else {
+                    $("#btnbusiness").val("close details");
+                    $("#reveal-business").show();
+                }
+                $("#reveal-personal").hide();
+            });
+
+            $("#btnpersonalId").click(function () {
+                if ($("#reveal-personal").is(":visible")) {
+                    $("#reveal-personal").hide();
+                    $("#btnpersonalId").val("more details");
+                } else {
+                    $("#btnpersonalId").val("close details");
+                    $("#reveal-personal").show();
+                }
+                $("#reveal-business").hide();
+            });
+>>>>>>> master
         });
     </script>
 }
-
-
 

@@ -76,7 +76,6 @@ namespace TSMbank.Models
         //Navigation Properties   
        
         public Address PrimaryAddress { get; set; }
-
         public int PrimaryAddressId { get; set; }
 
         public Address SecondaryAddress { get; set; }

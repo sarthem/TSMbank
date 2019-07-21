@@ -127,6 +127,11 @@
                 </div>
             </div>
         </div>
+
+    }
+    if (Model.ModificationAction == ModificationAction.EditAddresses)
+    {
+
         <h3>Secondary Address</h3>
         <div class="row">
             <div class="col-sm-3">
@@ -175,15 +180,23 @@
             </div>
         </div>
     }
-    if (Model.ModificationAction == ModificationAction.NewIndividual || Model.ModificationAction == ModificationAction.EditPhones)
+    if (Model.ModificationAction == ModificationAction.NewIndividual)/* || Model.ModificationAction == ModificationAction.EditPhones)*/
     {
         <h3>Phone Numbers</h3>
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
         <div id="section-phones">
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="Phones_0__CountryCode">CountryCode</label>
+<<<<<<< HEAD
                         <input class="form-control" id="Phones_0__CountryCode" name="Phones[0].CountryCode" type="text" value>
+=======
+                        <input class="form-control" id="Phones_0__CountryCode" name="Phones[0].CountryCode" type="text">
+>>>>>>> master
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -200,14 +213,23 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="Phones_0__PhoneNumber">PhoneNumber</label>
+<<<<<<< HEAD
                         <input class="form-control" id="Phones_0__PhoneNumber" name="Phones[0].PhoneNumber" type="text" value>
+=======
+                        <input class="form-control" id="Phones_0__PhoneNumber" name="Phones[0].PhoneNumber" type="text">
+>>>>>>> master
                     </div>
                 </div>
             </div>
         </div>
-        if (Model.ModificationAction == ModificationAction.EditPhones)
-        {
-            for (int i = 0; i < Model.Phones.Count; i++)
+
+    }
+    if (Model.ModificationAction == ModificationAction.EditPhones)
+    {
+        <h3>Edit or Add a phone</h3>
+        <div id="section-phones">
+
+            @for (int i = 0; i < Model.Phones.Count; i++)
             {
                 <div class="row">
                     @Html.HiddenFor(m => Model.Phones[i].Id)
@@ -234,14 +256,14 @@
                     </div>
                 </div>
             }
-        }
-        else
-        {
+
             <input type="button" value="Add new Phone" class="btn btn-primary" id="add-phone" />
-        }
-
+        </div>
     }
-
+    else
+    {
+        <input type="button" value="Add new Phone" class="btn btn-primary" id="add-phone" />
+    }
     <button type="submit" class="btn btn-primary">Save</button>
 }
 
@@ -258,6 +280,7 @@
 
             fieldset.innerHTML =
 
+<<<<<<< HEAD
                 `<div  class="col-sm-3">
                                                         <div class="form-group">
                                                             <label for="Phones_${idx}__CountryCode">CountryCode</label>
@@ -284,6 +307,34 @@
                                                         </div>
                                                     </div>`;
             
+=======
+                `<div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="Phones_${idx}__CountryCode">CountryCode</label>
+                                    <input class="form-control" id="Phones_${idx}__CountryCode" name="Phones[${idx}].CountryCode" type="text"
+                                            value>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="Phones_${idx}__PhoneType">PhoneType</label>
+                                    <select class="form-control" data-val="true" data-val-required="The PhoneType field is required."
+                                            id="Phones_${idx}__PhoneType" name="Phones[${idx}].PhoneType">
+                                        <option value="0">Mobile</option>
+                                        <option value="1">Home</option>
+                                        <option value="2">Work</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="Phones_${idx}__PhoneNumber">PhoneNumber</label>
+                                    <input class="form-control" id="Phones_${idx}__PhoneNumber" name="Phones[${idx}].PhoneNumber" type="text"
+                                            value>
+                                </div>
+                            </div>`;
+
+>>>>>>> master
             sectionPhones.appendChild(fieldset);
             let styles = {
                 //display: 'block',

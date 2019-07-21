@@ -238,6 +238,10 @@
     <Compile Include="Migrations\201907202155140_AddCard.Designer.cs">
       <DependentUpon>201907202155140_AddCard.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907181736530_DataNotationAndFixForms.cs" />
+    <Compile Include="Migrations\201907181736530_DataNotationAndFixForms.Designer.cs">
+      <DependentUpon>201907181736530_DataNotationAndFixForms.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccount.cs" />
     <Compile Include="Models\BankAccountType.cs" />
@@ -351,6 +355,7 @@
     <Content Include="Views\Individuals\GetIndividuals.cshtml" />
     <Content Include="Views\Requests\GetRequests.cshtml" />
     <Content Include="Views\Individuals\BankAccountPetition.cshtml" />
+    <Content Include="Views\Individuals\AddSecondAddress.cshtml" />
     <None Include="Views\Shared\_navbarMini.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -379,6 +384,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907202155140_AddCard.resx">
       <DependentUpon>201907202155140_AddCard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907181736530_DataNotationAndFixForms.resx">
+      <DependentUpon>201907181736530_DataNotationAndFixForms.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

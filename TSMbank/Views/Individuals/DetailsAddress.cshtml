@@ -1,16 +1,16 @@
 ﻿@model TSMbank.Models.Individual
-    @using TSMbank.ViewModels;
-    @using TSMbank.Models;
+@using TSMbank.ViewModels;
+@using TSMbank.Models;
 
-    @{
-        ViewBag.Title = "DetailsAddress";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
+@{
+    ViewBag.Title = "DetailsAddress";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-    <h2>DetailsAddress</h2>
+<h2>DetailsAddress</h2>
 
-    <h3>@Model.FullName</h3>
-
+<h3>@Model.FullName</h3>
+<div>
     <h4>Primary Address</h4>
     <p><label>Country</label>: @Model.PrimaryAddress.Country</p>
     <p><label>City</label>: @Model.PrimaryAddress.City</p>
@@ -18,6 +18,10 @@
     <p><label>Street</label>: @Model.PrimaryAddress.Street</p>
     <p><label>Street Number</label>: @Model.PrimaryAddress.StreetNumber</p>
     <p><label>Postal Code</label>: @Model.PrimaryAddress.PostalCode</p>
+
+
+</div>
+<div>
     @if (Model.SecondaryAddress != null)
     {
         <h4>Secondary Address</h4>
@@ -28,49 +32,17 @@
         <p><label>Street Number</label>: @Model.SecondaryAddress.StreetNumber</p>
         <p><label>Postal Code</label>: @Model.SecondaryAddress.PostalCode</p>
     }
-
-    <p>
-        <label>Secondary Address</label>: add new address  <input type="button" id="change-individual-status" class="btn btn-sm" value="Request ????" />
-    </p>
-    <div>
-        @Html.ActionLink("Back", "Index", "Individuals", new { @class = "btn btn-primary" })
-    </div>
-    @*<div>
-            @Html.ActionLink("Edit Individual", "Edit", "Individuals", new { id = Model.Id, modify = (int)ModificationAction.EditIndividual }, new { @class = "btn btn-primary" })
-        </div>*@
-
-    @section scripts
-{
-        <script>
-
-        //$(document).ready(function () {
-        //    $("#change-individual-status").on("click", function () {
-
-        //        bootbox.confirm("Are you sure you want to change the status of the customer?", function (result) {
-
-        //        });
-        //    });
-        //});
-
-        var modelid = @Model.Id;//gia reference
-
-        @*var modelid = @Html.Raw(Json.Encode(Model.Id));*@
-            let path = `/individuals/ActivateAccount/${modelid}`;
-
-            document.getElementById("change-individual-status").onclick = function () {
-            myFunction()
-        };
-
-        function myFunction() {
-            var r = confirm("Are you sure you want to change the status of the customer?")
-
-            if (r == true) {
-
-                window.location.href = path;
-            } else {
-                txt = "Account is not Active!";
-            }
-        };
-
-        </script>
+    else
+    {
+        <span>@Html.ActionLink("Add Second Address", "AddSecondAddress", "Individuals", new { @class = "btn btn-primary" })</span>
     }
+
+</div>
+
+<div>
+    <p>
+        @Html.ActionLink("Back", "Index", "Individuals", new { @class = "btn btn-primary" })       
+        
+    </p>
+</div>
+
