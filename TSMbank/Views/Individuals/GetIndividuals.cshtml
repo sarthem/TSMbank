@@ -14,7 +14,7 @@
     <p>We dont have any Customers</p>
 }
 else
-{   
+{
 
     foreach (var individual in Model)
     {
@@ -82,3 +82,47 @@ else
 <p>
     @Html.ActionLink("New Customer", "New", "Individuals", null, new { @class = "btn btn-primary" })
 </p>
+@section Scripts {
+    ...
+    <script>
+       
+
+        var progress = $.connection.signalHub;
+        console.log(progress);
+        $.connection.hub.start().done(function () {
+
+            //getting the connection ID in case you want to display progress to the specific user
+            //that started the process in the first place.
+            
+            var connectionId = $.connection.hub.id;
+            console.log(connectionId);
+
+            progress.server.hello("Hello from client");
+
+            progress.client.sendActivation = function (message) {
+                console.log(message)
+            };
+
+            $(document).ready(function () {
+                $('message').fadeOut(5000, function () {
+                    $(this).html(""); //reset label after fadeout
+                });
+            });   
+
+            
+        });
+
+        progress.client.send = function (message, test) {
+            console.log(message + test)
+        };
+        progress.client.test = function (message) {
+            console.log(message)
+        };
+
+        progress.client.sendActivation = function (message) {
+            console.log(message)
+        };
+
+
+    </script>
+}

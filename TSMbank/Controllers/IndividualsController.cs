@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -6,8 +7,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TSMbank.Hubs;
 using TSMbank.Models;
 using TSMbank.ViewModels;
+using AuthorizeAttribute = System.Web.Mvc.AuthorizeAttribute;
 
 namespace TSMbank.Controllers
 {
@@ -215,6 +218,8 @@ namespace TSMbank.Controllers
                 case "PersonalInfo":
                     return View("Details", individual);                    
                 case "AddressInfo":
+
+                    SignalHub.Static_Send();
                     return View("DetailsAddress", individual);                    
                 case "PhoneInfo":
                     return View("DetailsPhone", individual);
@@ -243,7 +248,7 @@ namespace TSMbank.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
+        
         public ActionResult BankAccountPetition(byte Id)
         {
             var userId = User.Identity.GetUserId();
@@ -266,6 +271,10 @@ namespace TSMbank.Controllers
                 };
                 context.BankAccRequests.Add(request);
                 context.SaveChanges();
+
+
+                SignalHub.SendActivation(request);
+                
                 return RedirectToAction("Index");
             }
             else

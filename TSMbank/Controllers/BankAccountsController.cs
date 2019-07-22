@@ -198,7 +198,7 @@ namespace TSMbank.Controllers
             var viewModel = new CheckingAccApplicationViewModel() { IndividualStatus = individual.Status };
             switch (description)
             {
-                case Description.Checking:                    
+                case Description.Checking:                       
                     return View("CheckingAccount", viewModel);
                 case Description.Savings:
                     return View("SavingAccount", viewModel);
