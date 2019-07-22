@@ -3,21 +3,6 @@
 @{
     ViewBag.Title = "CurrentAccount";
 }
-<<<<<<< HEAD
-
-<div class="jumbotron u-margin-top-small">
-    <h2>Checking Account</h2>
-    <p>
-        TSMbank's Cheking Account is a flexible banking tool that meets the needs of today’s customers,
-        covering your everyday deposit account transaction needs.
-    </p>
-    <p>Click the button below to apply for a new checking account.</p>
-
-    @if (Model.IndividualStatus == IndividualStatus.Active)
-    {
-        <p><input id="btn-apply" type="button" class="btn btn-primary" value="Show more" /></p>
-    }
-=======
 <h2>Checkings Account</h2>
 <style></style>
 <div>
@@ -28,8 +13,8 @@
             <div class="jumbotron u-margin-top-small">
                 <h4>Checking Personal</h4>
                 <p>
-                    A checking account is one of the most important tools for managing your day-to-day finances. 
-                    And whether you’re looking for rewards and lots of extras or just simple, straight forward, 
+                    A checking account is one of the most important tools for managing your day-to-day finances.
+                    And whether you’re looking for rewards and lots of extras or just simple, straight forward,
                     access to your funds, you can count on Andover Bank for an experience that fits into your life
                     and tools that put you in charge of your finances - no matter where you are.
                 </p>
@@ -57,157 +42,110 @@
             </div>
         </section>
     </section>
->>>>>>> master
 </div>
-<section class="indent-2">
-    <div id="reveal-business" style="display:none">
-        <div class="jumbotron b">
-            <h2>Business Checking</h2>
-            <p>
-                Put your excess funds to work. Tiered interest earning structure and unlimited no-fee
-                electronic transactions mean you spend less time worrying about bank fees, and more time
-                focusing on your business. Plus, get 75 free deposits, checks, and withdrawals per
-                statement cycle ($0.25 each thereafter).
-            </p>
-            @if (Model.IndividualStatus == IndividualStatus.Active)
-            {
-                <p>Click the button to submit your petition.</p>
-                <a id="businessId" class="btn btn-primary" href="">Account Petition</a>
-            }
+<form action="@Url.Action("BankAccountPetition", "Individuals")" method="post">
+    <input id="accTypeId" type="hidden" name="id" />
+    <section class="indent-2">
+        <div id="reveal-business" style="display:none">
+            <div class="jumbotron b">
+                <h2>Business Checking</h2>
+                <p>
+                    Put your excess funds to work. Tiered interest earning structure and unlimited no-fee
+                    electronic transactions mean you spend less time worrying about bank fees, and more time
+                    focusing on your business. Plus, get 75 free deposits, checks, and withdrawals per
+                    statement cycle ($0.25 each thereafter).
+                </p>
+                @if (Model.IndividualStatus == IndividualStatus.Active)
+                {
+                    <p>Click the button to submit your petition.</p>
+                    <input type="submit" class="btn btn-primary" value="Account Petition" />
+                    @*<a id="businessId" class="btn btn-primary" href="">Account Petition</a>*@
+                }
+            </div>
         </div>
-    </div>
-    <div id="reveal-personal" style="display:none">
-        <div class="jumbotron b">
-            <h3>Personal Checking</h3>
-            <p>
-                Get your money growing with interest paid on all your balances.
-                A straightforward checking account that gets your money
-                working right from dollar one.
-            </p>
-            <ul>
-                <li>Earns interest on all of your balances monthly</li>
-                <li>$10 monthly fee waived with $1,500 minimum daily balance</li>
-                <li>No minimum required to open account</li>
-                <li>Transfer the Cents</li>
-                <li>Option of early redemption</li>
-                <li>Short term deposit</li>
+        <div id="reveal-personal" style="display:none">
+            <div class="jumbotron b">
+                <h3>Personal Checking</h3>
+                <p>
+                    Get your money growing with interest paid on all your balances.
+                    A straightforward checking account that gets your money
+                    working right from dollar one.
+                </p>
+                <ul>
+                    <li>Earns interest on all of your balances monthly</li>
+                    <li>$10 monthly fee waived with $1,500 minimum daily balance</li>
+                    <li>No minimum required to open account</li>
+                    <li>Transfer the Cents</li>
+                    <li>Option of early redemption</li>
+                    <li>Short term deposit</li>
 
-            </ul>
+                </ul>
 
-            @if (Model.IndividualStatus == IndividualStatus.Active)
-            {
-                <p>Click the button to submit your petition.</p>
-                <a id="personalId" class="btn btn-primary" href="">Account Petition</a>
-            }
+                @if (Model.IndividualStatus == IndividualStatus.Active)
+                {
+                    <p>Click the button to submit your petition.</p>
+                    <input type="submit" class="btn btn-primary" value="Account Petition" />
+                    @*<a id="personalId" class="btn btn-primary" href="">Account Petition</a>*@
+                }
+            </div>
         </div>
-    </div>
+    </section>
+</form>
 
-</section>
 
-<<<<<<< HEAD
-<div class="section-acctype">
-    <h2>Choose account type</h2>
-    <div class="acctype-container">
-        <div class="acctype-form">
-        </div>
-        <div class="acctype-info">
-        </div>
-    </div>
-=======
->>>>>>> master
 
 
 @section scripts
 {
     <script>
         $(document).ready(function () {
-            let formContainer = $('.form-container');
+            let accTypeId = $('#accTypeId');
             let accountTypes = [];
+            let personalAccId, businessAccId;
 
             $.ajax({
                 url: '/api/bankaccounttypes?description=0',
                 method: 'GET',
                 dataType: 'json',
                 success: function (data) {
-<<<<<<< HEAD
-                    console.log(data);
-                    data.forEach(t => {
-                        accountTypes.push(t);
-                        accTypeForm.append($('<div>', { class: 'acctype-form__group' })
-                            .append($('<div>', { class: 'acctype-form__radio-group' })
-                                .append($('<input>', { type: 'radio', id: `acctype${t.id}-radio`, class: 'acctype-form__radio-input', name: 'AccTypeId', value: `${t.id}` })
-                                    , $('<label>', { class: 'acctype-form__radio-label', for: `${t.summary}-radio` })
-                                        .append($('<span/>', { class: 'acctype-form__radio-button' }), `${t.summary}`)
-                                )
-                            )
-
-                        );
-
-                        $('.acctype-info').append($('<div>', { class: 'acctype-details', id: `acctype${t.id}-details` })
-                            .append($('<p>').text(`Interest rate: ${t.interestRate}%`),
-                            $('<p>').text(`Periodic fee: ${t.periodicFee} (Eur)`)
-                            )
-                        )
-                    });
-=======
-                    dataType: 'json',
-                        data.forEach(t => accountTypes.push(t));
-                    let businessId = accountTypes.filter(function (type) {
-                        return type.id == 4;
-                    })
-                    let personalId = accountTypes.filter(function (type) {
-                        return type.id == 1;
-                    })
-
-                    $('#personalId').attr("href", `/individuals/BankAccountPetition?id=${personalId[0].id}`)
-                    $('#businessId').attr("href", `/individuals/BankAccountPetition?id=${businessId[0].id}`)
->>>>>>> master
+                    data.forEach(t => accountTypes.push(t));
+                    personalAccId = accountTypes.find(t => t.id == 4).id;
+                    businessAccId = accountTypes.find(t => t.id == 1).id;
+                    //let businessId = accountTypes.filter(function (type) {
+                    //    return type.id == 4;
+                    //})
+                    //let personalId = accountTypes.filter(function (type) {
+                    //    return type.id == 1;
+                    //})
+                    //$('#personalId').attr("href", `/individuals/BankAccountPetition?id=${personalId[0].id}`)
+                    //$('#businessId').attr("href", `/individuals/BankAccountPetition?id=${businessId[0].id}`)
                 }
             });
 
-
-<<<<<<< HEAD
-            btnApply.on('click', function () {
-                section.addClass('moveintop');
-            });
-
-
-
-
-
-
-
-
-
-
-
-
-            //let checkingGoldDetails = document.getElementById('Checking Basic-details');
-            //checkingGoldDetails.classList.add('hide-custom');
-=======
             $("#btnbusiness").click(function () {
                 if ($("#reveal-business").is(":visible")) {
                     $("#reveal-business").hide();
                     $("#btnbusiness").val("more details");
+                    accTypeId.val('');
                 } else {
                     $("#btnbusiness").val("close details");
                     $("#reveal-business").show();
+                    accTypeId.val(businessAccId);
                 }
                 $("#reveal-personal").hide();
             });
-
             $("#btnpersonalId").click(function () {
                 if ($("#reveal-personal").is(":visible")) {
                     $("#reveal-personal").hide();
                     $("#btnpersonalId").val("more details");
+                    accTypeId.val('');
                 } else {
                     $("#btnpersonalId").val("close details");
                     $("#reveal-personal").show();
+                    accTypeId.val(personalAccId);
                 }
                 $("#reveal-business").hide();
             });
->>>>>>> master
         });
     </script>
 }
-

@@ -18,7 +18,7 @@ namespace TSMbank.Models
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<BankAccRequest> BankAccRequests { get; set; }
-
+        public DbSet<CardRequest> CardRequests { get; set; }
 
         public ApplicationDbContext()
             : base("TSMbankDBContext", throwIfV1Schema: false)

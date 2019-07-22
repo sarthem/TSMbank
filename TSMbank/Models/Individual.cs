@@ -93,5 +93,15 @@ namespace TSMbank.Models
             CreatedDate = DateTime.Now;
             Status = IndividualStatus.Inactive;
         }
+
+        public void Activate()
+        {
+            Status = IndividualStatus.Active;
+        }
+
+        public void Deactivate()
+        {
+            Status = IndividualStatus.Inactive;
+        }
     }
 }

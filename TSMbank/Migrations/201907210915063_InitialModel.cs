@@ -12,11 +12,11 @@ namespace TSMbank.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Country = c.String(maxLength: 50),
-                        City = c.String(maxLength: 50),
-                        Street = c.String(maxLength: 255),
-                        StreetNumber = c.String(maxLength: 9),
-                        PostalCode = c.String(maxLength: 5),
+                        Country = c.String(nullable: false, maxLength: 50),
+                        City = c.String(nullable: false, maxLength: 50),
+                        Street = c.String(nullable: false, maxLength: 255),
+                        StreetNumber = c.String(nullable: false, maxLength: 9),
+                        PostalCode = c.String(nullable: false, maxLength: 5),
                         Region = c.String(maxLength: 255),
                     })
                 .PrimaryKey(t => t.Id);
@@ -53,6 +53,27 @@ namespace TSMbank.Migrations
                         Summary = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Cards",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 16),
+                        CardHolderName = c.String(),
+                        Brand = c.String(),
+                        IssueDate = c.DateTime(nullable: false),
+                        ExpiryDate = c.DateTime(nullable: false),
+                        CVV = c.String(),
+                        TransactionAmountLimit = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        CreditLimit = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Type = c.Int(nullable: false),
+                        Status = c.Int(nullable: false),
+                        Number = c.String(nullable: false, maxLength: 16),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.BankAccounts", t => t.Id)
+                .Index(t => t.Id)
+                .Index(t => t.Number, unique: true);
             
             CreateTable(
                 "dbo.Transactions",
@@ -244,6 +265,7 @@ namespace TSMbank.Migrations
             DropForeignKey("dbo.Transactions", "CreditAccountNo", "dbo.BankAccounts");
             DropForeignKey("dbo.Transactions", "TypeId", "dbo.TransactionTypes");
             DropForeignKey("dbo.Transactions", "CancelledTransactionId", "dbo.Transactions");
+            DropForeignKey("dbo.Cards", "Id", "dbo.BankAccounts");
             DropForeignKey("dbo.BankAccounts", "BankAccountType_Id", "dbo.BankAccountTypes");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Requests", new[] { "IndividualId" });
@@ -260,6 +282,8 @@ namespace TSMbank.Migrations
             DropIndex("dbo.Transactions", new[] { "CreditAccountNo" });
             DropIndex("dbo.Transactions", new[] { "DebitAccountNo" });
             DropIndex("dbo.Transactions", new[] { "TypeId" });
+            DropIndex("dbo.Cards", new[] { "Number" });
+            DropIndex("dbo.Cards", new[] { "Id" });
             DropIndex("dbo.BankAccounts", new[] { "BankAccountType_Id" });
             DropIndex("dbo.BankAccounts", new[] { "IndividualId" });
             DropTable("dbo.AspNetRoles");
@@ -272,6 +296,7 @@ namespace TSMbank.Migrations
             DropTable("dbo.Individuals");
             DropTable("dbo.TransactionTypes");
             DropTable("dbo.Transactions");
+            DropTable("dbo.Cards");
             DropTable("dbo.BankAccountTypes");
             DropTable("dbo.BankAccounts");
             DropTable("dbo.Addresses");

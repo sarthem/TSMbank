@@ -7,13 +7,13 @@ namespace TSMbank.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InitialModel : IMigrationMetadata
+    public sealed partial class PopulateAccTypeAndTransTypes : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialModel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateAccTypeAndTransTypes));
         
         string IMigrationMetadata.Id
         {
-            get { return "201907181420526_InitialModel"; }
+            get { return "201907211113461_PopulateAccTypeAndTransTypes"; }
         }
         
         string IMigrationMetadata.Source

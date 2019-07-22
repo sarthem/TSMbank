@@ -214,6 +214,7 @@
     <Compile Include="Controllers\BankAccountsController.cs" />
     <Compile Include="Controllers\api\BankAccountTypesController.cs" />
     <Compile Include="Controllers\api\IndividualsController.cs" />
+    <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\IndividualsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -226,50 +227,57 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907181420526_InitialModel.cs" />
-    <Compile Include="Migrations\201907181420526_InitialModel.Designer.cs">
-      <DependentUpon>201907181420526_InitialModel.cs</DependentUpon>
+    <Compile Include="Migrations\201907210915063_InitialModel.cs" />
+    <Compile Include="Migrations\201907210915063_InitialModel.Designer.cs">
+      <DependentUpon>201907210915063_InitialModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907181421509_PopulateAccTypesAndTransTypes.cs" />
-    <Compile Include="Migrations\201907181421509_PopulateAccTypesAndTransTypes.Designer.cs">
-      <DependentUpon>201907181421509_PopulateAccTypesAndTransTypes.cs</DependentUpon>
+    <Compile Include="Migrations\201907211113461_PopulateAccTypeAndTransTypes.cs" />
+    <Compile Include="Migrations\201907211113461_PopulateAccTypeAndTransTypes.Designer.cs">
+      <DependentUpon>201907211113461_PopulateAccTypeAndTransTypes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907202155140_AddCard.cs" />
-    <Compile Include="Migrations\201907202155140_AddCard.Designer.cs">
-      <DependentUpon>201907202155140_AddCard.cs</DependentUpon>
+    <Compile Include="Migrations\201907211438524_AddCreditCardRequest.cs" />
+    <Compile Include="Migrations\201907211438524_AddCreditCardRequest.Designer.cs">
+      <DependentUpon>201907211438524_AddCreditCardRequest.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907181736530_DataNotationAndFixForms.cs" />
-    <Compile Include="Migrations\201907181736530_DataNotationAndFixForms.Designer.cs">
-      <DependentUpon>201907181736530_DataNotationAndFixForms.cs</DependentUpon>
+    <Compile Include="Migrations\201907211754062_CardRequestMods.cs" />
+    <Compile Include="Migrations\201907211754062_CardRequestMods.Designer.cs">
+      <DependentUpon>201907211754062_CardRequestMods.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccount.cs" />
+    <Compile Include="Models\BankAccRequest.cs" />
     <Compile Include="Models\BankAccountType.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Bank.cs" />
     <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\CardRequest.cs" />
     <Compile Include="Models\CardStatus.cs" />
     <Compile Include="Models\CardType.cs" />
-    <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\EmailInfo.cs" />
     <Compile Include="Models\Individual.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Min18Years.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\Request.cs" />
+    <Compile Include="Models\RequestStatus.cs" />
+    <Compile Include="Models\RequestType.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\TransactionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Validations\CardTransLimit.cs" />
     <Compile Include="ViewModels\BankAccountFormViewModel.cs" />
+    <Compile Include="ViewModels\CardFormViewModel.cs" />
+    <Compile Include="ViewModels\CardReqViewModel.cs" />
     <Compile Include="ViewModels\IndividualFormViewModel.cs" />
     <Compile Include="ViewModels\CheckingAccApplicationViewModel.cs" />
     <Compile Include="ViewModels\RequestsViewModel.cs" />
     <Compile Include="ViewModels\TransactionViewModel.cs" />
     <Compile Include="ViewModels\TransactionsDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ValidCardTransLimit.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -356,6 +364,7 @@
     <Content Include="Views\Requests\GetRequests.cshtml" />
     <Content Include="Views\Individuals\BankAccountPetition.cshtml" />
     <Content Include="Views\Individuals\AddSecondAddress.cshtml" />
+    <Content Include="Views\Cards\CreditCard.cshtml" />
     <None Include="Views\Shared\_navbarMini.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -376,17 +385,17 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907181420526_InitialModel.resx">
-      <DependentUpon>201907181420526_InitialModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907210915063_InitialModel.resx">
+      <DependentUpon>201907210915063_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907181421509_PopulateAccTypesAndTransTypes.resx">
-      <DependentUpon>201907181421509_PopulateAccTypesAndTransTypes.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907211113461_PopulateAccTypeAndTransTypes.resx">
+      <DependentUpon>201907211113461_PopulateAccTypeAndTransTypes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907202155140_AddCard.resx">
-      <DependentUpon>201907202155140_AddCard.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907211438524_AddCreditCardRequest.resx">
+      <DependentUpon>201907211438524_AddCreditCardRequest.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907181736530_DataNotationAndFixForms.resx">
-      <DependentUpon>201907181736530_DataNotationAndFixForms.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907211754062_CardRequestMods.resx">
+      <DependentUpon>201907211754062_CardRequestMods.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

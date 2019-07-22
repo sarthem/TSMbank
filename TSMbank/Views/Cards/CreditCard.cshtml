@@ -1,0 +1,57 @@
+﻿@model TSMbank.ViewModels.CardReqViewModel
+@using TSMbank.Models;
+@{
+    ViewBag.Title = "CreditCard";
+}
+
+
+
+<h2>TSM Visa Silver</h2>
+<div class="jumbotron u-margin-top-small container-fluid">
+    <h3>Learn about about our new CreditCard</h3>
+    <p>
+        Velit mollis odio sollicitudin lacinia aliquam posuere, sapien elementum lobortis tincidunt, turpis dui ornare nisl,
+        sollicitudin interdum turpis nunc eget sem nulla eu ultricies orci praesent id augue nec lorem pretium congue sit amet
+        ac nunc fusce iaculis lorem eu diam hendrerit at mattis purus dignissim vivamus mauris tellus, fringilla vel dapibus a,
+        blandit quis erat vivamus elementum aliquam luctus etiam fringilla pretium sem vitae sodales mauris id nulla est praesent
+        laoreet, metus vel auctor aliquam, eros purus vulputate leo, eget consequat neque quam id tellus duis ultricies tempor tortor,
+        vitae dignissim ligula mattis nec in hac habitasse platea dictumst.
+    </p>
+
+    @if (Model.IndividualStatus != IndividualStatus.Active)
+    {
+        <p>Your account must be active in order to apply for our new credit card.</p>
+    }
+    else
+    {
+        <p>Click the button below to apply for our new Credit Card!</p>
+        <div>
+            <input type="button" id="" class="btn btn-default" value="More details">
+        </div>
+    }
+</div>
+
+<div class="jumbotron u-margin-top-small">
+    <h3>Apply for TSM Visa Silver</h3>
+    <p>Please set your preferred Credit Limit and maximun Amount per Transaction. Then click the following button to submit your request</p>
+    <form action="/Cards/CreateCardReq" method="post">
+        @Html.HiddenFor(m => m.CardType)
+        @Html.HiddenFor(m => m.IndividualStatus)
+        <div class="form-group">
+            @Html.LabelFor(m => m.CreditLimit)
+            @Html.TextBoxFor(m => m.CreditLimit, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.CreditLimit)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.TransactionAmountLimit)
+            @Html.TextBoxFor(m => m.TransactionAmountLimit, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TransactionAmountLimit)
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

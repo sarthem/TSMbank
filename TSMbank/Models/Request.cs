@@ -1,48 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using TSMbank.Validations;
 
 namespace TSMbank.Models
 {
-    public enum RequestStatus
-    {
-        Pending,
-        Approved,
-        Rejected,
-        Processing
-    }
-
-    public enum RequestType
-    {
-        UserAccActivation,
-        BankAccActivation,
-        CreditCardActivation,
-        LoanActivation
-    }
-
     public class Request
     {
         public int Id { get; set; }
 
         public string IndividualId { get; set; }
-        public ApplicationUser Individual { get; set; }
+        public Individual Individual { get; set; }
 
         public RequestStatus Status { get; set; }
         public DateTime SubmissionDate { get; set; }
         public RequestType Type { get; set; }
 
-    }
+        public Request()
+        {
 
-    public class BankAccRequest : Request
-    {
-        public int BankAccTypeId { get; set; }
-        public string BankAccSummury { get; set; }
-        
-    }
+        }
 
-    public class CreditCardRequest : Request
-    {
+        public Request(Individual individual, RequestType requestType)
+        {
+            Individual = individual;
+            Status = RequestStatus.Pending;
+            SubmissionDate = DateTime.Now;
+            Type = requestType;
+        }
 
+        public virtual void Approve()
+        {
+            Status = RequestStatus.Approved;
+            Individual.Activate();
+            
+        }
     }
 }

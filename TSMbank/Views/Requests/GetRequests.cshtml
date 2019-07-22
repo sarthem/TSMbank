@@ -29,10 +29,16 @@ else
         @foreach (var request in Model.Requests)
         {
         <tr>
-
             <td>@request.Id</td>
-            <td>@Html.ActionLink(request.Individual.Individual.FullName, "Details", "Individuals", new { id = request.Individual.Individual.Id }, null)</td>
-            <td>@request.Type</td>
+            <td>@Html.ActionLink(request.Individual.FullName, "Details", "Individuals", new { id = request.Individual.Id }, null)</td>
+            <td>
+                @request.Type
+                @if (request is CardRequest)
+                {
+                    var cardType = ((CardRequest)request).CardType;
+                    <span>(@cardType)</span>
+                }
+            </td>
             <td>@request.SubmissionDate</td>
             <td>@request.Status</td>
             <td>@Html.ActionLink(" ", "RequestAnswer", "Requests", new { Id = request.Id , requestStatus = RequestStatus.Rejected, requestType = request.Type }, new { @class = "glyphicon glyphicon-remove" })</td>

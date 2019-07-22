@@ -1,8 +1,6 @@
 ﻿@model TSMbank.ViewModels.IndividualFormViewModel
 @using TSMbank.ViewModels;
 @{
-    /**/
-
     ViewBag.Title = "New";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -183,20 +181,13 @@
     if (Model.ModificationAction == ModificationAction.NewIndividual)/* || Model.ModificationAction == ModificationAction.EditPhones)*/
     {
         <h3>Phone Numbers</h3>
-<<<<<<< HEAD
-=======
 
->>>>>>> master
         <div id="section-phones">
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="Phones_0__CountryCode">CountryCode</label>
-<<<<<<< HEAD
-                        <input class="form-control" id="Phones_0__CountryCode" name="Phones[0].CountryCode" type="text" value>
-=======
                         <input class="form-control" id="Phones_0__CountryCode" name="Phones[0].CountryCode" type="text">
->>>>>>> master
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -213,11 +204,7 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label for="Phones_0__PhoneNumber">PhoneNumber</label>
-<<<<<<< HEAD
-                        <input class="form-control" id="Phones_0__PhoneNumber" name="Phones[0].PhoneNumber" type="text" value>
-=======
                         <input class="form-control" id="Phones_0__PhoneNumber" name="Phones[0].PhoneNumber" type="text">
->>>>>>> master
                     </div>
                 </div>
             </div>
@@ -275,77 +262,39 @@
 
             let sectionPhones = document.getElementById("section-phones");
             var fieldset = document.createElement("div");
-            fieldset.setAttribute('id', `phone-form${idx}`);
-            fieldset.classList.add('row', 'phone-form-hidden');
+            fieldset.classList.add("row");
 
             fieldset.innerHTML =
 
-<<<<<<< HEAD
-                `<div  class="col-sm-3">
-                                                        <div class="form-group">
-                                                            <label for="Phones_${idx}__CountryCode">CountryCode</label>
-                                                            <input class="form-control" id="Phones_${idx}__CountryCode" name="Phones[${idx}].CountryCode" type="text"
-                                                                   value>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                        <div class="form-group">
-                                                            <label for="Phones_${idx}__PhoneType">PhoneType</label>
-                                                            <select class="form-control" data-val="true" data-val-required="The PhoneType field is required."
-                                                                    id="Phones_${idx}__PhoneType" name="Phones[${idx}].PhoneType">
-                                                                <option value="0">Mobile</option>
-                                                                <option value="1">Home</option>
-                                                                <option value="2">Work</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                        <div class="form-group">
-                                                            <label for="Phones_${idx}__PhoneNumber">PhoneNumber</label>
-                                                            <input class="form-control" id="Phones_${idx}__PhoneNumber" name="Phones[${idx}].PhoneNumber" type="text"
-                                                                   value>
-                                                        </div>
-                                                    </div>`;
-            
-=======
                 `<div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="Phones_${idx}__CountryCode">CountryCode</label>
-                                    <input class="form-control" id="Phones_${idx}__CountryCode" name="Phones[${idx}].CountryCode" type="text"
-                                            value>
+                                    <div class="form-group">
+                                        <label for="Phones_${idx}__CountryCode">CountryCode</label>
+                                        <input class="form-control" id="Phones_${idx}__CountryCode" name="Phones[${idx}].CountryCode" type="text"
+                                                value>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="Phones_${idx}__PhoneType">PhoneType</label>
-                                    <select class="form-control" data-val="true" data-val-required="The PhoneType field is required."
-                                            id="Phones_${idx}__PhoneType" name="Phones[${idx}].PhoneType">
-                                        <option value="0">Mobile</option>
-                                        <option value="1">Home</option>
-                                        <option value="2">Work</option>
-                                    </select>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="Phones_${idx}__PhoneType">PhoneType</label>
+                                        <select class="form-control" data-val="true" data-val-required="The PhoneType field is required."
+                                                id="Phones_${idx}__PhoneType" name="Phones[${idx}].PhoneType">
+                                            <option value="0">Mobile</option>
+                                            <option value="1">Home</option>
+                                            <option value="2">Work</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="Phones_${idx}__PhoneNumber">PhoneNumber</label>
-                                    <input class="form-control" id="Phones_${idx}__PhoneNumber" name="Phones[${idx}].PhoneNumber" type="text"
-                                            value>
-                                </div>
-                            </div>`;
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="Phones_${idx}__PhoneNumber">PhoneNumber</label>
+                                        <input class="form-control" id="Phones_${idx}__PhoneNumber" name="Phones[${idx}].PhoneNumber" type="text"
+                                                value>
+                                    </div>
+                                </div>`;
 
->>>>>>> master
             sectionPhones.appendChild(fieldset);
-            let styles = {
-                //display: 'block',
-                height: '78px',
-                //transform: 'scaleY(1)'
-                opacity: '1'
-            }
-            $(`#phone-form${idx}`).css(styles);
             idx++;
         });
     </script>
 
 }
-

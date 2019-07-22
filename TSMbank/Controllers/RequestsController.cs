@@ -32,31 +32,11 @@ namespace TSMbank.Controllers
 
         public ActionResult GetRequests(RequestStatus status)
         {
-            
-            var requests = new List<Request>();
-            if (status == RequestStatus.Pending)
-            {
-                requests = context.Requests
+            var requests = context.Requests
                 .Include(r => r.Individual)
-                .Include(r => r.Individual.Individual)
-                .Where(r => r.Status == RequestStatus.Pending)
+                .Where(r => r.Status == status)
                 .ToList();
-            }else if (status == RequestStatus.Approved)
-            {
-                 requests = context.Requests
-                .Include(r => r.Individual)
-                .Include(r => r.Individual.Individual)
-                .Where(r => r.Status == RequestStatus.Approved)
-                .ToList();
-            }
-            else if (status == RequestStatus.Rejected)
-            {
-                requests = context.Requests
-               .Include(r => r.Individual)
-               .Include(r => r.Individual.Individual)
-               .Where(r => r.Status == RequestStatus.Rejected)
-               .ToList();
-            }
+
             var viewModel = new RequestsViewModel
             {
                 Requests = requests,
@@ -69,7 +49,6 @@ namespace TSMbank.Controllers
 
         public ActionResult RequestAnswer(int Id, RequestStatus requestStatus, RequestType requestType )
         {
-            
             switch (requestType)
             {
                 case RequestType.UserAccActivation:
@@ -81,8 +60,8 @@ namespace TSMbank.Controllers
                     if (requestStatus == RequestStatus.Approved)
                     {
                         request1.Status = requestStatus;
-                        request1.Individual.Individual.Status = IndividualStatus.Active;
-                        var emailAccountActivated = new Email
+                        request1.Individual.Status = IndividualStatus.Active;
+                        var emailAccountActivated = new EmailInfo
                         {
                             From = new EmailAddress("AccountRegistrationDepartment@TSMbank.com", "TSM Bank"),
                             Subject = "Reply On Account Requets By TSM bank",
@@ -91,14 +70,14 @@ namespace TSMbank.Controllers
                             HtmlContent = "Your Petition for Activating your account has been" +
                             "APPROVED!!! Thank you for choosing our Bank."
                         };
-                        var sendedemailAccountActivated = Email.SendMail(emailAccountActivated);
+                        var sendedemailAccountActivated = EmailInfo.Send(emailAccountActivated);
                         context.SaveChanges();
                         
                     }
                     else if (requestStatus == RequestStatus.Rejected)
                     {
                         request1.Status = requestStatus;
-                        var emailRejection = new Email
+                        var emailRejection = new EmailInfo
                         {
                             From = new EmailAddress("PetitionDepartment@TSMbank.com", "TSM Bank"),
                             Subject = "Reply On Bank Account Requets By TSM bank",
@@ -106,7 +85,7 @@ namespace TSMbank.Controllers
                             PlainTextContent = "Your Petition is rejected",
                             HtmlContent = "Your Petition for BankAccount creation has been REJECTED"
                         };
-                        var sendEmailRejection = Email.SendMail(emailRejection);
+                        var sendEmailRejection = EmailInfo.SendMail(emailRejection);
                         //edw 8a apo8ikevoume an theloume ta email
                         context.SaveChanges();
                         
@@ -129,7 +108,7 @@ namespace TSMbank.Controllers
                     }else if (requestStatus == RequestStatus.Rejected)
                     {
                         request2.Status = requestStatus;
-                        var emailRejection = new Email
+                        var emailRejection = new EmailInfo
                         {
                             From = new EmailAddress("PetitionDepartment@TSMbank.com", "TSM Bank"),
                             Subject = "Reply On Bank Account Requets By TSM bank",
@@ -137,13 +116,13 @@ namespace TSMbank.Controllers
                             PlainTextContent = "Your Petition is rejected",
                             HtmlContent = "Your Petition for BankAccount creation has been REJECTED"
                         };
-                        var sendEmailRejection = Email.SendMail(emailRejection);
+                        var sendEmailRejection = EmailInfo.SendMail(emailRejection);
                         context.SaveChanges();
                         
                     }
                     return RedirectToAction("GetRequests", new { status = RequestStatus.Pending });
 
-                case RequestType.CreditCardActivation:
+                case RequestType.CardActivation:
                     break;
                 default:
                     break;
@@ -153,6 +132,6 @@ namespace TSMbank.Controllers
             return RedirectToAction("GetRequests", new { status = RequestStatus.Pending });
         }
         
-
+        
     }
 }

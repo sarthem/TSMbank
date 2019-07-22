@@ -80,8 +80,6 @@ namespace TSMbank.Controllers
         public ActionResult Save(IndividualFormViewModel individualViewFormModel)
         {           
             var appUser = context.Users.Find(User.Identity.GetUserId());
-<<<<<<< HEAD
-
             var errors = new List<ModelState>();
             foreach (ModelState modelState in ModelState.Values)
             {
@@ -91,9 +89,6 @@ namespace TSMbank.Controllers
                 }
             }   
 
-=======
-            
->>>>>>> master
             if (!ModelState.IsValid)
             {
                 var viewModel = new IndividualFormViewModel()
@@ -115,13 +110,12 @@ namespace TSMbank.Controllers
                 context.Individuals.Add(individual);
 
                 var userId = User.Identity.GetUserId();
-               
 
                 var petition = new Request()
                 {
                     IndividualId = userId,
                     SubmissionDate = DateTime.Now,
-                    Individual = individual.User,
+                    Individual = individual,
                     Status = RequestStatus.Pending,
                     Type = RequestType.UserAccActivation
                 };
@@ -170,7 +164,6 @@ namespace TSMbank.Controllers
                                 intividualDB.Phones.Add(individualViewFormModel.Phones[j]);
                             }
                         }
-                        
                         break;
                     default:
                         break;
@@ -271,7 +264,7 @@ namespace TSMbank.Controllers
                 {
                     IndividualId = user.Id,
                     SubmissionDate = DateTime.Now,
-                    Individual = user.User,
+                    Individual = user,
                     Type = RequestType.BankAccActivation,
                     Status = RequestStatus.Pending,
                     BankAccTypeId = Id,

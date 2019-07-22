@@ -57,7 +57,7 @@ namespace TSMbank.Controllers
         //new method
         public ActionResult NewAccountRequest(BankAccRequest bankAccRequest)
         {
-            var individual = context.Individuals.SingleOrDefault(i => i.Id == bankAccRequest.IndividualId);///ta names
+            var individual = context.Individuals.SingleOrDefault(i => i.Id == bankAccRequest.IndividualId);
             if (individual == null)
                 return HttpNotFound();
 
@@ -151,7 +151,7 @@ namespace TSMbank.Controllers
                 var individual = context.Individuals.SingleOrDefault(c => c.Id == bankAccount.IndividualId);
                 var request = context.BankAccRequests.Single(r => r.IndividualId == individual.Id && r.Status == RequestStatus.Processing);
                 request.Status = RequestStatus.Approved;
-                var emailBankAccount = new Email
+                var emailBankAccount = new EmailInfo
                 {
                     From = new EmailAddress("BankAccountDepartment@TSMbank.com", "TSM Bank"),
                     Subject = "Reply On BankAccount Request By TSM bank",
@@ -160,7 +160,7 @@ namespace TSMbank.Controllers
                     HtmlContent = "Your Petition for new BankAccount has been" +
                            "APPROVED!!! Thank you for choosing our Bank."
                 };
-                var sendedemailBankAccount = Email.SendMail(emailBankAccount);
+                var sendedemailBankAccount = EmailInfo.SendMail(emailBankAccount);
                 //new code finish
                 
             }
@@ -191,9 +191,6 @@ namespace TSMbank.Controllers
             return RedirectToAction("Index");
         }
 
-<<<<<<< HEAD
-
-        // GET
         [Authorize(Roles = RoleName.Customer)]
         public ActionResult CheckingAccount()
         {
@@ -206,13 +203,8 @@ namespace TSMbank.Controllers
             };
             return View(viewModel);
         }
-
-        // GET
-        [Authorize(Roles = RoleName.Customer)]
-        public ActionResult SavingAccount()
-=======
+       
         public ActionResult BankAccountSelection(Description description)
->>>>>>> master
         {
             var userId = User.Identity.GetUserId();
             var individual = context.Individuals.SingleOrDefault(i => i.Id == userId);
@@ -230,7 +222,6 @@ namespace TSMbank.Controllers
                 default:
                     return View("Index");
             }
-                  
         }
 
         protected override void Dispose(bool disposing)
