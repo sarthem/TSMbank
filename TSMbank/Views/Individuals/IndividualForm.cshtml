@@ -267,30 +267,30 @@
             fieldset.innerHTML =
 
                 `<div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="Phones_${idx}__CountryCode">CountryCode</label>
-                                    <input class="form-control" id="Phones_${idx}__CountryCode" name="Phones[${idx}].CountryCode" type="text"
-                                            value>
+                                    <div class="form-group">
+                                        <label for="Phones_${idx}__CountryCode">CountryCode</label>
+                                        <input class="form-control" id="Phones_${idx}__CountryCode" name="Phones[${idx}].CountryCode" type="text"
+                                                value>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="Phones_${idx}__PhoneType">PhoneType</label>
-                                    <select class="form-control" data-val="true" data-val-required="The PhoneType field is required."
-                                            id="Phones_${idx}__PhoneType" name="Phones[${idx}].PhoneType">
-                                        <option value="0">Mobile</option>
-                                        <option value="1">Home</option>
-                                        <option value="2">Work</option>
-                                    </select>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="Phones_${idx}__PhoneType">PhoneType</label>
+                                        <select class="form-control" data-val="true" data-val-required="The PhoneType field is required."
+                                                id="Phones_${idx}__PhoneType" name="Phones[${idx}].PhoneType">
+                                            <option value="0">Mobile</option>
+                                            <option value="1">Home</option>
+                                            <option value="2">Work</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label for="Phones_${idx}__PhoneNumber">PhoneNumber</label>
-                                    <input class="form-control" id="Phones_${idx}__PhoneNumber" name="Phones[${idx}].PhoneNumber" type="text"
-                                            value>
-                                </div>
-                            </div>`;
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="Phones_${idx}__PhoneNumber">PhoneNumber</label>
+                                        <input class="form-control" id="Phones_${idx}__PhoneNumber" name="Phones[${idx}].PhoneNumber" type="text"
+                                                value>
+                                    </div>
+                                </div>`;
 
             sectionPhones.appendChild(fieldset);
             idx++;
@@ -298,4 +298,3 @@
     </script>
 
 }
-

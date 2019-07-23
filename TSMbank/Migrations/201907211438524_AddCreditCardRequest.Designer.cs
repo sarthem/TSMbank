@@ -7,13 +7,13 @@ namespace TSMbank.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class DataNotationAndFixForms : IMigrationMetadata
+    public sealed partial class AddCreditCardRequest : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DataNotationAndFixForms));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddCreditCardRequest));
         
         string IMigrationMetadata.Id
         {
-            get { return "201907181736530_DataNotationAndFixForms"; }
+            get { return "201907211438524_AddCreditCardRequest"; }
         }
         
         string IMigrationMetadata.Source

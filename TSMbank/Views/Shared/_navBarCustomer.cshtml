@@ -24,11 +24,10 @@
                 <li>@Html.ActionLink("money transfers", "Deposit", "Transactions")</li>
                 <li>@Html.ActionLink("my bills", "Index", "Individuals")</li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Credit Cards<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cards<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("Index", "Individuals", new { description = Description.Checking })">Credit Card</a></li>
-                        <li><a href="@Url.Action("Index", "Individuals", new { description = Description.Savings })">Debit Card</a></li>
-                        <li><a href="@Url.Action("Index", "Individuals", new { description = Description.Savings })">Prepaid Card</a></li>                        
+                        <li><a href="@Url.Action("CreateCardReq", "Cards", new { cardType = CardType.CreditCard })">Credit Card</a></li>
+                        <li><a href="@Url.Action("CreateCardReq", "Cards", new { description = CardType.PrepaidCard })">Prepaid Card</a></li>                
                     </ul>
                 </li>
                 <li class="dropdown">

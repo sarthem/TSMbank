@@ -39,7 +39,6 @@ namespace TSMbank.Models
 
         public string Email { get; set; }
 
-        [Min18Years]
         [Display(Name = "Date of birth")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DateOfBirth { get; set; }
@@ -91,6 +90,16 @@ namespace TSMbank.Models
         public Individual()
         {
             CreatedDate = DateTime.Now;
+            Status = IndividualStatus.Inactive;
+        }
+
+        public void Activate()
+        {
+            Status = IndividualStatus.Active;
+        }
+
+        public void Deactivate()
+        {
             Status = IndividualStatus.Inactive;
         }
     }

@@ -3,7 +3,7 @@ namespace TSMbank.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class PopulateData : DbMigration
+    public partial class PopulateAccTypeAndTransTypes : DbMigration
     {
         public override void Up()
         {
@@ -11,7 +11,7 @@ namespace TSMbank.Migrations
             Sql("INSERT INTO dbo.BankAccountTypes (Description, InterestRate, PeriodicFee, Summary) VALUES (1, 3.5, 50, 'Savings Basic')");
             Sql("INSERT INTO dbo.BankAccountTypes (Description, InterestRate, PeriodicFee, Summary) VALUES (2, 6.5, 100, 'Term Basic')");
             Sql("INSERT INTO dbo.BankAccountTypes (Description, InterestRate, PeriodicFee, Summary) VALUES (0, 0, 25, 'Checking Basic')");
-            Sql("INSERT INTO dbo.BankAccountTypes (Description, InterestRate, PeriodicFee, Summary) VALUES (3, 16, 30, 'Credit Card')");
+            Sql("INSERT INTO dbo.BankAccountTypes (Description, InterestRate, PeriodicFee, Summary) VALUES (3, 16, 30, 'TSM Visa Classic')");
             Sql("INSERT INTO dbo.BankAccountTypes (Description, InterestRate, PeriodicFee, Summary) VALUES (1, 5, 70, 'Savings Gold')");
 
             Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (1, 0, 1, 'Deposit')");
