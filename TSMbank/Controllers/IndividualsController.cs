@@ -64,6 +64,8 @@ namespace TSMbank.Controllers
         {
             var userId = User.Identity.GetUserId();            
             var appUser = context.Users.Find(userId);
+
+
             var modelView = new IndividualFormViewModel()
             {
                 Individual = new Individual()
@@ -126,14 +128,20 @@ namespace TSMbank.Controllers
                 switch (individualViewFormModel.ModificationAction)
                 {
                     case ModificationAction.EditIndividual:
-                        intividualDB.DateOfBirth = individualViewFormModel.Individual.DateOfBirth;
-                        intividualDB.Email = individualViewFormModel.Individual.Email;
-                        intividualDB.FathersName = individualViewFormModel.Individual.FathersName;
-                        intividualDB.FirstName = individualViewFormModel.Individual.FirstName;
-                        intividualDB.IdentificationCardNo = individualViewFormModel.Individual.IdentificationCardNo;
-                        intividualDB.LastName = individualViewFormModel.Individual.LastName;
-                        intividualDB.SSN = individualViewFormModel.Individual.SSN;
-                        intividualDB.VatNumber = individualViewFormModel.Individual.VatNumber;
+
+
+                        intividualDB.Edit(intividualDB, individualViewFormModel.Individual);
+
+
+
+                        //intividualDB.DateOfBirth = individualViewFormModel.Individual.DateOfBirth;
+                        //intividualDB.Email = individualViewFormModel.Individual.Email;
+                        //intividualDB.FathersName = individualViewFormModel.Individual.FathersName;
+                        //intividualDB.FirstName = individualViewFormModel.Individual.FirstName;
+                        //intividualDB.IdentificationCardNo = individualViewFormModel.Individual.IdentificationCardNo;
+                        //intividualDB.LastName = individualViewFormModel.Individual.LastName;
+                        //intividualDB.SSN = individualViewFormModel.Individual.SSN;
+                        //intividualDB.VatNumber = individualViewFormModel.Individual.VatNumber;
                         break;
 
                     case ModificationAction.EditAddresses:
@@ -252,7 +260,10 @@ namespace TSMbank.Controllers
             //var accountType = context.BankAccountTypes.SingleOrDefault(a => a.Id == Id);
 
             // May cause problems (needs refactoring??)
-            var activeBankAccReq = context.BankAccRequests.SingleOrDefault(r => r.BankAccTypeId == id && r.Status == RequestStatus.Pending);
+            var activeBankAccReq = context.BankAccRequests
+                                    .SingleOrDefault(r => r.BankAccTypeId == id && 
+                                    r.Status == RequestStatus.Pending);
+
             if (activeBankAccReq == null)
             {
                 var bankAccReq = new BankAccRequest(individual,RequestType.BankAccActivation, id);

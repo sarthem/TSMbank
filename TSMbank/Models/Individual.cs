@@ -102,5 +102,19 @@ namespace TSMbank.Models
         {
             Status = IndividualStatus.Inactive;
         }
+
+       
+        public void Edit(Individual individualDb, Individual individual)
+        {
+            individualDb.DateOfBirth = individual.DateOfBirth;
+            individualDb.Email = individual.Email;
+            individualDb.FathersName = individual.FathersName;
+            individualDb.FirstName = individual.FirstName;
+            individualDb.IdentificationCardNo = individual.IdentificationCardNo;
+            individualDb.LastName = individual.LastName;
+            individualDb.SSN = individual.SSN;
+            individualDb.VatNumber = individual.VatNumber;
+
+        }
     }
 }
