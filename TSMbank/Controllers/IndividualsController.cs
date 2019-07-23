@@ -77,9 +77,13 @@ namespace TSMbank.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public ActionResult Save(IndividualFormViewModel individualViewFormModel)
         {           
-            var appUser = context.Users.Find(User.Identity.GetUserId());
+            var userId = User.Identity.GetUserId();
+            var appUser = context.Users.Find(userId);
+
+            // Code only for testing/debugging. Fetch modelstate errors.
             var errors = new List<ModelState>();
             foreach (ModelState modelState in ModelState.Values)
             {
@@ -109,17 +113,8 @@ namespace TSMbank.Controllers
                 individual.PrimaryAddress = individualViewFormModel.PrimaryAddress;
                 context.Individuals.Add(individual);
 
-                var userId = User.Identity.GetUserId();
-
-                var petition = new Request()
-                {
-                    IndividualId = userId,
-                    SubmissionDate = DateTime.Now,
-                    Individual = individual,
-                    Status = RequestStatus.Pending,
-                    Type = RequestType.UserAccActivation
-                };
-                context.Requests.Add(petition);
+                var request = new Request(individual, RequestType.UserAccActivation);
+                context.Requests.Add(request);
             }
             else
             {
@@ -250,34 +245,23 @@ namespace TSMbank.Controllers
         }
 
         [HttpPost]
-        public ActionResult BankAccountPetition(byte Id)
+        public ActionResult BankAccountPetition(byte id)
         {
             var userId = User.Identity.GetUserId();
-            var user = context.Individuals.SingleOrDefault(u => u.Id == userId);
-            var accountType = context.BankAccountTypes.SingleOrDefault(a => a.Id == Id);
+            var individual = context.Individuals.SingleOrDefault(u => u.Id == userId);
+            //var accountType = context.BankAccountTypes.SingleOrDefault(a => a.Id == Id);
 
-            var petition = context.BankAccRequests
-                    .SingleOrDefault(r => r.BankAccTypeId == accountType.Id && r.Status == RequestStatus.Pending);
-            if (petition == null)
+            // May cause problems (needs refactoring??)
+            var activeBankAccReq = context.BankAccRequests.SingleOrDefault(r => r.BankAccTypeId == id && r.Status == RequestStatus.Pending);
+            if (activeBankAccReq == null)
             {
-                var request = new BankAccRequest()
-                {
-                    IndividualId = user.Id,
-                    SubmissionDate = DateTime.Now,
-                    Individual = user,
-                    Type = RequestType.BankAccActivation,
-                    Status = RequestStatus.Pending,
-                    BankAccTypeId = Id,
-                    BankAccSummury = accountType.Summary
-                };
-                context.BankAccRequests.Add(request);
+                var bankAccReq = new BankAccRequest(individual,RequestType.BankAccActivation, id);
+                context.BankAccRequests.Add(bankAccReq);
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
             else
-            {
-                return View(petition);
-            }
+                return View(activeBankAccReq);
         }
 
 

@@ -67,7 +67,7 @@ namespace TSMbank.Controllers
         // GET
         public ActionResult New()
         {
-            
+            return View();
         }
     }
 }

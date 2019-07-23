@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using TSMbank.Validations;
 
@@ -29,6 +30,20 @@ namespace TSMbank.Models
             CardType = cardType;
             CreditLimit = creditLimit;
             TransactionAmountLimit = transAmountLimit;
+        }
+
+        public override async Task Approve()
+        {
+            Status = RequestStatus.Approved;
+            var emailnfo = EmailInfo.CreditCardApproved(Individual);
+            await emailnfo.Send();
+        }
+
+        public override async Task Reject()
+        {
+            Status = RequestStatus.Rejected;
+            var emailnfo = EmailInfo.CreditCardRejected(Individual);
+            await emailnfo.Send();
         }
     }
 }

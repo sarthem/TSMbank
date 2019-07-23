@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using TSMbank.Validations;
 
@@ -18,10 +19,8 @@ namespace TSMbank.Models
         public DateTime SubmissionDate { get; set; }
         public RequestType Type { get; set; }
 
-        public Request()
-        {
-
-        }
+        protected Request()
+        {}
 
         public Request(Individual individual, RequestType requestType)
         {
@@ -31,11 +30,20 @@ namespace TSMbank.Models
             Type = requestType;
         }
 
-        public virtual void Approve()
+        public virtual async Task Approve()
         {
             Status = RequestStatus.Approved;
             Individual.Activate();
-            
+            var emailInfo = EmailInfo.AccApproved(Individual);
+            await emailInfo.Send();
+        }
+
+        public virtual async Task Reject()
+        {
+            Status = RequestStatus.Rejected;
+            Individual.Deactivate();
+            var emailInfo = EmailInfo.AccRejected(Individual);
+            await emailInfo.Send();
         }
     }
 }

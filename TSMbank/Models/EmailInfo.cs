@@ -13,7 +13,7 @@ namespace TSMbank.Models
 {
     public class EmailInfo
     {
-        private static readonly EmailAddress TsmBankEmail = new EmailAddress("PetitionDepartment@TSMbank.com", "TSM Bank");
+        private static readonly EmailAddress TsmBankEmail = new EmailAddress("petition.department@tsmbank.com", "TSM Bank");
 
         public int Id { get; set; }
         public string Subject { get; set; }
@@ -38,7 +38,19 @@ namespace TSMbank.Models
                 Individual = individual,
                 Subject = "TSM Bank - Account Activation",
                 PlainTextContent = "Your Petition has been approved.",
-                HtmlContent = $"<p>Dear {individual.FullName},</p><p>Your Petition for Activating your account has been APPROVED! Thank you for choosing TSM Bank."
+                HtmlContent = $"<p>Dear {individual.FullName},</p><p>Your account has been activated! Thank you for choosing TSM Bank.</p>"
+            };
+            return emailInfo;
+        }
+
+        public static EmailInfo AccRejected(Individual individual)
+        {
+            var emailInfo = new EmailInfo()
+            {
+                Individual = individual,
+                Subject = "TSM Bank - Account Activation",
+                PlainTextContent = "Your Petition has been rejected.",
+                HtmlContent = $"<p>Dear {individual.FullName},</p><p>We are sorry to inform you that your account activation petition has been rejected. We apologize for any inconvenience.</p>"
             };
             return emailInfo;
         }
@@ -50,7 +62,7 @@ namespace TSMbank.Models
                 Individual = individual,
                 Subject = "TSM Bank - Bank Account Activation",
                 PlainTextContent = "Your Petition has been approved.",
-                HtmlContent = $"<p>Dear {individual.FullName},</p><p>Your Bank Account has been activated! Thank you for choosing our Bank."
+                HtmlContent = $"<p>Dear {individual.FullName},</p><p>Your Bank Account has been activated! Thank you for choosing TSM Bank.</p>"
             };
             return emailInfo;
         }
@@ -59,20 +71,43 @@ namespace TSMbank.Models
         {
             var emailInfo = new EmailInfo()
             {
-                From = new EmailAddress("PetitionDepartment@TSMbank.com", "TSM Bank"),
-                Subject = "Reply On Bank Account Requets By TSM bank",
-                To = new EmailAddress(individual.Email),
-                PlainTextContent = "Your Petition is rejected",
-                HtmlContent = "Your Petition for BankAccount creation has been REJECTED"
+                Individual = individual,
+                Subject = "TSM Bank - Bank Account Activation",
+                PlainTextContent = "Your Petition has been rejected.",
+                HtmlContent = $"<p>Dear {individual.FullName},</p><p>Your petition for Bank Account activation has been rejected. We apologize for any inconvenience.</p>"
             };
+            return emailInfo;
         }
 
-        public static async Task Send(EmailInfo emailInfo)
+        public static EmailInfo CreditCardApproved(Individual individual)
+        {
+            var emailInfo = new EmailInfo()
+            {
+                Individual = individual,
+                Subject = "TSM Bank - Credit Card Activation",
+                PlainTextContent = "Your Petition has been approved.",
+                HtmlContent = $"<p>Dear {individual.FullName},</p><p>Your new TSM Visa Classic has been activated! Thank you for choosing TSM Bank.</p>"
+            };
+            return emailInfo;
+        }
+
+        public static EmailInfo CreditCardRejected(Individual individual)
+        {
+            var emailInfo = new EmailInfo()
+            {
+                Individual = individual,
+                Subject = "TSM Bank - Credit Card Activation",
+                PlainTextContent = "Your Petition has been rejected.",
+                HtmlContent = $"<p>Dear {individual.FullName},</p><p>We are sorry to inform you that your credit card activation petition has been rejected. We apologize for any inconvenience.</p>"
+            };
+            return emailInfo;
+        }
+
+        public async Task Send()
         {
             var apiKey = Environment.GetEnvironmentVariable("sendGridApiKey");
             var client = new SendGridClient(apiKey);
-            var msg = MailHelper.CreateSingleEmail(From, email.To, email.Subject,
-                email.PlainTextContent, email.HtmlContent);
+            var msg = MailHelper.CreateSingleEmail(TsmBankEmail, new EmailAddress(Individual.Email), Subject, PlainTextContent, HtmlContent);
             var response = await client.SendEmailAsync(msg);
         }
     }

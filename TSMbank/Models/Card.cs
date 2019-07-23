@@ -27,6 +27,7 @@ namespace TSMbank.Models
         [StringLength(16, MinimumLength = 16)]
         [Index(IsUnique = true)]
         public string Number { get; private set; }
+
         public BankAccount BankAccount { get; set; }
 
         protected Card()
