@@ -9,7 +9,5 @@ namespace TSMbank.ViewModels
     {
         public string IndividuaId { get; set; }
         public string IndividualFullName { get; set; }
-
-
     }
 }

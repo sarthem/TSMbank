@@ -9,8 +9,8 @@ namespace TSMbank.Models
 {
     public class Card
     {
-        //[Key]
-        //[ForeignKey("BankAccount")]
+        private const decimal DebitCardTransLimit = 1000.0m;
+        
         public string Id { get; private set; }
 
         public string CardHolderName { get; private set; }
@@ -20,7 +20,7 @@ namespace TSMbank.Models
         public string CVV { get; private set; }
         public decimal TransactionAmountLimit { get; private set; }
         public decimal CreditLimit { get; private set; }
-        public CardType Type { get; private set; }  
+        public CardType Type { get; private set; }
         public CardStatus Status { get; private set; }
 
         [Required]
@@ -28,31 +28,37 @@ namespace TSMbank.Models
         [Index(IsUnique = true)]
         public string Number { get; private set; }
 
-        public BankAccount BankAccount { get; set; }
+        public BankAccount BankAccount { get; private set; }
 
         protected Card()
         {}
 
+        private Card(BankAccount bankAccount, decimal transLimit, decimal creditLimit)
+        {
+            BankAccount = bankAccount ?? throw new NullReferenceException("bankAccount");
+            CardHolderName = bankAccount.Individual.FullName;
+            Brand = "Visa";
+            IssueDate = DateTime.Now;
+            ExpiryDate = DateTime.Now.AddYears(4);
+            CVV = Bank.random.Next(100, 1000).ToString();
+            TransactionAmountLimit = transLimit;
+            CreditLimit = creditLimit;
+            Status = CardStatus.Active;
+            Number = GenerateCardNumber();
+        }
+
         public static Card CreditCard(BankAccount bankAccount, decimal transLimit, decimal creditLimit)
         {
-            if (bankAccount == null)
-                throw new NullReferenceException("bankAccount");
-
-            var creditCard = new Card()
-            {
-                BankAccount = bankAccount,
-                CardHolderName = bankAccount.Individual.FullName,
-                Brand = "Visa",
-                IssueDate = DateTime.Now,
-                ExpiryDate = DateTime.Now.AddYears(4),
-                CVV = Bank.random.Next(100, 1000).ToString(),
-                TransactionAmountLimit = transLimit,
-                CreditLimit = creditLimit,
-                Type = CardType.CreditCard,
-                Status = CardStatus.Active,
-                Number = GenerateCardNumber()
-            };
+            var creditCard = new Card(bankAccount, transLimit, creditLimit);
+            creditCard.Type = CardType.CreditCard;
             return creditCard;
+        }
+
+        public static Card DebitCard(BankAccount bankAccount)
+        {
+            var debitCard = new Card(bankAccount, DebitCardTransLimit, 0);
+            debitCard.Type = CardType.DebitCard;
+            return debitCard;
         }
 
         private static string GenerateCardNumber()

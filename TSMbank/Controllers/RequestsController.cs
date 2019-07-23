@@ -65,7 +65,7 @@ namespace TSMbank.Controllers
 
                     await ((BankAccRequest)request).Reject();
                     context.SaveChanges();
-                    return RedirectToAction("GetRequests", new { status = RequestStatus.Pending });
+                    return RedirectToAction("Index", new { status = RequestStatus.Pending });
 
                 case RequestType.CardActivation:
                     break;
@@ -74,9 +74,18 @@ namespace TSMbank.Controllers
             }
             context.SaveChanges();
 
-            return RedirectToAction("GetRequests", new { status = RequestStatus.Pending });
+            return RedirectToAction("Index", new { status = RequestStatus.Pending });
         }
 
+        [Authorize(Roles = RoleName.Administrator)]
+        public ActionResult CardReqDetails(int id)
+        {
+            var cardReq = context.CardRequests.Include(r => r.Individual).SingleOrDefault(r => r.Id == id);
 
+            if (cardReq == null)
+                return HttpNotFound();
+
+            return View(cardReq);
+        }
     }
 }

@@ -36,7 +36,7 @@ else
                 @if (request is CardRequest)
                 {
                     var cardType = ((CardRequest)request).CardType;
-                    <span>(@cardType)</span>
+                    <a href="/requests/CardReqDetails/@request.Id">(@cardType)</a>
                 }
             </td>
             <td>@request.SubmissionDate</td>

@@ -369,6 +369,7 @@
     <Content Include="Views\Individuals\BankAccountPetition.cshtml" />
     <Content Include="Views\Individuals\AddSecondAddress.cshtml" />
     <Content Include="Views\Cards\CreditCard.cshtml" />
+    <Content Include="Views\Requests\CardReqDetails.cshtml" />
     <None Include="Views\Shared\_navbarMini.cshtml" />
   </ItemGroup>
   <ItemGroup>
