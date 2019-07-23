@@ -11,7 +11,8 @@ namespace TSMbank
             bundles.Add(new ScriptBundle("~/bundles/lib").Include(
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/bootstrap.js",
-                        "~/bootbox.js"));
+                        "~/Scripts/bootbox.js",
+                        "~/Scripts/toastr.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -23,6 +24,7 @@ namespace TSMbank
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-United.css",
+                      "~/Content/toastr.css",
                       "~/Content/site.css"));
         }
     }

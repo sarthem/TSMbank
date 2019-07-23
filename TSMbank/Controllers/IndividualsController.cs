@@ -271,9 +271,9 @@ namespace TSMbank.Controllers
                 };
                 context.BankAccRequests.Add(request);
                 context.SaveChanges();
-
-
-                SignalHub.SendActivation(request);
+                
+                var hubModel = new  {Name = user.FullName, Type = request.Type.ToString()};
+                SignalHub.GetRequest(hubModel);
                 
                 return RedirectToAction("Index");
             }

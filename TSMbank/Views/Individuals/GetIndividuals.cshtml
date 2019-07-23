@@ -83,7 +83,6 @@ else
     @Html.ActionLink("New Customer", "New", "Individuals", null, new { @class = "btn btn-primary" })
 </p>
 @section Scripts {
-    ...
     <script>
        
 
@@ -97,30 +96,27 @@ else
             var connectionId = $.connection.hub.id;
             console.log(connectionId);
 
-            progress.server.hello("Hello from client");
+            //progress.server.hello("Hello from client");
 
-            progress.client.sendActivation = function (message) {
-                console.log(message)
-            };
+            //progress.client.getRequest = function (request) {
+            //    console.log(request);
+            //    toastr.info(`New request created by Customer ${request.individualId}`);
+            //};
 
-            $(document).ready(function () {
-                $('message').fadeOut(5000, function () {
-                    $(this).html(""); //reset label after fadeout
-                });
-            });   
-
-            
         });
 
-        progress.client.send = function (message, test) {
-            console.log(message + test)
-        };
-        progress.client.test = function (message) {
-            console.log(message)
-        };
+        //progress.client.send = function (message, test) {
+        //    console.log(message + test)
+        //};
+        //progress.client.test = function (message) {
+        //    console.log(message)
+        //};
 
-        progress.client.sendActivation = function (message) {
-            console.log(message)
+        progress.client.getRequest = function (request) {
+            
+            let = 'New request created by '+ request.Name +" for a " +request.Type;
+            toastr.info(let);
+            console.log(request);
         };
 
 

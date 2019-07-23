@@ -25,9 +25,10 @@ namespace TSMbank.Hubs
             
         }
 
-        public static void SendActivation(Request request)
+        public static void GetRequest(Object request)
         {
-            hubContext.Clients.All.sendActivation(request);
+            hubContext.Clients.All.getRequest(request);
+            
         }
 
 
