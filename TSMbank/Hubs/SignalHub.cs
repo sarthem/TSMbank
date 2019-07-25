@@ -31,6 +31,11 @@ namespace TSMbank.Hubs
             
         }
 
+        public static void GetTransactions(Object transaction)
+        {
+            hubContext.Clients.All.showTransactions(transaction);
+
+        }
 
 
     }

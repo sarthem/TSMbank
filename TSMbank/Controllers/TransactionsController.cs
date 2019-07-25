@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TSMbank.Hubs;
 using TSMbank.Models;
 using TSMbank.ViewModels;
 
@@ -27,7 +28,12 @@ namespace TSMbank.Controllers
         }
 
 
+        public ActionResult GetTransactions()
+        {
+            var transaction = context.Transactions.OrderByDescending(t => t.ValueDateTime).ToList();
 
+            return View(transaction);
+        }
 
         public ActionResult Details(int id, string accountNumber)
         {
@@ -141,23 +147,24 @@ namespace TSMbank.Controllers
 
                 CreditAccountBalanceAfterTransaction = creditAccount.Balance + transactionView.Amount ,
 
-
-
                 TypeId = transactionType.Id,
                 ApprovedFromBankManager = true,
                 PendingForApproval = false,
                 TransactionApprovedReview = TransactionApprovedReview.Approve,
                 IsCompleted = true,
                 Type = transactionType,
-                
-                
             };
             creditAccount.Balance = transaction.CreditAccountBalanceAfterTransaction;
             debitAccount.Balance = transaction.DebitAccountBalanceAfterTransaction;
 
             context.Transactions.Add(transaction);
-            context.SaveChanges();
+            var transHub = new { DebitAccountNo = debitAccount.AccountNumber,
+                CreditAccountNo = creditAccount.AccountNumber,
+                DebitAmount = transactionView.Amount,
+            Time = transaction.ValueDateTime};
 
+            SignalHub.GetTransactions(transHub);
+            context.SaveChanges();
             return RedirectToAction("Index", new { AccountNumber = transactionView.BankAccountId });
         }
     }

@@ -370,6 +370,7 @@
     <Content Include="Views\Individuals\BankAccountPetition.cshtml" />
     <Content Include="Views\Individuals\AddSecondAddress.cshtml" />
     <None Include="Views\Shared\_navbarMini.cshtml" />
+    <Content Include="Views\Transactions\GetTransactions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
