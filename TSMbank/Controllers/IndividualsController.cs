@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -32,10 +33,10 @@ namespace TSMbank.Controllers
             var appUser = context.Users.Find(User.Identity.GetUserId());
 
             var individual = context.Individuals
-                            .Include(c => c.Phones)
-                            .Include(c => c.PrimaryAddress)
-                            .Include(c => c.BankAccounts)                            
-                            .SingleOrDefault(c => c.Id == appUser.Id);
+                                .Include(c => c.Phones)
+                                .Include(c => c.PrimaryAddress)
+                                .Include(c => c.BankAccounts)                            
+                                .SingleOrDefault(c => c.Id == appUser.Id);
 
             return View("Index", individual);
         }
@@ -45,12 +46,11 @@ namespace TSMbank.Controllers
         public ActionResult GetIndividuals()
         {
             var individuals = context.Individuals
-                            .Include(c => c.Phones)
-                            .Include(c => c.PrimaryAddress)
-                            .Include(c => c.BankAccounts).ToList();
+                                .Include(c => c.Phones)
+                                .Include(c => c.PrimaryAddress)
+                                .Include(c => c.BankAccounts).ToList();
 
             return View(individuals);
-
         }
 
         // GET: Individuals/newIndividuals
@@ -64,14 +64,14 @@ namespace TSMbank.Controllers
         {
             var userId = User.Identity.GetUserId();            
             var appUser = context.Users.Find(userId);
+
             var modelView = new IndividualFormViewModel()
             {
-                Individual = new Individual()
-                {
-                    Email = appUser.Email
-                },
+                Individual = new Individual(),                
                 ModificationAction = ModificationAction.NewIndividual,
             };
+            modelView.Individual.SetEmail(appUser);
+
             return View("IndividualForm", modelView);
         }
 
@@ -81,7 +81,7 @@ namespace TSMbank.Controllers
         public ActionResult Save(IndividualFormViewModel individualViewFormModel)
         {           
             var userId = User.Identity.GetUserId();
-            var appUser = context.Users.Find(userId);
+            var appUser = context.Users.Single(a => a.Id == userId);
 
             // Code only for testing/debugging. Fetch modelstate errors.
             var errors = new List<ModelState>();
@@ -95,30 +95,26 @@ namespace TSMbank.Controllers
 
             if (!ModelState.IsValid)
             {
-                var viewModel = new IndividualFormViewModel()
-                {
-                    Individual = individualViewFormModel.Individual,
-                    Phones = individualViewFormModel.Phones,
-                    PrimaryAddress = individualViewFormModel.PrimaryAddress
-                };
+                var viewModel = new IndividualFormViewModel(individualViewFormModel);
+                
                 return View("IndividualForm", viewModel);
             }
 
             if (individualViewFormModel.IndividualId == null)
             {
-                var individual = individualViewFormModel.Individual;
-                individual.Id = appUser.Id;
-                appUser.RegisterCompletion = true;                
-                individual.Phones = individualViewFormModel.Phones;
-                individual.PrimaryAddress = individualViewFormModel.PrimaryAddress;
-                context.Individuals.Add(individual);
+                //var individual = Mapper.Map<IndividualFormViewModel, Individual>(individualViewFormModel);
+                //var individual2 = Mapper.Map<Individual, Individual>(individualViewFormModel.Individual);
+                var individual = new Individual(individualViewFormModel.Individual, appUser);
+                individual.New(individualViewFormModel);
+                appUser.RegisterCompletion = true;
 
+                context.Individuals.Add(individual);
                 var request = new Request(individual, RequestType.UserAccActivation);
                 context.Requests.Add(request);
             }
             else
             {
-                var intividualDB = context.Individuals.Include(c => c.Phones)
+                var individualDB = context.Individuals.Include(c => c.Phones)
                                                     .Include(c => c.PrimaryAddress)
                                                     .Include(c => c.SecondaryAddress)                                                    
                                                     .SingleOrDefault(c => c.Id == individualViewFormModel.IndividualId);
@@ -126,37 +122,27 @@ namespace TSMbank.Controllers
                 switch (individualViewFormModel.ModificationAction)
                 {
                     case ModificationAction.EditIndividual:
-                        intividualDB.DateOfBirth = individualViewFormModel.Individual.DateOfBirth;
-                        intividualDB.Email = individualViewFormModel.Individual.Email;
-                        intividualDB.FathersName = individualViewFormModel.Individual.FathersName;
-                        intividualDB.FirstName = individualViewFormModel.Individual.FirstName;
-                        intividualDB.IdentificationCardNo = individualViewFormModel.Individual.IdentificationCardNo;
-                        intividualDB.LastName = individualViewFormModel.Individual.LastName;
-                        intividualDB.SSN = individualViewFormModel.Individual.SSN;
-                        intividualDB.VatNumber = individualViewFormModel.Individual.VatNumber;
+                        individualDB.Edit(individualViewFormModel.Individual);
                         break;
 
                     case ModificationAction.EditAddresses:
-                        intividualDB.PrimaryAddress.City = individualViewFormModel.PrimaryAddress.City;
-                        intividualDB.PrimaryAddress.Country = individualViewFormModel.PrimaryAddress.Country;
-                        intividualDB.PrimaryAddress.PostalCode = individualViewFormModel.PrimaryAddress.PostalCode;
-                        intividualDB.PrimaryAddress.Region = individualViewFormModel.PrimaryAddress.Region;
-                        intividualDB.PrimaryAddress.Street = individualViewFormModel.PrimaryAddress.Street;
-                        intividualDB.PrimaryAddress.StreetNumber = individualViewFormModel.PrimaryAddress.StreetNumber;
+                        individualDB.PrimaryAddress.Edit(individualViewFormModel.PrimaryAddress);  
+                        if (individualDB.SecondaryAddress != null)
+                        {
+                            individualDB.SecondaryAddress.Edit(individualViewFormModel.SecondaryAddress);
+                        }
                         break;
 
                     case ModificationAction.EditPhones:
-                        for (int i = 0; i < intividualDB.Phones.Count; i++)
-                        {
-                            intividualDB.Phones.ElementAt(i).CountryCode = individualViewFormModel.Phones[i].CountryCode;
-                            intividualDB.Phones.ElementAt(i).PhoneNumber = individualViewFormModel.Phones[i].PhoneNumber;
-                            intividualDB.Phones.ElementAt(i).PhoneType = individualViewFormModel.Phones[i].PhoneType;
+                        for (int i = 0; i < individualDB.Phones.Count; i++)
+                        {                            
+                            individualDB.Phones.ElementAt(i).Edit(individualViewFormModel.Phones[i]);
                         }
-                        if(intividualDB.Phones.Count < individualViewFormModel.Phones.Count)
+                        if(individualDB.Phones.Count < individualViewFormModel.Phones.Count)
                         {
-                            for (int j = intividualDB.Phones.Count; j < individualViewFormModel.Phones.Count; j++)
+                            for (int j = individualDB.Phones.Count; j < individualViewFormModel.Phones.Count; j++)
                             {
-                                intividualDB.Phones.Add(individualViewFormModel.Phones[j]);
+                                individualDB.Phones.Add(individualViewFormModel.Phones[j]);
                             }
                         }
                         break;
@@ -165,6 +151,7 @@ namespace TSMbank.Controllers
                 }
             }
             context.SaveChanges();
+            if(User.IsInRole(RoleName.Administrator)) return RedirectToAction("GetIndividuals");
             return RedirectToAction("Index");
         }
 
@@ -180,13 +167,8 @@ namespace TSMbank.Controllers
             if (individual == null)
                 return HttpNotFound();
 
-            var viewModel = new IndividualFormViewModel
+            var viewModel = new IndividualFormViewModel(individual)
             {
-                Phones = individual.Phones.ToList(),
-                PrimaryAddress = individual.PrimaryAddress,
-                SecondaryAddress = individual.SecondaryAddress,
-                Individual = individual,                
-                IndividualId = individual.Id,
                 ModificationAction = (ModificationAction)Enum.Parse(typeof(ModificationAction), modify.ToString())
             };
             return View("IndividualForm", viewModel);
@@ -252,7 +234,10 @@ namespace TSMbank.Controllers
             //var accountType = context.BankAccountTypes.SingleOrDefault(a => a.Id == Id);
 
             // May cause problems (needs refactoring??)
-            var activeBankAccReq = context.BankAccRequests.SingleOrDefault(r => r.BankAccTypeId == id && r.Status == RequestStatus.Pending);
+            var activeBankAccReq = context.BankAccRequests
+                                    .SingleOrDefault(r => r.BankAccTypeId == id && 
+                                    r.Status == RequestStatus.Pending);
+
             if (activeBankAccReq == null)
             {
                 var bankAccReq = new BankAccRequest(individual,RequestType.BankAccActivation, id);
@@ -263,7 +248,6 @@ namespace TSMbank.Controllers
             else
                 return View(activeBankAccReq);
         }
-
 
         public ActionResult AddSecondAddress()
         {
@@ -277,20 +261,13 @@ namespace TSMbank.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var viewModel = new Address()
-                {
-                    City = address.City,
-                    Country = address.Country,
-                    PostalCode = address.PostalCode,
-                    Region = address.Region,
-                    Street = address.Street,
-                    StreetNumber = address.StreetNumber
-                };
+                var viewModel = new Address(address);               
                 return View("AddSecondAddress", viewModel);
             }
             var userId = User.Identity.GetUserId();
             var user = context.Individuals             
                         .SingleOrDefault(u => u.Id == userId);
+
             user.SecondaryAddress = address;
             context.SaveChanges();   
 

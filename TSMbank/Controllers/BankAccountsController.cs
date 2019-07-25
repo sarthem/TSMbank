@@ -58,7 +58,6 @@ namespace TSMbank.Controllers
         [Authorize]
         public ActionResult NewAccountRequest(int requestId)
         {
-
             var bankAccReq = context.BankAccRequests.Include(r => r.Individual).SingleOrDefault(r => r.Id == requestId);
 
             var viewModel = new BankAccountFormViewModel()
@@ -90,7 +89,6 @@ namespace TSMbank.Controllers
                 BankAccount = bankAccount,
                 BankAccountTypes = context.BankAccountTypes.ToList(),
                 IndividualFullName = bankAccount.Individual.FullName
-
             };
 
             return View("BankAccountForm", viewModel);
@@ -143,7 +141,11 @@ namespace TSMbank.Controllers
                 bankAccount.StatusUpdatedDateTime = DateTime.Now;                   
                 context.BankAccounts.Add(bankAccount);
 
-                var request = context.BankAccRequests.Include(r => r.Individual).Single(r => r.IndividualId == bankAccount.IndividualId && r.Status == RequestStatus.Processing);
+                var request = context.BankAccRequests
+                                .Include(r => r.Individual)
+                                .Single(r => r.IndividualId == bankAccount.IndividualId
+                                && r.Status == RequestStatus.Processing);
+
                 await request.Approve();
             }
             else

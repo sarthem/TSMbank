@@ -43,6 +43,29 @@ namespace TSMbank.Models
             }
         }
 
-       
+        public Address(Address address)
+        {
+            City = address.City;
+            Country = address.Country;
+            PostalCode = address.PostalCode;
+            Region = address.Region;
+            Street = address.Street;
+            StreetNumber = address.StreetNumber;   
+        }
+
+        public Address()
+        {}
+
+
+        public void Edit(Address address)
+        {
+            City = address.City;
+            Country = address.Country;
+            PostalCode = address.PostalCode;
+            Region = address.Region;
+            Street = address.Street;
+            StreetNumber = address.StreetNumber;
+        }
+
     }
 }

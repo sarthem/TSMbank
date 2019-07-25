@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using TSMbank.Dtos;
 using TSMbank.Models;
+using TSMbank.ViewModels;
 
 namespace TSMbank.App_Start
 {
@@ -18,6 +19,10 @@ namespace TSMbank.App_Start
             CreateMap<BankAccountTypeDto, BankAccountType>();   
             CreateMap<Individual, IndividualDto>();
             CreateMap<IndividualDto, Individual>();
+            //CreateMap<IndividualFormViewModel, Individual>();
+            //CreateMap<Individual, IndividualFormViewModel>();
+            //CreateMap<Individual, Individual>();
         }
+    
     }
 }
