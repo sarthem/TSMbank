@@ -44,7 +44,12 @@ namespace TSMbank.Models
             }
         }
 
-
+        public void Edit(Phone phone)
+        {
+            CountryCode = phone.CountryCode;
+            PhoneNumber = phone.PhoneNumber;
+            PhoneType = phone.PhoneType;
+        }
 
 
 

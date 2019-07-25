@@ -129,87 +129,123 @@
     }
     if (Model.ModificationAction == ModificationAction.EditAddresses)
     {
-
-        <h3>Secondary Address</h3>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.SecondaryAddress.Street)
-                    @Html.TextBoxFor(m => m.SecondaryAddress.Street, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.SecondaryAddress.Street)
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.SecondaryAddress.StreetNumber)
-                    @Html.TextBoxFor(m => m.SecondaryAddress.StreetNumber, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.SecondaryAddress.StreetNumber)
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.SecondaryAddress.Region)
-                    @Html.TextBoxFor(m => m.SecondaryAddress.Region, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.SecondaryAddress.Region)
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.SecondaryAddress.City)
-                    @Html.TextBoxFor(m => m.SecondaryAddress.City, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.SecondaryAddress.City)
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.SecondaryAddress.Country)
-                    @Html.TextBoxFor(m => m.SecondaryAddress.Country, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.SecondaryAddress.Country)
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.SecondaryAddress.PostalCode)
-                    @Html.TextBoxFor(m => m.SecondaryAddress.PostalCode, new { @maxlength = "5", @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.SecondaryAddress.PostalCode)
-                </div>
-            </div>
-        </div>
-    }
-    if (Model.ModificationAction == ModificationAction.NewIndividual)/* || Model.ModificationAction == ModificationAction.EditPhones)*/
-    {
-        <h3>Phone Numbers</h3>
-
-        <div id="section-phones">
+        if (Model.SecondaryAddress != null)
+        {
+            <h3>Secondary Address</h3>
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label for="Phones_0__CountryCode">CountryCode</label>
-                        <input class="form-control" id="Phones_0__CountryCode" name="Phones[0].CountryCode" type="text">
+                        @Html.LabelFor(m => m.SecondaryAddress.Street)
+                        @Html.TextBoxFor(m => m.SecondaryAddress.Street, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.SecondaryAddress.Street)
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label for="Phones_0__PhoneType">PhoneType</label>
-                        <select class="form-control" data-val="true" data-val-required="The PhoneType field is required."
-                                id="Phones_0__PhoneType" name="Phones[0].PhoneType">
-                            <option value="0">Mobile</option>
-                            <option value="1">Home</option>
-                            <option value="2">Work</option>
-                        </select>
+                        @Html.LabelFor(m => m.SecondaryAddress.StreetNumber)
+                        @Html.TextBoxFor(m => m.SecondaryAddress.StreetNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.SecondaryAddress.StreetNumber)
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label for="Phones_0__PhoneNumber">PhoneNumber</label>
-                        <input class="form-control" id="Phones_0__PhoneNumber" name="Phones[0].PhoneNumber" type="text">
+                        @Html.LabelFor(m => m.SecondaryAddress.Region)
+                        @Html.TextBoxFor(m => m.SecondaryAddress.Region, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.SecondaryAddress.Region)
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SecondaryAddress.City)
+                        @Html.TextBoxFor(m => m.SecondaryAddress.City, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.SecondaryAddress.City)
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SecondaryAddress.Country)
+                        @Html.TextBoxFor(m => m.SecondaryAddress.Country, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.SecondaryAddress.Country)
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.SecondaryAddress.PostalCode)
+                        @Html.TextBoxFor(m => m.SecondaryAddress.PostalCode, new { @maxlength = "5", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.SecondaryAddress.PostalCode)
+                    </div>
+                </div>
+            </div>
+        }
 
+
+    }
+    if (Model.ModificationAction == ModificationAction.NewIndividual)
+    {
+        if (Model.Phones == null)
+        {
+            <h3>Phone Numbers</h3>
+
+            <div id="section-phones">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="Phones_0__CountryCode">CountryCode</label>
+                            <input class="form-control" id="Phones_0__CountryCode" name="Phones[0].CountryCode" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="Phones_0__PhoneType">PhoneType</label>
+                            <select class="form-control" data-val="true" data-val-required="The PhoneType field is required."
+                                    id="Phones_0__PhoneType" name="Phones[0].PhoneType">
+                                <option value="0">Mobile</option>
+                                <option value="1">Home</option>
+                                <option value="2">Work</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="Phones_0__PhoneNumber">PhoneNumber</label>
+                            <input class="form-control" id="Phones_0__PhoneNumber" name="Phones[0].PhoneNumber" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            for (int i = 0; i < Model.Phones.Count; i++)
+            {
+                <div class="row">
+                    @Html.HiddenFor(m => Model.Phones[i].Id)
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Phones[i].CountryCode)
+                            @Html.TextBoxFor(m => Model.Phones[i].CountryCode, new { @maxlength = "4", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.Phones[i].CountryCode)
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Phones[i].PhoneType)
+                            @Html.EnumDropDownListFor(m => Model.Phones[i].PhoneType, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.Phones[i].PhoneType)
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Phones[i].PhoneNumber)
+                            @Html.TextBoxFor(m => Model.Phones[i].PhoneNumber, new { @maxlength = "10", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.Phones[i].PhoneNumber)
+                        </div>
+                    </div>
+                </div>
+            }
+        }
     }
     if (Model.ModificationAction == ModificationAction.EditPhones)
     {
@@ -244,13 +280,13 @@
                 </div>
             }
 
-            <input type="button" value="Add new Phone" class="btn btn-primary" id="add-phone" />
         </div>
     }
-    else
+    if (Model.ModificationAction == ModificationAction.NewIndividual || Model.ModificationAction == ModificationAction.EditPhones)
     {
         <input type="button" value="Add new Phone" class="btn btn-primary" id="add-phone" />
     }
+
     <button type="submit" class="btn btn-primary">Save</button>
 }
 
@@ -258,43 +294,44 @@
 {
     <script>
         let idx = 1;
+       
         document.getElementById("add-phone").addEventListener("click", function () {
-
             let sectionPhones = document.getElementById("section-phones");
             var fieldset = document.createElement("div");
             fieldset.classList.add("row");
-
-            fieldset.innerHTML =
-
-                `<div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="Phones_${idx}__CountryCode">CountryCode</label>
-                                        <input class="form-control" id="Phones_${idx}__CountryCode" name="Phones[${idx}].CountryCode" type="text"
-                                                value>
-                                    </div>
+            if (idx < 4) {
+                fieldset.innerHTML =
+                    `<div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="Phones_${idx}__CountryCode">CountryCode</label>
+                                    <input class="form-control" id="Phones_${idx}__CountryCode" name="Phones[${idx}].CountryCode" type="text"
+                                            value>
                                 </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="Phones_${idx}__PhoneType">PhoneType</label>
-                                        <select class="form-control" data-val="true" data-val-required="The PhoneType field is required."
-                                                id="Phones_${idx}__PhoneType" name="Phones[${idx}].PhoneType">
-                                            <option value="0">Mobile</option>
-                                            <option value="1">Home</option>
-                                            <option value="2">Work</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="Phones_${idx}__PhoneType">PhoneType</label>
+                                    <select class="form-control" data-val="true" data-val-required="The PhoneType field is required."
+                                            id="Phones_${idx}__PhoneType" name="Phones[${idx}].PhoneType">
+                                        <option value="0">Mobile</option>
+                                        <option value="1">Home</option>
+                                        <option value="2">Work</option>
+                                    </select>
                                 </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <label for="Phones_${idx}__PhoneNumber">PhoneNumber</label>
-                                        <input class="form-control" id="Phones_${idx}__PhoneNumber" name="Phones[${idx}].PhoneNumber" type="text"
-                                                value>
-                                    </div>
-                                </div>`;
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="Phones_${idx}__PhoneNumber">PhoneNumber</label>
+                                    <input class="form-control" id="Phones_${idx}__PhoneNumber" name="Phones[${idx}].PhoneNumber" type="text"
+                                            value>
+                                </div>
+                            </div>`;
 
-            sectionPhones.appendChild(fieldset);
-            idx++;
-        });
+                sectionPhones.appendChild(fieldset);
+                idx++;
+            };
+                
+        });     
     </script>
 
 }

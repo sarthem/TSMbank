@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using TSMbank.ViewModels;
 
 namespace TSMbank.Models
 {
@@ -86,12 +87,31 @@ namespace TSMbank.Models
         //new code
         public ApplicationUser User { get; set; }
         
-
+       
+       
+              
         public Individual()
         {
             CreatedDate = DateTime.Now;
             Status = IndividualStatus.Inactive;
         }
+
+        public Individual(Individual model , ApplicationUser User)
+        {
+            FathersName = model.FathersName;            
+            DateOfBirth = model.DateOfBirth;
+            FathersName = model.FathersName;
+            FirstName = model.FirstName;            
+            IdentificationCardNo = model.IdentificationCardNo;
+            LastName = model.LastName;
+            SSN = model.SSN;
+            VatNumber = model.VatNumber; 
+            Id = User.Id;
+            CreatedDate = DateTime.Now;
+            Status = IndividualStatus.Inactive;
+            Email = User.Email;
+        }
+
 
         public void Activate()
         {
@@ -103,18 +123,28 @@ namespace TSMbank.Models
             Status = IndividualStatus.Inactive;
         }
 
-       
-        public void Edit(Individual individualDb, Individual individual)
+        public void New(IndividualFormViewModel individual)
         {
-            individualDb.DateOfBirth = individual.DateOfBirth;
-            individualDb.Email = individual.Email;
-            individualDb.FathersName = individual.FathersName;
-            individualDb.FirstName = individual.FirstName;
-            individualDb.IdentificationCardNo = individual.IdentificationCardNo;
-            individualDb.LastName = individual.LastName;
-            individualDb.SSN = individual.SSN;
-            individualDb.VatNumber = individual.VatNumber;
+            Phones = individual.Phones;
+            PrimaryAddress = individual.PrimaryAddress;
+        }
 
+
+        public void Edit(Individual individual)
+        {
+            DateOfBirth = individual.DateOfBirth;
+            Email = individual.Email;
+            FathersName = individual.FathersName;
+            FirstName = individual.FirstName;
+            IdentificationCardNo = individual.IdentificationCardNo;
+            LastName = individual.LastName;
+            SSN = individual.SSN;
+            VatNumber = individual.VatNumber;
+        }
+
+        public void SetEmail(ApplicationUser User)
+        {
+            Email = User.Email;
         }
     }
 }
