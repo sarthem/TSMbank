@@ -252,29 +252,29 @@
         <h3>Edit or Add a phone</h3>
         <div id="section-phones">
 
-            @for (int i = 0; i < Model.Phones.Count; i++)
+            @for (int j = 0; j < Model.Phones.Count; j++)
             {
                 <div class="row">
-                    @Html.HiddenFor(m => Model.Phones[i].Id)
+                    @Html.HiddenFor(m => Model.Phones[j].Id)
                     <div class="col-sm-3">
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.Phones[i].CountryCode)
-                            @Html.TextBoxFor(m => Model.Phones[i].CountryCode, new { @maxlength = "4", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => Model.Phones[i].CountryCode)
+                            @Html.LabelFor(m => Model.Phones[j].CountryCode)
+                            @Html.TextBoxFor(m => Model.Phones[j].CountryCode, new { @maxlength = "4", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.Phones[j].CountryCode)
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.Phones[i].PhoneType)
-                            @Html.EnumDropDownListFor(m => Model.Phones[i].PhoneType, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => Model.Phones[i].PhoneType)
+                            @Html.LabelFor(m => Model.Phones[j].PhoneType)
+                            @Html.EnumDropDownListFor(m => Model.Phones[j].PhoneType, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.Phones[j].PhoneType)
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.Phones[i].PhoneNumber)
-                            @Html.TextBoxFor(m => Model.Phones[i].PhoneNumber, new { @maxlength = "10", @class = "form-control" })
-                            @Html.ValidationMessageFor(m => Model.Phones[i].PhoneNumber)
+                            @Html.LabelFor(m => Model.Phones[j].PhoneNumber)
+                            @Html.TextBoxFor(m => Model.Phones[j].PhoneNumber, new { @maxlength = "10", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.Phones[j].PhoneNumber)
                         </div>
                     </div>
                 </div>
@@ -293,7 +293,7 @@
 @section scripts
 {
     <script>
-        let idx = 1;
+        let idx = @Model.Phones.Count;
        
         document.getElementById("add-phone").addEventListener("click", function () {
             let sectionPhones = document.getElementById("section-phones");
