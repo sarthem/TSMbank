@@ -95,12 +95,15 @@ namespace TSMbank.Models
         {
             CreatedDate = DateTime.Now;
             Status = IndividualStatus.Inactive;
+            Phones = new Collection<Phone>();
+            BankAccounts = new Collection<BankAccount>();
         }
 
         public Individual(string fathersName, DateTime dateOfBirth, string firstName, string lastName,
             string identificationCardNo, string sSN, string vatNumber, string id,  string email, Collection<Phone> phones,
             Address address)
         {
+<<<<<<< HEAD
             
             FathersName = fathersName;
             DateOfBirth = dateOfBirth;
@@ -117,8 +120,23 @@ namespace TSMbank.Models
             PrimaryAddress = address;
 
 
+=======
+            FathersName = model.FathersName;            
+            DateOfBirth = model.DateOfBirth;
+            FathersName = model.FathersName;
+            FirstName = model.FirstName;            
+            IdentificationCardNo = model.IdentificationCardNo;
+            LastName = model.LastName;
+            SSN = model.SSN;
+            VatNumber = model.VatNumber;
+            Id = User.Id;
+            CreatedDate = DateTime.Now;
+            Status = IndividualStatus.Inactive;
+            Email = User.Email;
+            Phones = new Collection<Phone>();
+            BankAccounts = new Collection<BankAccount>();
+>>>>>>> master
         }
-
 
         public void Activate()
         {

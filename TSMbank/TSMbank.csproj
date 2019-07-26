@@ -359,6 +359,10 @@
     <Content Include="Views\Cards\CreditCard.cshtml" />
     <Content Include="Views\Requests\CardReqDetails.cshtml" />
     <Content Include="Views\Requests\BankAccReqDetails.cshtml" />
+<<<<<<< HEAD
+=======
+    <Content Include="Views\Requests\UserAccReqDetails.cshtml" />
+>>>>>>> master
     <None Include="Views\Shared\_navbarMini.cshtml" />
   </ItemGroup>
   <ItemGroup>

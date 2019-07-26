@@ -22,7 +22,7 @@ namespace TSMbank.Models
         public CardType CardType { get; set; }
 
         protected CardRequest()
-        {}
+        { }
 
         public CardRequest(Individual individual, RequestType requestType, decimal creditLimit, decimal transAmountLimit, CardType cardType)
             : base(individual, requestType)
@@ -34,6 +34,9 @@ namespace TSMbank.Models
 
         public override async Task Approve()
         {
+            var creditCardAcc = BankAccount.CreditCardAccount(Individual);
+            var creditCard = Card.CreditCard(creditCardAcc, TransactionAmountLimit, CreditLimit);
+            Individual.BankAccounts.Add(creditCardAcc);
             Status = RequestStatus.Approved;
             var emailnfo = EmailInfo.CreditCardApproved(Individual);
             await emailnfo.Send();
@@ -44,6 +47,11 @@ namespace TSMbank.Models
             Status = RequestStatus.Rejected;
             var emailnfo = EmailInfo.CreditCardRejected(Individual);
             await emailnfo.Send();
+        }
+
+        public override string TypeInfo()
+        {
+            return CardType.ToString();
         }
     }
 }

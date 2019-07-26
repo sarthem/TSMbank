@@ -6,7 +6,11 @@
 @{
 
     ViewBag.Title = "Index";
+<<<<<<< HEAD
     if(Model == null && User.IsInRole("Customer"))
+=======
+    if (Model == null && User.IsInRole(RoleName.Customer))
+>>>>>>> master
     {
         Layout = "~/Views/Individuals/_Layout.cshtml";
     }
@@ -14,8 +18,11 @@
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
+<<<<<<< HEAD
 
     
+=======
+>>>>>>> master
 }
 
 <h2>Customers</h2>

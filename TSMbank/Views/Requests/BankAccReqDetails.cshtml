@@ -1,4 +1,5 @@
 ﻿@model TSMbank.Models.BankAccRequest
+<<<<<<< HEAD
 @using TSMbank.Models;
 @{
     ViewBag.Title = "CreditCardReqDetails";
@@ -6,12 +7,33 @@
 
 <div class="panel panel-default u-margin-top-small">
     <div class="panel-heading">Card Activation Request</div>
+=======
+@using TSMbank.Models
+@{
+    ViewBag.Title = "BankAccReqDetails";
+}
+
+<div class="panel panel-default u-margin-top-small">
+    <div class="panel-heading">Bank Account Activation Request</div>
+>>>>>>> master
     <div class="panel-body">
         <p><label>Request id:</label><span>@Model.Id</span></p>
         <p><label>Customer Id:</label><span>@Model.IndividualId</span></p>
         <p><label>Customer Name:</label><span>@Model.Individual.FullName</span></p>
+<<<<<<< HEAD
         <p><label>Bank Account Type:</label><span>@Model.BankAccType</span></p>        
         @Html.ActionLink("Approve", "Handle", "Requests", new { id = Model.Id, requestStatus = RequestStatus.Approved }, new { @class = "btn btn-primary" })
         @Html.ActionLink("Reject", "Handle", "Requests", new { id = Model.Id, requestStatus = RequestStatus.Rejected }, new { @class = "btn btn-primary u-margin-left-small" })
     </div>
 </div>
+=======
+        <p><label>Bank Account Type:</label><span>@Model.BankAccType.Description</span></p>
+        <p><label>Product:</label><span>@Model.BankAccType.Summary</span></p>
+        <p><label>Interest Rate:</label><span>@Model.BankAccType.InterestRate</span></p>
+        <p><label>Periodic Fee:</label><span>@Model.BankAccType.PeriodicFee</span></p>
+        @Html.ActionLink("Approve", "Handle", "Requests", new { id = Model.Id, requestStatus = RequestStatus.Approved }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Reject", "Handle", "Requests", new { id = Model.Id, requestStatus = RequestStatus.Rejected }, new { @class = "btn btn-primary u-margin-left-small" })
+    </div>
+</div>
+
+>>>>>>> master

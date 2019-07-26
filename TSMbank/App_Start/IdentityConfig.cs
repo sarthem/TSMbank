@@ -32,7 +32,10 @@ namespace TSMbank
 
         private async Task configSendGridasync(IdentityMessage message)
         {
+<<<<<<< HEAD
             //var apiKey = Environment.GetEnvironmentVariable("sendGridApiKey");
+=======
+>>>>>>> master
             var apiKey = Environment.GetEnvironmentVariable("sendGridApiKey", EnvironmentVariableTarget.User);
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("RegistrationDepartment@TSMbank.com", "TSM Bank");

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
+using TSMbank.Controllers;
 using TSMbank.Validations;
 
 namespace TSMbank.Models
@@ -19,8 +22,36 @@ namespace TSMbank.Models
         public DateTime SubmissionDate { get; set; }
         public RequestType Type { get; set; }
 
+        public string Action
+        {
+            get
+            {
+                Expression<Func<RequestsController, ActionResult>> userAccReqDetails = (c => c.UserAccReqDetails(Id));
+                Expression<Func<RequestsController, ActionResult>> bankAccReqDetails = (c => c.BankAccReqDetails(Id));
+                Expression<Func<RequestsController, ActionResult>> cardReqDetails = (c => c.CardReqDetails(Id));
+                Expression<Func<RequestsController, ActionResult>> action = null;
+                switch (Type)
+                {
+                    case RequestType.UserAccActivation:
+                        action = userAccReqDetails;
+                        break;
+                    case RequestType.BankAccActivation:
+                        action = bankAccReqDetails;
+                        break;
+                    case RequestType.CardActivation:
+                        action = cardReqDetails;
+                        break;
+                    case RequestType.LoanActivation:
+                        break;
+                    default:
+                        break;
+                }
+                return (action.Body as MethodCallExpression).Method.Name;
+            }
+        }
+
         protected Request()
-        {}
+        { }
 
         public Request(Individual individual, RequestType requestType)
         {
@@ -44,6 +75,11 @@ namespace TSMbank.Models
             Individual.Deactivate();
             var emailInfo = EmailInfo.AccRejected(Individual);
             await emailInfo.Send();
+        }
+
+        public virtual string TypeInfo()
+        {
+            return "Customer activation";
         }
     }
 }
