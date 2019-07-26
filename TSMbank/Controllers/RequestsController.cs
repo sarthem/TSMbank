@@ -68,6 +68,8 @@ namespace TSMbank.Controllers
                     return RedirectToAction("Index", new { status = RequestStatus.Pending });
 
                 case RequestType.CardActivation:
+                    var cardRequest = (CardRequest) request;
+
                     break;
                 default:
                     break;

@@ -8,7 +8,7 @@ namespace TSMbank.Models
 {
    public class BankAccRequest : Request
     {
-        public int BankAccTypeId { get; set; }
+        public byte BankAccTypeId { get; set; }
         public BankAccountType BankAccType { get; set; }
         //public string BankAccSummary { get; set; }
 
@@ -21,7 +21,7 @@ namespace TSMbank.Models
             BankAccType = bankAccType;
         }
 
-        public BankAccRequest(Individual individual, RequestType requestType, int bankAccTypeId)
+        public BankAccRequest(Individual individual, RequestType requestType, byte bankAccTypeId)
             : base(individual, requestType)
         {
             BankAccTypeId = bankAccTypeId;

@@ -64,6 +64,10 @@ namespace TSMbank.Models
                         .WithRequired(c => c.BankAccount)
                         .WillCascadeOnDelete(false);
 
+            //modelBuilder.Entity<BankAccountType>()
+            //            .Property(t => t.Id)
+            //            .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
+
             base.OnModelCreating(modelBuilder);
         }
 
