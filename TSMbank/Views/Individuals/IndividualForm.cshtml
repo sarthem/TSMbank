@@ -179,12 +179,10 @@
                 </div>
             </div>
         }
-
-
     }
     if (Model.ModificationAction == ModificationAction.NewIndividual)
     {
-        if (Model.Phones == null)
+        if (Model.Phones.Count() == 0)
         {
             <h3>Phone Numbers</h3>
 
@@ -293,7 +291,12 @@
 @section scripts
 {
     <script>
-        let idx = @Model.Phones.Count;
+        let idx;
+        if (@Model.Phones.Count() === 0) {
+            idx = 1;
+        } else {
+            idx = @Model.Phones.Count();
+        }
        
         document.getElementById("add-phone").addEventListener("click", function () {
             let sectionPhones = document.getElementById("section-phones");
