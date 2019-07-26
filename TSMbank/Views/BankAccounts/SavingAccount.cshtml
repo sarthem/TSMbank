@@ -52,7 +52,7 @@
     <section class="indent-2">
         <div id="reveal-gold" style="display:none">
             <div class="jumbotron b">
-                <h2>Checking Account</h2>
+                <h2>Savings Gold</h2>
                 <p>
                     <ul>
                         <li>Capital protection</li>
@@ -129,16 +129,7 @@
                     dataType: 'json',
                         data.forEach(t => accountTypes.push(t));
                     basicAccId = accountTypes.find(t => t.id == 2).id;
-                    goldAccId = accountTypes.find(t => t.id == 6).id;
-                    //let goldId = accountTypes.filter(function (type) {
-                    //    return type.id == 6;
-                    //})
-                    //let basicId = accountTypes.filter(function (type) {
-                    //    return type.id == 2;
-                    //})
-
-                    //$('#basicId').attr("href", `/individuals/BankAccountPetition?id=${basicId[0].id}`)
-                    //$('#GoldId').attr("href", `/individuals/BankAccountPetition?id=${goldId[0].id}`)
+                    goldAccId = accountTypes.find(t => t.id == 6).id;                    
                 }
             });
 

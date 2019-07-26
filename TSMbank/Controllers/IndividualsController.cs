@@ -67,7 +67,8 @@ namespace TSMbank.Controllers
 
             var modelView = new IndividualFormViewModel()
             {
-                Individual = new Individual(),                
+                Individual = new Individual(),  
+                Phones = new List<Phone>(),                
                 ModificationAction = ModificationAction.NewIndividual,
             };
             modelView.Individual.SetEmail(appUser);

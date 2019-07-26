@@ -10,7 +10,7 @@
 </head>
 <body>   
     <div>
-        @if (User.IsInRole("Customer"))
+        @if (User.IsInRole("Customer") && User.Identity.IsAuthenticated)
         {
             @Html.Partial("_navBarCustomer")
         }
