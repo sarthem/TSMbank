@@ -227,25 +227,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907210915063_InitialModel.cs" />
-    <Compile Include="Migrations\201907210915063_InitialModel.Designer.cs">
-      <DependentUpon>201907210915063_InitialModel.cs</DependentUpon>
+    <Compile Include="Migrations\201907261025147_InitialModel.cs" />
+    <Compile Include="Migrations\201907261025147_InitialModel.Designer.cs">
+      <DependentUpon>201907261025147_InitialModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907211113461_PopulateAccTypeAndTransTypes.cs" />
-    <Compile Include="Migrations\201907211113461_PopulateAccTypeAndTransTypes.Designer.cs">
-      <DependentUpon>201907211113461_PopulateAccTypeAndTransTypes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907211438524_AddCreditCardRequest.cs" />
-    <Compile Include="Migrations\201907211438524_AddCreditCardRequest.Designer.cs">
-      <DependentUpon>201907211438524_AddCreditCardRequest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907211754062_CardRequestMods.cs" />
-    <Compile Include="Migrations\201907211754062_CardRequestMods.Designer.cs">
-      <DependentUpon>201907211754062_CardRequestMods.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907230955437_test.cs" />
-    <Compile Include="Migrations\201907230955437_test.Designer.cs">
-      <DependentUpon>201907230955437_test.cs</DependentUpon>
+    <Compile Include="Migrations\201907261026519_PopulateAccAndTransTypes.cs" />
+    <Compile Include="Migrations\201907261026519_PopulateAccAndTransTypes.Designer.cs">
+      <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccount.cs" />
@@ -390,20 +378,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907210915063_InitialModel.resx">
-      <DependentUpon>201907210915063_InitialModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907261025147_InitialModel.resx">
+      <DependentUpon>201907261025147_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907211113461_PopulateAccTypeAndTransTypes.resx">
-      <DependentUpon>201907211113461_PopulateAccTypeAndTransTypes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907211438524_AddCreditCardRequest.resx">
-      <DependentUpon>201907211438524_AddCreditCardRequest.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907211754062_CardRequestMods.resx">
-      <DependentUpon>201907211754062_CardRequestMods.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907230955437_test.resx">
-      <DependentUpon>201907230955437_test.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907261026519_PopulateAccAndTransTypes.resx">
+      <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

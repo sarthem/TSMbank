@@ -34,19 +34,18 @@ namespace TSMbank.Migrations
                         StatusUpdatedDateTime = c.DateTime(),
                         IndividualId = c.String(maxLength: 128),
                         BankAccountTypeId = c.Byte(nullable: false),
-                        BankAccountType_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.AccountNumber)
-                .ForeignKey("dbo.BankAccountTypes", t => t.BankAccountType_Id)
+                .ForeignKey("dbo.BankAccountTypes", t => t.BankAccountTypeId, cascadeDelete: true)
                 .ForeignKey("dbo.Individuals", t => t.IndividualId)
                 .Index(t => t.IndividualId)
-                .Index(t => t.BankAccountType_Id);
+                .Index(t => t.BankAccountTypeId);
             
             CreateTable(
                 "dbo.BankAccountTypes",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        Id = c.Byte(nullable: false),
                         Description = c.Int(nullable: false),
                         InterestRate = c.Decimal(nullable: false, precision: 18, scale: 2),
                         PeriodicFee = c.Decimal(nullable: false, precision: 18, scale: 2),
@@ -229,13 +228,17 @@ namespace TSMbank.Migrations
                         Status = c.Int(nullable: false),
                         SubmissionDate = c.DateTime(nullable: false),
                         Type = c.Int(nullable: false),
-                        BankAccTypeId = c.Int(),
-                        BankAccSummury = c.String(),
+                        BankAccTypeId = c.Byte(),
+                        CreditLimit = c.Decimal(precision: 18, scale: 2),
+                        TransactionAmountLimit = c.Decimal(precision: 18, scale: 2),
+                        CardType = c.Int(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.IndividualId)
-                .Index(t => t.IndividualId);
+                .ForeignKey("dbo.BankAccountTypes", t => t.BankAccTypeId, cascadeDelete: true)
+                .ForeignKey("dbo.Individuals", t => t.IndividualId)
+                .Index(t => t.IndividualId)
+                .Index(t => t.BankAccTypeId);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -252,7 +255,8 @@ namespace TSMbank.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Requests", "IndividualId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Requests", "IndividualId", "dbo.Individuals");
+            DropForeignKey("dbo.Requests", "BankAccTypeId", "dbo.BankAccountTypes");
             DropForeignKey("dbo.Individuals", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
@@ -266,8 +270,9 @@ namespace TSMbank.Migrations
             DropForeignKey("dbo.Transactions", "TypeId", "dbo.TransactionTypes");
             DropForeignKey("dbo.Transactions", "CancelledTransactionId", "dbo.Transactions");
             DropForeignKey("dbo.Cards", "Id", "dbo.BankAccounts");
-            DropForeignKey("dbo.BankAccounts", "BankAccountType_Id", "dbo.BankAccountTypes");
+            DropForeignKey("dbo.BankAccounts", "BankAccountTypeId", "dbo.BankAccountTypes");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            DropIndex("dbo.Requests", new[] { "BankAccTypeId" });
             DropIndex("dbo.Requests", new[] { "IndividualId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -284,7 +289,7 @@ namespace TSMbank.Migrations
             DropIndex("dbo.Transactions", new[] { "TypeId" });
             DropIndex("dbo.Cards", new[] { "Number" });
             DropIndex("dbo.Cards", new[] { "Id" });
-            DropIndex("dbo.BankAccounts", new[] { "BankAccountType_Id" });
+            DropIndex("dbo.BankAccounts", new[] { "BankAccountTypeId" });
             DropIndex("dbo.BankAccounts", new[] { "IndividualId" });
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Requests");
