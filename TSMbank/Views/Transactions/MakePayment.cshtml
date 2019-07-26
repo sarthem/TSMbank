@@ -26,7 +26,7 @@
     </div>
     <div class="form-group">
         @Html.Label("Public Service")
-        @*@Html.DropDownListFor(m => m., new SelectList(Model.BankAccounts, "AccountNumber", "IBAN"), "Select Service", new { @class = "form-control" })*@
+        @Html.DropDownListFor(m => m.PublicServiceType, new SelectList(Model.BankAccounts, "AccountNumber", "IBAN"), "Select Service", new { @class = "form-control" })
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>

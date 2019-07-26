@@ -22,5 +22,9 @@ namespace TSMbank.ViewModels
         public int OnlinePaymentCode { get; set; }
         public DateTime ExpirationDate { get; set; }
         public string Comments { get; set; }
+
+        public BankAccount PublicServiceType { get; set; }
+
+
     }
 }
