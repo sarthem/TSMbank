@@ -7,30 +7,20 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    
-
 </head>
-
 <body>
-    <header id="main-header">
-        
-        <div class="skata">
+    <div>
+            @Html.Partial("_navBar")
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - TSM bank for Afdemp</p>
+        </footer>
+    </div>
 
-            <img id="brandLogo" src="~/Image/images (12).png" alt="brandname" /><h1 id="heading-letters">My Personal Website</h1>
-            @Html.Partial("_LoginPartial")
-        </div>
-    </header>
-        <div>
-            @Html.Partial("_navBarCustomer")
-        </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - TSM bank for Afdemp</p>
-            </footer>
-        </div>
-        @Scripts.Render("~/bundles/lib")
-        @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/lib")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

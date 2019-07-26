@@ -127,9 +127,9 @@
                 method: 'GET',
                 success: function (data) {
                     dataType: 'json',
-                        data.forEach(t => accountTypes.push(t));
-                    basicAccId = accountTypes.find(t => t.id == 2).id;
-                    goldAccId = accountTypes.find(t => t.id == 6).id;                    
+                    data.forEach(t => accountTypes.push(t));
+                    basicAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsBasic).id;
+                    premiumAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsPremium).id;                    
                 }
             });
 
@@ -142,7 +142,7 @@
                 } else {
                     $("#btnGold").val("close details");
                     $("#reveal-gold").show();
-                    accTypeId.val(goldAccId);
+                    accTypeId.val(premiumAccId);
                 }
                 $("#reveal-basic").hide();
             });

@@ -32,12 +32,35 @@ else
             <td>@request.Id</td>
             <td>@Html.ActionLink(request.Individual.FullName, "Details", "Individuals", new { id = request.Individual.Id }, null)</td>
             <td>
-                @request.Type
-                @if (request is CardRequest)
+                <a href="/requests/@request.Action/@request.Id">@request.TypeInfo()</a>
+                @*@if (request is CardRequest)
                 {
                     var cardType = ((CardRequest)request).CardType;
                     <a href="/requests/CardReqDetails/@request.Id">(@cardType)</a>
                 }
+                else if (request is BankAccRequest)
+                {
+                    var info = "";
+                    var bankAccTypeId = ((BankAccRequest)request).BankAccTypeId;
+                    switch (bankAccTypeId)
+                    {
+                        case BankAccountType.CheckingBasic:
+                            info = "Checking Basic";
+                            break;
+                        case BankAccountType.CheckingPremium:
+                            info = "Checking Premium";
+                            break;
+                        case BankAccountType.SavingsBasic:
+                            info = "Savings Basic";
+                            break;
+                        case BankAccountType.SavingsPremium:
+                            info = "Savings Premium";
+                            break;
+                        default:
+                            break;
+                    }
+                    <a href="/requests/BankAccReqDetails/@request.Id">(@info)</a>
+                }*@
             </td>
             <td>@request.SubmissionDate</td>
             <td>@request.Status</td>

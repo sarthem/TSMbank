@@ -30,13 +30,13 @@ namespace TSMbank.Controllers
         
         public ActionResult Index()
         {
-            var appUser = context.Users.Find(User.Identity.GetUserId());
+            var userId = User.Identity.GetUserId();
 
             var individual = context.Individuals
                                 .Include(c => c.Phones)
                                 .Include(c => c.PrimaryAddress)
                                 .Include(c => c.BankAccounts)                            
-                                .SingleOrDefault(c => c.Id == appUser.Id);
+                                .SingleOrDefault(c => c.Id == userId);
 
             return View("Index", individual);
         }

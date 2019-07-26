@@ -4,8 +4,14 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    //Layout = "~/Views/Individuals/_Layout.cshtml";
+    if (Model == null && User.IsInRole(RoleName.Customer))
+    {
+        Layout = "~/Views/Individuals/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }
 
 <h2>Customers</h2>
