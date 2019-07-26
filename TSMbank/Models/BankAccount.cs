@@ -91,14 +91,14 @@ namespace TSMbank.Models
         public static BankAccount CreditCardAccount(Individual individual)
         {
             var creditCardAcc = new BankAccount(individual, 0);
-            creditCardAcc.BankAccountTypeId = 5;
+            creditCardAcc.BankAccountTypeId = BankAccountType.TSMVisaClassic;
             return creditCardAcc;
         }
 
         public static BankAccount CreditCardAccount(string individualId)
         {
             var creditCardAcc = new BankAccount(individualId, 0);
-            creditCardAcc.BankAccountTypeId = 5;
+            creditCardAcc.BankAccountTypeId = BankAccountType.TSMVisaClassic;
             return creditCardAcc;
         }
 

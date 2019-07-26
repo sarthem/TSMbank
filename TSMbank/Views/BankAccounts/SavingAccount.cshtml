@@ -128,8 +128,8 @@
                 success: function (data) {
                     dataType: 'json',
                         data.forEach(t => accountTypes.push(t));
-                    basicAccId = accountTypes.find(t => t.id == 2).id;
-                    goldAccId = accountTypes.find(t => t.id == 6).id;                    
+                    basicAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsBasic).id;
+                    goldAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsPremium).id;                    
                 }
             });
 

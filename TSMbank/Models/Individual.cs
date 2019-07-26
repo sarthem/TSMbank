@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -96,20 +97,26 @@ namespace TSMbank.Models
             Status = IndividualStatus.Inactive;
         }
 
-        public Individual(Individual model , ApplicationUser User)
+        public Individual(string fathersName, DateTime dateOfBirth, string firstName, string lastName,
+            string identificationCardNo, string sSN, string vatNumber, string id,  string email, Collection<Phone> phones,
+            Address address)
         {
-            FathersName = model.FathersName;            
-            DateOfBirth = model.DateOfBirth;
-            FathersName = model.FathersName;
-            FirstName = model.FirstName;            
-            IdentificationCardNo = model.IdentificationCardNo;
-            LastName = model.LastName;
-            SSN = model.SSN;
-            VatNumber = model.VatNumber; 
-            Id = User.Id;
+            
+            FathersName = fathersName;
+            DateOfBirth = dateOfBirth;
+            FirstName = firstName;
+            LastName = lastName;
+            IdentificationCardNo = identificationCardNo; 
+            SSN = sSN;
+            VatNumber = vatNumber; 
+            Id = id; 
             CreatedDate = DateTime.Now;
             Status = IndividualStatus.Inactive;
-            Email = User.Email;
+            Email = email;
+            Phones = phones;
+            PrimaryAddress = address;
+
+
         }
 
 

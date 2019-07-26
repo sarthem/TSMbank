@@ -30,13 +30,13 @@ namespace TSMbank.Controllers
         
         public ActionResult Index()
         {
-            var appUser = context.Users.Find(User.Identity.GetUserId());
+            var userId = User.Identity.GetUserId();
 
             var individual = context.Individuals
                                 .Include(c => c.Phones)
                                 .Include(c => c.PrimaryAddress)
                                 .Include(c => c.BankAccounts)                            
-                                .SingleOrDefault(c => c.Id == appUser.Id);
+                                .SingleOrDefault(c => c.Id == userId);
 
             return View("Index", individual);
         }
@@ -83,7 +83,7 @@ namespace TSMbank.Controllers
         {           
             var userId = User.Identity.GetUserId();
             var appUser = context.Users.Single(a => a.Id == userId);
-
+            var indModel = individualViewFormModel.Individual;
             // Code only for testing/debugging. Fetch modelstate errors.
             var errors = new List<ModelState>();
             foreach (ModelState modelState in ModelState.Values)
@@ -103,13 +103,13 @@ namespace TSMbank.Controllers
 
             if (individualViewFormModel.IndividualId == null)
             {
-                var individual = new Individual(individualViewFormModel.Individual, appUser);
-                individual.New(individualViewFormModel);
-                appUser.RegisterCompletion = true;
+                //var individual = new Individual(indModel.FathersName, indModel.DateOfBirth, );
+                //individual.New(individualViewFormModel);
+                //appUser.RegisterCompletion = true;
 
-                context.Individuals.Add(individual);
-                var request = new Request(individual, RequestType.UserAccActivation);
-                context.Requests.Add(request);
+                //context.Individuals.Add(individual);
+                //var request = new Request(individual, RequestType.UserAccActivation);
+                //context.Requests.Add(request);
             }
             else
             {
