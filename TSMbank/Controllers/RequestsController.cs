@@ -26,14 +26,13 @@ namespace TSMbank.Controllers
 
         public ActionResult Index(RequestStatus status)
         {
-            var requests = context.Requests
-                .Include(r => r.Individual)
-                .Where(r => r.Status == status)
-                .ToList();
+            var parentQuery = context.Requests.Where(r => r.Status == status);
+            var requests = parentQuery.Include(r => r.Individual).ToList();
+            parentQuery.OfType<BankAccRequest>().Include(r => r.BankAccType).Load();
 
             var viewModel = new RequestsViewModel
             {
-                Requests = requests,
+                Requests = requests.ToList(),
                 Status = status
             };
 
@@ -43,39 +42,13 @@ namespace TSMbank.Controllers
 
         public async Task<ActionResult> Handle(int id, RequestStatus requestStatus)
         {
-            var request = context.Requests.Include(r => r.Individual).SingleOrDefault(r => r.Id == id);
-            switch (request.Type)
-            {
-                case RequestType.UserAccActivation:
-                    if (requestStatus == RequestStatus.Approved)
-                        await request.Approve();
-                    else if (requestStatus == RequestStatus.Rejected)
-                        await request.Reject();
+            var request = context.Requests.Include(r => r.Individual.BankAccounts).SingleOrDefault(r => r.Id == id);
 
-                    context.SaveChanges();
-                    return RedirectToAction("Index", new { status = RequestStatus.Pending });
-
-                case RequestType.BankAccActivation:
-                    if (requestStatus == RequestStatus.Approved)
-                    {
-                        request.Status = RequestStatus.Processing;
-                        context.SaveChanges();
-                        return RedirectToAction("NewAccountRequest", "BankAccounts", new { requestId = request.Id });
-                    }
-
-                    await ((BankAccRequest)request).Reject();
-                    context.SaveChanges();
-                    return RedirectToAction("Index", new { status = RequestStatus.Pending });
-
-                case RequestType.CardActivation:
-                    var cardRequest = (CardRequest) request;
-
-                    break;
-                default:
-                    break;
-            }
+            if (requestStatus == RequestStatus.Approved)
+                await request.Approve();
+            else
+                await request.Reject();
             context.SaveChanges();
-
             return RedirectToAction("Index", new { status = RequestStatus.Pending });
         }
 
@@ -88,6 +61,34 @@ namespace TSMbank.Controllers
                 return HttpNotFound();
 
             return View(cardReq);
+        }
+
+        [Authorize(Roles = RoleName.Administrator)]
+        public ActionResult BankAccReqDetails(int id)
+        {
+            var bankAccReq = context.BankAccRequests
+                    .Include(r => r.Individual)
+                    .Include(r => r.BankAccType)
+                    .SingleOrDefault(r => r.Id == id);
+
+            if (bankAccReq == null)
+                return HttpNotFound();
+
+            return View(bankAccReq);
+        }
+
+        [Authorize(Roles = RoleName.Administrator)]
+        public ActionResult UserAccReqDetails(int id)
+        {
+            var userAccReq = context.Requests
+                    .Include(r => r.Individual.Phones)
+                    .Include(r => r.Individual.PrimaryAddress)
+                    .SingleOrDefault(r => r.Id == id);
+
+            if (userAccReq == null)
+                return HttpNotFound();
+
+            return View(userAccReq);
         }
     }
 }

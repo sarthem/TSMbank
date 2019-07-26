@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -94,6 +95,8 @@ namespace TSMbank.Models
         {
             CreatedDate = DateTime.Now;
             Status = IndividualStatus.Inactive;
+            Phones = new Collection<Phone>();
+            BankAccounts = new Collection<BankAccount>();
         }
 
         public Individual(Individual model , ApplicationUser User)
@@ -105,13 +108,14 @@ namespace TSMbank.Models
             IdentificationCardNo = model.IdentificationCardNo;
             LastName = model.LastName;
             SSN = model.SSN;
-            VatNumber = model.VatNumber; 
+            VatNumber = model.VatNumber;
             Id = User.Id;
             CreatedDate = DateTime.Now;
             Status = IndividualStatus.Inactive;
             Email = User.Email;
+            Phones = new Collection<Phone>();
+            BankAccounts = new Collection<BankAccount>();
         }
-
 
         public void Activate()
         {
