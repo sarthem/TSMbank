@@ -39,7 +39,7 @@ else
             </td>
             <td>
                 <b>@Model.Status</b>
-                <input type="button" id="change-individual-status" class="btn btn-sm" value="Change Account Status" />
+                @*<input type="button" id="change-individual-status" class="btn btn-sm" value="Change Account Status" />*@
 
             </td>
         </tr>
@@ -148,7 +148,7 @@ else
     {
         <script>
 
-        var modelid = '@Model.Id';
+        @*var modelid = '@Model.Id';
         let path = `/individuals/ActivateAccount/${modelid}`;
         $(document).ready(function () {
             $(".panel-heading").parent('.panel').hover(function () {
@@ -167,10 +167,8 @@ else
                     let txt = "Account is not Active!";
                 }
             });
-        });
-
-
-
+        });*@
+            
         </script>
 
     }

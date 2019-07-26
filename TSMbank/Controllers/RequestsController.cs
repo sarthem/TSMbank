@@ -76,7 +76,7 @@ namespace TSMbank.Controllers
 
             return RedirectToAction("Index", new { status = RequestStatus.Pending });
         }
-
+                
         [Authorize(Roles = RoleName.Administrator)]
         public ActionResult CardReqDetails(int id)
         {
@@ -87,5 +87,17 @@ namespace TSMbank.Controllers
 
             return View(cardReq);
         }
+
+        [Authorize(Roles = RoleName.Administrator)]
+        public ActionResult BankAccReqDetails(int id)
+        {
+            var cardReq = context.BankAccRequests.Include(r => r.Individual).SingleOrDefault(r => r.Id == id);
+
+            if (cardReq == null)
+                return HttpNotFound();
+
+            return View(cardReq);
+        }
+
     }
 }

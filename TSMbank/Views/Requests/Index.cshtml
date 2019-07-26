@@ -28,22 +28,26 @@ else
         </thead>
         @foreach (var request in Model.Requests)
         {
-        <tr>
-            <td>@request.Id</td>
-            <td>@Html.ActionLink(request.Individual.FullName, "Details", "Individuals", new { id = request.Individual.Id }, null)</td>
-            <td>
-                @request.Type
-                @if (request is CardRequest)
-                {
-                    var cardType = ((CardRequest)request).CardType;
-                    <a href="/requests/CardReqDetails/@request.Id">(@cardType)</a>
-                }
-            </td>
-            <td>@request.SubmissionDate</td>
-            <td>@request.Status</td>
-            <td>@Html.ActionLink(" ", "Handle", "Requests", new { Id = request.Id , requestStatus = RequestStatus.Rejected }, new { @class = "glyphicon glyphicon-remove" })</td>
-            <td>@Html.ActionLink(" ", "Handle", "Requests", new { Id = request.Id, requestStatus = RequestStatus.Approved }, new { @class = "glyphicon glyphicon-ok green-ok"})</td>
-        </tr>
+            <tr>
+                <td>@request.Id</td>
+                <td>@Html.ActionLink(request.Individual.FullName, "Details", "Individuals", new { id = request.Individual.Id }, null)</td>
+                <td>
+                    @request.Type
+                    @if (request is CardRequest)
+                    {
+                        var cardType = ((CardRequest)request).CardType;
+                        <a href="/requests/CardReqDetails/@request.Id">(@cardType)</a>
+                    } else if (request is BankAccRequest)
+                    {
+                        var bankAccType = ((BankAccRequest)request).BankAccType;
+                        <a href="/reuests/BankAccReqDetails/@request.Id">(@bankAccType)></a>
+                    }
+                </td>
+                <td>@request.SubmissionDate</td>
+                <td>@request.Status</td>
+                <td>@Html.ActionLink(" ", "Handle", "Requests", new { Id = request.Id , requestStatus = RequestStatus.Rejected }, new { @class = "glyphicon glyphicon-remove" })</td>
+                <td>@Html.ActionLink(" ", "Handle", "Requests", new { Id = request.Id, requestStatus = RequestStatus.Approved }, new { @class = "glyphicon glyphicon-ok green-ok"})</td>
+            </tr>
         }
     </table>
 }

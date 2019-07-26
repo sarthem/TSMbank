@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TSMbank.Models
 {
-    public enum Description
+    public enum Description//name?
     {
         Checking,
         Savings,
