@@ -37,7 +37,7 @@ namespace TSMbank.Models
             }
         }
 
-        public string IBAN
+        public string IBAN  
         {
             get
             {
@@ -54,6 +54,10 @@ namespace TSMbank.Models
 
         public ICollection<Transaction> DebitTransactions { get; set; }
 
+        //[ForeignKey("Card")]
+        //public string CardNumber { get; set; }
+        public Card Card { get; set; }
+
         // Constructors
         public BankAccount()
         {
@@ -62,7 +66,42 @@ namespace TSMbank.Models
             AccountStatus = AccountStatus.Inactive;
         }
 
-        //Methods
+        private BankAccount(Individual individual, decimal withdrawlLimit)
+        {
+            AccountNumber = CreateRandomAccountNumber();
+            AccountStatus = AccountStatus.Active;
+            Balance = 0;
+            OpenedDate = DateTime.Now;
+            StatusUpdatedDateTime = DateTime.Now;
+            Individual = individual;
+            WithdrawalLimit = withdrawlLimit;
+        }
+
+        private BankAccount(string individualId, decimal withdrawlLimit)
+        {
+            AccountNumber = CreateRandomAccountNumber();
+            AccountStatus = AccountStatus.Active;
+            Balance = 0;
+            OpenedDate = DateTime.Now;
+            StatusUpdatedDateTime = DateTime.Now;
+            IndividualId = individualId;
+            WithdrawalLimit = withdrawlLimit;
+        }
+
+        public static BankAccount CreditCardAccount(Individual individual)
+        {
+            var creditCardAcc = new BankAccount(individual, 0);
+            creditCardAcc.BankAccountTypeId = 5;
+            return creditCardAcc;
+        }
+
+        public static BankAccount CreditCardAccount(string individualId)
+        {
+            var creditCardAcc = new BankAccount(individualId, 0);
+            creditCardAcc.BankAccountTypeId = 5;
+            return creditCardAcc;
+        }
+
         public static string CreateRandomAccountNumber()
         {
             int randomNumber = 0;
@@ -79,7 +118,7 @@ namespace TSMbank.Models
                     ++counter;
                 }
             } while (counter < 4);
-            //edw 8a proste8ei elenxos pros ola ta account
+
             foreach (int number in accountCreation)
             {
                 accountNumber += number.ToString();

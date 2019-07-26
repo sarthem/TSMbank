@@ -215,6 +215,7 @@
     <Compile Include="Controllers\BankAccountsController.cs" />
     <Compile Include="Controllers\api\BankAccountTypesController.cs" />
     <Compile Include="Controllers\api\IndividualsController.cs" />
+    <Compile Include="Controllers\CardsController.cs" />
     <Compile Include="Controllers\IndividualsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -227,48 +228,50 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907172259519_initialiazeDb.cs" />
-    <Compile Include="Migrations\201907172259519_initialiazeDb.Designer.cs">
-      <DependentUpon>201907172259519_initialiazeDb.cs</DependentUpon>
+    <Compile Include="Migrations\201907261025147_InitialModel.cs" />
+    <Compile Include="Migrations\201907261025147_InitialModel.Designer.cs">
+      <DependentUpon>201907261025147_InitialModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907172300315_PopulateData.cs" />
-    <Compile Include="Migrations\201907172300315_PopulateData.Designer.cs">
-      <DependentUpon>201907172300315_PopulateData.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907180000289_fixPropAnotation.cs" />
-    <Compile Include="Migrations\201907180000289_fixPropAnotation.Designer.cs">
-      <DependentUpon>201907180000289_fixPropAnotation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907181736530_DataNotationAndFixForms.cs" />
-    <Compile Include="Migrations\201907181736530_DataNotationAndFixForms.Designer.cs">
-      <DependentUpon>201907181736530_DataNotationAndFixForms.cs</DependentUpon>
+    <Compile Include="Migrations\201907261026519_PopulateAccAndTransTypes.cs" />
+    <Compile Include="Migrations\201907261026519_PopulateAccAndTransTypes.Designer.cs">
+      <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccount.cs" />
+    <Compile Include="Models\BankAccRequest.cs" />
     <Compile Include="Models\BankAccountType.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Bank.cs" />
-    <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\CardRequest.cs" />
+    <Compile Include="Models\CardStatus.cs" />
+    <Compile Include="Models\CardType.cs" />
+    <Compile Include="Models\EmailInfo.cs" />
     <Compile Include="Models\Individual.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Min18Years.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\Request.cs" />
+    <Compile Include="Models\RequestStatus.cs" />
+    <Compile Include="Models\RequestType.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\TransactionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Validations\CardTransLimit.cs" />
     <Compile Include="ViewModels\BankAccountFormViewModel.cs" />
+    <Compile Include="ViewModels\CardFormViewModel.cs" />
+    <Compile Include="ViewModels\CardReqViewModel.cs" />
     <Compile Include="ViewModels\IndividualFormViewModel.cs" />
     <Compile Include="ViewModels\CheckingAccApplicationViewModel.cs" />
     <Compile Include="ViewModels\PaymentViewFormModel.cs" />
     <Compile Include="ViewModels\RequestsViewModel.cs" />
     <Compile Include="ViewModels\TransactionViewModel.cs" />
     <Compile Include="ViewModels\TransactionsDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ValidCardTransLimit.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -352,12 +355,17 @@
     <Content Include="Views\BankAccounts\CheckingAccount.cshtml" />
     <Content Include="Views\BankAccounts\SavingAccount.cshtml" />
     <Content Include="Views\Individuals\GetIndividuals.cshtml" />
-    <Content Include="Views\Requests\GetRequests.cshtml" />
+    <Content Include="Views\Requests\Index.cshtml" />
     <Content Include="Views\Individuals\BankAccountPetition.cshtml" />
     <Content Include="Views\Individuals\AddSecondAddress.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Individuals\ViewCrypto.cshtml" />
     <Content Include="Views\Individuals\ViewForex.cshtml" />
     <Content Include="Views\Individuals\ViewHeatMap.cshtml" />
+=======
+    <Content Include="Views\Cards\CreditCard.cshtml" />
+    <Content Include="Views\Requests\CardReqDetails.cshtml" />
+>>>>>>> 50b895abfef1fdb1b4c65a4a2940d070a657751a
     <None Include="Views\Shared\_navbarMini.cshtml" />
     <Content Include="Views\Transactions\MakePayment.cshtml" />
   </ItemGroup>
@@ -379,17 +387,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907172259519_initialiazeDb.resx">
-      <DependentUpon>201907172259519_initialiazeDb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907261025147_InitialModel.resx">
+      <DependentUpon>201907261025147_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907172300315_PopulateData.resx">
-      <DependentUpon>201907172300315_PopulateData.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907180000289_fixPropAnotation.resx">
-      <DependentUpon>201907180000289_fixPropAnotation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907181736530_DataNotationAndFixForms.resx">
-      <DependentUpon>201907181736530_DataNotationAndFixForms.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907261026519_PopulateAccAndTransTypes.resx">
+      <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -18,7 +18,7 @@ namespace TSMbank.Models
         public DbSet<TransactionType> TransactionTypes { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<BankAccRequest> BankAccRequests { get; set; }
-
+        public DbSet<CardRequest> CardRequests { get; set; }
 
         public ApplicationDbContext()
             : base("TSMbankDBContext", throwIfV1Schema: false)
@@ -58,6 +58,15 @@ namespace TSMbank.Models
                         .WithRequired(p => p.Individual)
                         .HasForeignKey(p => p.IndividualId)
                         .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<BankAccount>()
+                        .HasOptional(a => a.Card)
+                        .WithRequired(c => c.BankAccount)
+                        .WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<BankAccountType>()
+            //            .Property(t => t.Id)
+            //            .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.None);
 
             base.OnModelCreating(modelBuilder);
         }
