@@ -19,9 +19,7 @@ namespace TSMbank.App_Start
             CreateMap<BankAccountTypeDto, BankAccountType>();   
             CreateMap<Individual, IndividualDto>();
             CreateMap<IndividualDto, Individual>();
-            //CreateMap<IndividualFormViewModel, Individual>();
-            //CreateMap<Individual, IndividualFormViewModel>();
-            //CreateMap<Individual, Individual>();
+            
         }
     
     }

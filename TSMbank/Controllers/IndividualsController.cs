@@ -103,8 +103,6 @@ namespace TSMbank.Controllers
 
             if (individualViewFormModel.IndividualId == null)
             {
-                //var individual = Mapper.Map<IndividualFormViewModel, Individual>(individualViewFormModel);
-                //var individual2 = Mapper.Map<Individual, Individual>(individualViewFormModel.Individual);
                 var individual = new Individual(individualViewFormModel.Individual, appUser);
                 individual.New(individualViewFormModel);
                 appUser.RegisterCompletion = true;
