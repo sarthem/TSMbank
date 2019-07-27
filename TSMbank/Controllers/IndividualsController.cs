@@ -271,7 +271,7 @@ namespace TSMbank.Controllers
             var individual = context.Individuals.SingleOrDefault(u => u.Id == userId);
             //var accountType = context.BankAccountTypes.SingleOrDefault(a => a.Id == Id);
 
-            // May cause problems (needs refactoring??)//why?
+          
             var activeBankAccReq = context.BankAccRequests
                                     .Include(r => r.BankAccType)
                                     .SingleOrDefault(r => r.BankAccTypeId == id && 

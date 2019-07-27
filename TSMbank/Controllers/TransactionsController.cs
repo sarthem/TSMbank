@@ -26,9 +26,6 @@ namespace TSMbank.Controllers
             context.Dispose();
         }
 
-
-
-
         public ActionResult Details(int id, string accountNumber)
         {
             var transaction = context.Transactions.Where(t => t.TransactionId == id).ToList();
@@ -44,34 +41,13 @@ namespace TSMbank.Controllers
         // GET: Transactions
         public ActionResult Index(string accountNumber)
         {
-            //var appUser = context.Users.Find(User.Identity.GetUserId());
-
-            //var creditTransaction = context.Transactions
-            //    .Include(individual => individual.CreditAccount)
-            //    .Where(c => c.CreditAccount.Individual.ApplicationUserId == appUser.Id)
-            //    .Include(c => c.CreditAccount.Individual)
-            //    .Where(c => c.CreditAccount.AccountNumber == accountNumber).ToList();
-
-            //var debitTransaction = context.Transactions
-            //    .Include(individual => individual.DebitAccount)
-            //    .Where(c => c.DebitAccount.Individual.ApplicationUserId == appUser.Id)
-            //    .Include(c => c.DebitAccount.Individual)
-            //    .Where(c => c.DebitAccount.AccountNumber == accountNumber).ToList();
-
             var bankAccount = context.BankAccounts
                 .Include(a => a.CreditTransactions)
                 .Include(a => a.DebitTransactions)
                 .SingleOrDefault(a => a.AccountNumber == accountNumber);
 
-
-
-
-            //var transactions = creditTransaction.Concat(debitTransaction);
-
             var transactions = bankAccount.DebitTransactions.Concat(bankAccount.CreditTransactions);
             var orderedTransactions = transactions.OrderByDescending(t => t.ValueDateTime);
-           
-
 
             var viewModel = new TransactionsDetailsViewModel()
             {
@@ -117,6 +93,25 @@ namespace TSMbank.Controllers
             }            
             var creditAccount = context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == creditAccountNumber);
 
+
+            if(creditAccount == null)
+            {
+                var viewModel = new ErrorTransactionMessage()
+                {
+                    message = "no credit iban"
+                };
+                return View("TransferToAccountERROR", viewModel);
+            }
+            else if(transactionView.Amount > debitAccount.Balance)
+            {
+                var viewModel = new ErrorTransactionMessage()
+                {
+                    message = "no balance"
+                };
+                return View("TransferToAccountERROR", viewModel);
+            }
+
+
             var transaction = new Transaction()
             {
                 ValueDateTime = DateTime.Now,
@@ -141,8 +136,6 @@ namespace TSMbank.Controllers
 
                 CreditAccountBalanceAfterTransaction = creditAccount.Balance + transactionView.Amount ,
 
-
-
                 TypeId = transactionType.Id,
                 ApprovedFromBankManager = true,
                 PendingForApproval = false,
@@ -152,8 +145,9 @@ namespace TSMbank.Controllers
                 
                 
             };
+            
             creditAccount.Balance = transaction.CreditAccountBalanceAfterTransaction;
-            debitAccount.Balance = transaction.DebitAccountBalanceAfterTransaction;
+            debitAccount.Balance = transaction.DebitAccountBalanceAfterTransaction;                        
 
             context.Transactions.Add(transaction);
             context.SaveChanges();
