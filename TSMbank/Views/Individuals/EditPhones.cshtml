@@ -1,0 +1,102 @@
+﻿@model TSMbank.ViewModels.IndividualFormViewModel
+@using TSMbank.ViewModels;
+@{
+    ViewBag.Title = "EditPhones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>EditPhones</h2>
+
+
+<h3>Edit or Add a phone</h3>
+@using (Html.BeginForm("Update", "Individuals"))
+{
+    @Html.HiddenFor(m => m.IndividualId)
+    @Html.HiddenFor(m => m.ModificationAction)
+    <div id="section-phones">
+        @for (int j = 0; j < Model.Phones.Count; j++)
+        {
+            <div class="row">
+                @Html.HiddenFor(m => Model.Phones[j].Id)
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => Model.Phones[j].CountryCode)
+                        @Html.TextBoxFor(m => Model.Phones[j].CountryCode, new { @maxlength = "4", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => Model.Phones[j].CountryCode)
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => Model.Phones[j].PhoneType)
+                        @Html.EnumDropDownListFor(m => Model.Phones[j].PhoneType, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => Model.Phones[j].PhoneType)
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.LabelFor(m => Model.Phones[j].PhoneNumber)
+                        @Html.TextBoxFor(m => Model.Phones[j].PhoneNumber, new { @maxlength = "10", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => Model.Phones[j].PhoneNumber)
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+    <input type="button" value="Add new Phone" class="btn btn-primary" id="add-phone" />
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+
+@section scripts
+{
+    <script>
+        let idx;
+        if (@Model.Phones.Count() === 0) {
+            idx = 1;
+        } else {
+            idx = @Model.Phones.Count();
+        }
+
+        document.getElementById("add-phone").addEventListener("click", function () {
+            let sectionPhones = document.getElementById("section-phones");
+            var fieldset = document.createElement("div");
+            fieldset.classList.add("row");
+            if (idx < 4) {
+                fieldset.innerHTML =
+                    `<div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="Phones_${idx}__CountryCode">CountryCode</label>
+                                    <input class="form-control" id="Phones_${idx}__CountryCode" name="Phones[${idx}].CountryCode" type="text"
+                                            value>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="Phones_${idx}__PhoneType">PhoneType</label>
+                                    <select class="form-control" data-val="true" data-val-required="The PhoneType field is required."
+                                            id="Phones_${idx}__PhoneType" name="Phones[${idx}].PhoneType">
+                                        <option value="0">Mobile</option>
+                                        <option value="1">Home</option>
+                                        <option value="2">Work</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="Phones_${idx}__PhoneNumber">PhoneNumber</label>
+                                    <input class="form-control" id="Phones_${idx}__PhoneNumber" name="Phones[${idx}].PhoneNumber" type="text"
+                                            value>
+                                </div>
+                            </div>`;
+
+                sectionPhones.appendChild(fieldset);
+                idx++;
+            };
+
+        });
+    </script>
+
+}
+
+
