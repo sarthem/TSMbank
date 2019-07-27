@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -88,30 +89,35 @@ namespace TSMbank.Models
         public ApplicationUser User { get; set; }
         
        
-       
               
         public Individual()
         {
             CreatedDate = DateTime.Now;
             Status = IndividualStatus.Inactive;
+            Phones = new Collection<Phone>();
+            BankAccounts = new Collection<BankAccount>();
         }
 
-        public Individual(Individual model , ApplicationUser User)
+        public Individual(string fathersName, DateTime? dateOfBirth, string firstName, string identificationCardNo
+            , string lastName, string sSN, string vatNumber, string id, string email, Collection<Phone> phones
+            , Address address)
         {
-            FathersName = model.FathersName;            
-            DateOfBirth = model.DateOfBirth;
-            FathersName = model.FathersName;
-            FirstName = model.FirstName;            
-            IdentificationCardNo = model.IdentificationCardNo;
-            LastName = model.LastName;
-            SSN = model.SSN;
-            VatNumber = model.VatNumber; 
-            Id = User.Id;
+            FathersName = fathersName;            
+            DateOfBirth = dateOfBirth;            
+            FirstName = firstName;            
+            IdentificationCardNo = identificationCardNo;
+            LastName = lastName;
+            SSN = sSN;
+            VatNumber = vatNumber;
+            Id = id;
             CreatedDate = DateTime.Now;
             Status = IndividualStatus.Inactive;
-            Email = User.Email;
+            Email = email;
+            Phones = phones;
+            BankAccounts = new Collection<BankAccount>();
+            PrimaryAddress = address;
+            
         }
-
 
         public void Activate()
         {
@@ -123,11 +129,11 @@ namespace TSMbank.Models
             Status = IndividualStatus.Inactive;
         }
 
-        public void New(IndividualFormViewModel individual)
-        {
-            Phones = individual.Phones;
-            PrimaryAddress = individual.PrimaryAddress;
-        }
+        //public void New(IndividualFormViewModel individual)
+        //{
+        //    Phones = individual.Phones;
+        //    PrimaryAddress = individual.PrimaryAddress;
+        //}
 
 
         public void Edit(Individual individual)

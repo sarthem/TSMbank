@@ -45,6 +45,7 @@ namespace TSMbank.Models
             CreditLimit = creditLimit;
             Status = CardStatus.Active;
             Number = GenerateCardNumber();
+            bankAccount.Card = this;
         }
 
         public static Card CreditCard(BankAccount bankAccount, decimal transLimit, decimal creditLimit)

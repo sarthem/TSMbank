@@ -15,6 +15,10 @@ namespace TSMbank.Models
 
     public class BankAccount
     {
+        private const decimal CheckingWithDrawalLimit = 1500.0m;
+        private const decimal TsmVisaClassicWithDrawalLimit = 0m;
+        private const decimal SavingsWithdrawalLimit = Decimal.MaxValue;
+
         [Key]
         [StringLength(16,MinimumLength = 16)]
         public string AccountNumber { get; set; }
@@ -51,14 +55,9 @@ namespace TSMbank.Models
         public byte BankAccountTypeId { get; set; }
 
         public ICollection<Transaction> CreditTransactions { get; set; }
-
         public ICollection<Transaction> DebitTransactions { get; set; }
-
-        //[ForeignKey("Card")]
-        //public string CardNumber { get; set; }
         public Card Card { get; set; }
 
-        // Constructors
         public BankAccount()
         {
             Balance = 0;
@@ -66,7 +65,7 @@ namespace TSMbank.Models
             AccountStatus = AccountStatus.Inactive;
         }
 
-        private BankAccount(Individual individual, decimal withdrawlLimit)
+        private BankAccount(Individual individual, decimal withdrawlLimit, byte accountTypeId)
         {
             AccountNumber = CreateRandomAccountNumber();
             AccountStatus = AccountStatus.Active;
@@ -75,9 +74,10 @@ namespace TSMbank.Models
             StatusUpdatedDateTime = DateTime.Now;
             Individual = individual;
             WithdrawalLimit = withdrawlLimit;
+            BankAccountTypeId = accountTypeId;
         }
 
-        private BankAccount(string individualId, decimal withdrawlLimit)
+        private BankAccount(string individualId, decimal withdrawlLimit, byte accountTypeId)
         {
             AccountNumber = CreateRandomAccountNumber();
             AccountStatus = AccountStatus.Active;
@@ -86,20 +86,37 @@ namespace TSMbank.Models
             StatusUpdatedDateTime = DateTime.Now;
             IndividualId = individualId;
             WithdrawalLimit = withdrawlLimit;
+            BankAccountTypeId = accountTypeId;
         }
 
         public static BankAccount CreditCardAccount(Individual individual)
         {
-            var creditCardAcc = new BankAccount(individual, 0);
-            creditCardAcc.BankAccountTypeId = 5;
-            return creditCardAcc;
+            return new BankAccount(individual, TsmVisaClassicWithDrawalLimit, BankAccountType.TSMVisaClassic);
         }
 
         public static BankAccount CreditCardAccount(string individualId)
         {
-            var creditCardAcc = new BankAccount(individualId, 0);
-            creditCardAcc.BankAccountTypeId = 5;
-            return creditCardAcc;
+            return new BankAccount(individualId, TsmVisaClassicWithDrawalLimit, BankAccountType.TSMVisaClassic);
+        }
+
+        public static BankAccount CheckingBasic(Individual individual)
+        {
+            return new BankAccount(individual, CheckingWithDrawalLimit, BankAccountType.CheckingBasic);
+        }
+
+        public static BankAccount CheckingPremium(Individual individual)
+        {
+            return new BankAccount(individual, CheckingWithDrawalLimit, BankAccountType.CheckingPremium);
+        }
+
+        public static BankAccount SavingsBasic(Individual individual)
+        {
+            return new BankAccount(individual, SavingsWithdrawalLimit, BankAccountType.SavingsBasic);
+        }
+
+        public static BankAccount SavingsPremium(Individual individual)
+        {
+            return new BankAccount(individual, SavingsWithdrawalLimit, BankAccountType.SavingsPremium);
         }
 
         public static string CreateRandomAccountNumber()

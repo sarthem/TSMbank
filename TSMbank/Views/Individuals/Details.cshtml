@@ -16,30 +16,7 @@
 <p><label>Identity Card Number</label>: @Model.IdentificationCardNo</p>
 <p><label>Social Security Number</label>: @Model.SSN</p>
 <p><label>Vat Number</label>: @Model.VatNumber</p>
-<p>
-    <label>Status</label>: @Model.Status  @*<input type="button" id="change-individual-status" class="btn btn-sm" value="Request Activation" />*@
-</p>
+<p><label>Status</label>: @Model.Status</p>
 <div>
     @Html.ActionLink("Back", "Index", "Individuals", new { @class = "btn btn-primary" })
 </div>
-@*<div>
-        @Html.ActionLink("Edit Individual", "Edit", "Individuals", new { id = Model.Id, modify = (int)ModificationAction.EditIndividual }, new { @class = "btn btn-primary" })
-    </div>*@
-
-@*@section scripts
-{
-    <script>
-        var modelid = '@Model.Id';
-        let path = `/individuals/ActivateAccount/${modelid}`;
-
-        document.getElementById("change-individual-status").addEventListener("click", function () {
-            var r = confirm("Are you sure you want to change the status of the customer?")
-
-            if (r == true) {
-                window.location.href = path;
-            } else {
-               let txt = "Account is not Active!";
-            }
-        });
-    </script>
-}*@

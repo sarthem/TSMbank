@@ -1,0 +1,22 @@
+﻿@model TSMbank.ViewModels.ErrorTransactionMessage
+@{
+    ViewBag.Title = "TransferToAccountNoCreditAccount";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Transaction failed</h2>
+
+@if (Model.message == "no credit iban")
+{
+    <p>The Account Number Or the Iban does Not exist please check again</p>
+}
+else
+{
+    <p>The Account balance is smaller than your transaction</p>
+}
+
+
+
+
+
+@Html.ActionLink("Back to Money Transfer", "Deposit", "Transactions", null, new { @class = "btn btn-primary" })

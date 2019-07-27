@@ -4,8 +4,14 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    //Layout = "~/Views/Individuals/_Layout.cshtml";
+    if (Model == null && User.IsInRole(RoleName.Customer))
+    {
+        Layout = "~/Views/Individuals/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }
 
 <h2>Customers</h2>
@@ -38,9 +44,7 @@ else
                 }
             </td>
             <td>
-                <b>@Model.Status</b>
-                <input type="button" id="change-individual-status" class="btn btn-sm" value="Change Account Status" />
-
+                <b>@Model.Status</b>       
             </td>
         </tr>
     </table>
@@ -142,7 +146,7 @@ else
     </div>
 }
 
-@if (Model != null)
+@*@if (Model != null)
 {
     @section scripts
     {
@@ -175,5 +179,5 @@ else
 
     }
 
-}
+}*@
 

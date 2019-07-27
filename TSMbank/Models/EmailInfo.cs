@@ -105,7 +105,7 @@ namespace TSMbank.Models
 
         public async Task Send()
         {
-            var apiKey = Environment.GetEnvironmentVariable("sendGridApiKey");
+            var apiKey = Environment.GetEnvironmentVariable("sendGridApiKey", EnvironmentVariableTarget.User);
             var client = new SendGridClient(apiKey);
             var msg = MailHelper.CreateSingleEmail(TsmBankEmail, new EmailAddress(Individual.Email), Subject, PlainTextContent, HtmlContent);
             var response = await client.SendEmailAsync(msg);

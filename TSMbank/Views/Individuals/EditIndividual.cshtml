@@ -1,0 +1,80 @@
+﻿@model TSMbank.ViewModels.IndividualFormViewModel
+@using TSMbank.ViewModels;
+@{
+    ViewBag.Title = "EditIndividual";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Individual</h2>
+
+@using (Html.BeginForm("Update", "Individuals"))
+{
+    @Html.HiddenFor(m => m.IndividualId)
+    @Html.HiddenFor(m => m.ModificationAction)
+   
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Individual.FirstName)
+                @Html.TextBoxFor(m => m.Individual.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Individual.FirstName)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Individual.LastName)
+                @Html.TextBoxFor(m => m.Individual.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Individual.LastName)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Individual.FathersName)
+                @Html.TextBoxFor(m => m.Individual.FathersName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Individual.FathersName)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Individual.SSN)
+                @Html.TextBoxFor(m => m.Individual.SSN, new { @maxlength = "11", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Individual.SSN)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Individual.VatNumber)
+                @Html.TextBoxFor(m => m.Individual.VatNumber, new { @maxlength = "9", @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Individual.VatNumber)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Individual.IdentificationCardNo)
+                @Html.TextBoxFor(m => m.Individual.IdentificationCardNo, new { @maxlength = "8", @class = "form-control", @style = "text-transform:uppercase;" })
+                @Html.ValidationMessageFor(m => m.Individual.SSN)
+                @Html.ValidationMessageFor(m => m.Individual.IdentificationCardNo)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Individual.DateOfBirth)
+                @Html.TextBoxFor(m => m.Individual.DateOfBirth, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Individual.DateOfBirth)
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Individual.Email)
+                @Html.TextBoxFor(m => m.Individual.Email, new { @class = "form-control", @readonly = "true" })
+                @Html.ValidationMessageFor(m => m.Individual.Email)
+            </div>
+        </div>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Save</button>
+ }
