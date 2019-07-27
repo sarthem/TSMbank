@@ -7,17 +7,11 @@ using System.Web;
 
 namespace TSMbank.Models
 {
-    public enum AccountStatus
-    {
-        Active,
-        Inactive
-    }
-
     public class BankAccount
     {
         private const decimal CheckingWithDrawalLimit = 1500.0m;
         private const decimal TsmVisaClassicWithDrawalLimit = 0m;
-        private const decimal SavingsWithdrawalLimit = Decimal.MaxValue;
+        private const decimal SavingsWithdrawalLimit = 99999999999.99m;
 
         [Key]
         [StringLength(16,MinimumLength = 16)]
