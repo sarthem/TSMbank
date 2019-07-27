@@ -43,7 +43,7 @@ else
                             </thead>
 
                             <tr>
-                                <td>@Html.ActionLink(individual.FullName, "Edit", "Individuals", new { id = individual.Id, modify = (int)ModificationAction.EditIndividual }, null)</td>
+                                <td>@Html.ActionLink(individual.FullName, "Edit", "Individuals", new { id = individual.Id, modify = ModificationAction.EditIndividual }, null)</td>
                                 <td>@individual.FathersName</td>
                                 <td>
                                     @if (!individual.BankAccounts.Any())
@@ -62,11 +62,11 @@ else
 
                                     }
                                 </td>
-                                <td>@Html.ActionLink(individual.PrimaryAddress.FullAddress, "Edit", "Individuals", new { id = individual.Id, modify = (int)ModificationAction.EditAddresses }, null)</td>
+                                <td>@Html.ActionLink(individual.PrimaryAddress.FullAddress, "Edit", "Individuals", new { id = individual.Id, modify = ModificationAction.EditAddresses }, null)</td>
                                 <td>
                                     @foreach (var phone in individual.Phones)
                                     {
-                                        <p>@Html.ActionLink(phone.CallingNumber, "Edit", "Individuals", new { id = individual.Id, modify = (int)ModificationAction.EditPhones }, null) (@phone.PhoneType)</p>
+                                        <p>@Html.ActionLink(phone.CallingNumber, "Edit", "Individuals", new { id = individual.Id, modify = ModificationAction.EditPhones }, null) (@phone.PhoneType)</p>
                                     }
                                 </td>
                             </tr>
@@ -79,6 +79,4 @@ else
         i++;
     }
 }
-<p>
-    @Html.ActionLink("New Customer", "New", "Individuals", null, new { @class = "btn btn-primary" })
-</p>
+

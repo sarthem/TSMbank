@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -83,6 +84,9 @@ namespace TSMbank.Controllers
         {           
             var userId = User.Identity.GetUserId();
             var appUser = context.Users.Single(a => a.Id == userId);
+            var viewInd = individualViewFormModel.Individual;
+            Collection<Phone> viewPhones = new Collection<Phone>(individualViewFormModel.Phones);
+            var viewAdr = individualViewFormModel.PrimaryAddress;
 
             // Code only for testing/debugging. Fetch modelstate errors.
             var errors = new List<ModelState>();
@@ -93,83 +97,118 @@ namespace TSMbank.Controllers
                     errors.Add(modelState);
                 }
             }   
-
             if (!ModelState.IsValid)
             {
                 var viewModel = new IndividualFormViewModel(individualViewFormModel);
-                
+
                 return View("IndividualForm", viewModel);
             }
+            
 
             if (individualViewFormModel.IndividualId == null)
             {
-                var individual = new Individual(individualViewFormModel.Individual, appUser);
-                individual.New(individualViewFormModel);
+                var individual = new Individual(viewInd.FathersName, viewInd.DateOfBirth, viewInd.FirstName,
+                    viewInd.IdentificationCardNo, viewInd.LastName, viewInd.SSN, viewInd.VatNumber, appUser.Id
+                    ,appUser.Email, viewPhones, viewAdr);                
                 appUser.RegisterCompletion = true;
-
                 context.Individuals.Add(individual);
                 var request = new Request(individual, RequestType.UserAccActivation);
                 context.Requests.Add(request);
             }
-            else
-            {
-                var individualDB = context.Individuals.Include(c => c.Phones)
-                                                    .Include(c => c.PrimaryAddress)
-                                                    .Include(c => c.SecondaryAddress)                                                    
-                                                    .SingleOrDefault(c => c.Id == individualViewFormModel.IndividualId);
-
-                switch (individualViewFormModel.ModificationAction)
-                {
-                    case ModificationAction.EditIndividual:
-                        individualDB.Edit(individualViewFormModel.Individual);
-                        break;
-
-                    case ModificationAction.EditAddresses:
-                        individualDB.PrimaryAddress.Edit(individualViewFormModel.PrimaryAddress);  
-                        if (individualDB.SecondaryAddress != null)
-                        {
-                            individualDB.SecondaryAddress.Edit(individualViewFormModel.SecondaryAddress);
-                        }
-                        break;
-
-                    case ModificationAction.EditPhones:
-                        for (int i = 0; i < individualDB.Phones.Count; i++)
-                        {                            
-                            individualDB.Phones.ElementAt(i).Edit(individualViewFormModel.Phones[i]);
-                        }
-                        if(individualDB.Phones.Count < individualViewFormModel.Phones.Count)
-                        {
-                            for (int j = individualDB.Phones.Count; j < individualViewFormModel.Phones.Count; j++)
-                            {
-                                individualDB.Phones.Add(individualViewFormModel.Phones[j]);
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
+           
             context.SaveChanges();
             if(User.IsInRole(RoleName.Administrator)) return RedirectToAction("GetIndividuals");
             return RedirectToAction("Index");
         }
 
-        //GET
-        public ActionResult Edit(string id, int modify)
+
+              
+        public ActionResult Update(IndividualFormViewModel individualVM)
         {
-            var individual = context.Individuals
-                            .Include(c => c.Phones)
-                            .Include(c => c.PrimaryAddress)
+            if (!ModelState.IsValid)
+            {
+                var viewModel = new IndividualFormViewModel(individualVM);
+
+                switch (individualVM.ModificationAction)
+                {
+                    case ModificationAction.EditIndividual:
+                        return View("EditIndividual", viewModel);
+               
+                    case ModificationAction.EditAddresses:
+                        return View("EditPhones", viewModel);
+                     
+                    case ModificationAction.EditPhones:
+                        return View("EditPhones", viewModel);
+
+                }
+                return View("IndividualForm", viewModel);
+            }
+
+            var individualDB = context.Individuals.Include(c => c.Phones)
+                                                       .Include(c => c.PrimaryAddress)
+                                                       .Include(c => c.SecondaryAddress)
+                                                       .SingleOrDefault(c => c.Id == individualVM.IndividualId);
+
+            switch (individualVM.ModificationAction)
+            {
+                case ModificationAction.EditIndividual:
+                    individualDB.Edit(individualVM.Individual);
+                    break;
+                case ModificationAction.EditAddresses:
+                    individualDB.PrimaryAddress.Edit(individualVM.PrimaryAddress);
+                    if (individualDB.SecondaryAddress != null)
+                    {
+                        individualDB.SecondaryAddress.Edit(individualVM.SecondaryAddress);
+                    }
+                    break;
+                case ModificationAction.EditPhones:
+                    for (int i = 0; i < individualDB.Phones.Count; i++)
+                    {
+                        individualDB.Phones.ElementAt(i).Edit(individualVM.Phones[i]);
+                    }
+                    if (individualDB.Phones.Count < individualVM.Phones.Count)
+                    {
+                        for (int j = individualDB.Phones.Count; j < individualVM.Phones.Count; j++)
+                        {
+                            individualDB.Phones.Add(individualVM.Phones[j]);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            context.SaveChanges();
+            if (User.IsInRole(RoleName.Administrator)) return RedirectToAction("GetIndividuals");
+            return RedirectToAction("Index");
+        }
+
+        //GET
+        
+        public ActionResult Edit(string id, ModificationAction modify)
+        {
+            var individualDb = context.Individuals.Include(c => c.Phones).Include(c => c.PrimaryAddress)
                             .Include(c => c.SecondaryAddress)
                             .SingleOrDefault(c => c.Id == id);
 
-            if (individual == null)
+            if (individualDb == null)
                 return HttpNotFound();
 
-            var viewModel = new IndividualFormViewModel(individual)
+            var viewModel = new IndividualFormViewModel(individualDb)
             {
-                ModificationAction = (ModificationAction)Enum.Parse(typeof(ModificationAction), modify.ToString())
+                ModificationAction = modify
+               
             };
+            switch (modify)
+            {
+                case ModificationAction.EditIndividual:
+                    return View("EditIndividual", viewModel);
+                  
+                case ModificationAction.EditAddresses:
+                    return View("EditAddress", viewModel);
+                   
+                case ModificationAction.EditPhones:                    
+                    return View("EditPhones", viewModel);                    
+            }            
             return View("IndividualForm", viewModel);
         }
 
@@ -232,8 +271,9 @@ namespace TSMbank.Controllers
             var individual = context.Individuals.SingleOrDefault(u => u.Id == userId);
             //var accountType = context.BankAccountTypes.SingleOrDefault(a => a.Id == Id);
 
-            // May cause problems (needs refactoring??)
+            // May cause problems (needs refactoring??)//why?
             var activeBankAccReq = context.BankAccRequests
+                                    .Include(r => r.BankAccType)
                                     .SingleOrDefault(r => r.BankAccTypeId == id && 
                                     r.Status == RequestStatus.Pending);
 

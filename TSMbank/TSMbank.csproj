@@ -360,6 +360,9 @@
     <Content Include="Views\Requests\CardReqDetails.cshtml" />
     <Content Include="Views\Requests\BankAccReqDetails.cshtml" />
     <Content Include="Views\Requests\UserAccReqDetails.cshtml" />
+    <Content Include="Views\Individuals\EditPhones.cshtml" />
+    <Content Include="Views\Individuals\EditAddress.cshtml" />
+    <Content Include="Views\Individuals\EditIndividual.cshtml" />
     <None Include="Views\Shared\_navbarMini.cshtml" />
   </ItemGroup>
   <ItemGroup>
