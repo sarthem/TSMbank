@@ -23,10 +23,7 @@ namespace TSMbank.Controllers.api
             context.SaveChanges();
             return Ok();
         }
-
-
-
-
+                
         public IndividualsController()
         {
             context = new ApplicationDbContext();
