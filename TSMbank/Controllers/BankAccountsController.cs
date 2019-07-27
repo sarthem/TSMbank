@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TSMbank.Models;
 using TSMbank.ViewModels;
-using System.Data.Entity;
-using Microsoft.AspNet.Identity;
-using System.Net.Mail;
-using SendGrid;
-using SendGrid.Helpers.Mail;
-using System.Threading.Tasks;
 
 namespace TSMbank.Controllers
 {
@@ -138,7 +138,7 @@ namespace TSMbank.Controllers
             {
                 bankAccount.AccountNumber = BankAccount.CreateRandomAccountNumber();
                 bankAccount.OpenedDate = DateTime.Now;
-                bankAccount.StatusUpdatedDateTime = DateTime.Now;                   
+                bankAccount.StatusUpdatedDateTime = DateTime.Now;
                 context.BankAccounts.Add(bankAccount);
 
                 var request = context.BankAccRequests
@@ -185,7 +185,7 @@ namespace TSMbank.Controllers
             };
             return View(viewModel);
         }
-       
+
         public ActionResult BankAccountSelection(Description description)
         {
             var userId = User.Identity.GetUserId();
@@ -193,7 +193,7 @@ namespace TSMbank.Controllers
             var viewModel = new CheckingAccApplicationViewModel() { IndividualStatus = individual.Status };
             switch (description)
             {
-                case Description.Checking:                    
+                case Description.Checking:
                     return View("CheckingAccount", viewModel);
                 case Description.Savings:
                     return View("SavingAccount", viewModel);
