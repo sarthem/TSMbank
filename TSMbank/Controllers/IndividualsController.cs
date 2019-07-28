@@ -101,11 +101,18 @@ namespace TSMbank.Controllers
             }
             if (!ModelState.IsValid)
             {
-                var viewModel = new IndividualFormViewModel(IFVM);
+                var viewModel = new IndividualFormViewModel()
+                {
+                    Individual = IFVM.Individual,
+                    Phones = IFVM.Phones,
+                    PrimaryAddress = IFVM.PrimaryAddress
+                };
 
                 return View("IndividualForm", viewModel);
             }
             Collection<Phone> viewPhones = new Collection<Phone>(IFVM.Phones);
+
+            
 
             if (IFVM.IndividualId == null)
             {
