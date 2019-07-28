@@ -7,13 +7,7 @@ using System.Web;
 
 namespace TSMbank.Models
 {
-    public enum Description
-    {
-        Checking,
-        Savings,
-        Term,
-        CreditCard
-    }
+    
 
     public class BankAccountType
     {

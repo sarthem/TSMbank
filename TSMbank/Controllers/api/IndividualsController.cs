@@ -19,7 +19,10 @@ namespace TSMbank.Controllers.api
             if (individual == null)
                 return NotFound();
 
-            individual.Status = individual.Status == IndividualStatus.Active ? IndividualStatus.Inactive : IndividualStatus.Active;
+            //individual.Status = individual.Status == IndividualStatus.Active ? IndividualStatus.Inactive : IndividualStatus.Active;
+            if (individual.Status == IndividualStatus.Active) individual.Deactivate();
+            else individual.Activate();
+
             context.SaveChanges();
             return Ok();
         }

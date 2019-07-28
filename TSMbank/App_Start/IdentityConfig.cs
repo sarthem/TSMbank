@@ -40,9 +40,7 @@ namespace TSMbank
             var plainTextContent = message.Body;
             var htmlContent = message.Body;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            // var response = await client.SendEmailAsync(msg);
-
-            // Send the email.
+            
             if (client != null)
             {
                 var response = await client.SendEmailAsync(msg);

@@ -6,11 +6,7 @@ using System.Web;
 
 namespace TSMbank.Models
 {
-    public enum TransactionApprovedReview
-    {
-        Approve,
-        Reject
-    }
+    
 
     public class Transaction
     {       

@@ -56,7 +56,7 @@ namespace TSMbank.Models
         public string VatNumber { get; private set; }
 
         public DateTime CreatedDate { get; private set; }
-        public IndividualStatus Status { get; set; }
+        public IndividualStatus Status { get; private set; } 
 
         public string FullName
         {
@@ -78,9 +78,10 @@ namespace TSMbank.Models
         public ICollection<BankAccount> BankAccounts { get; set; }
         
         public ApplicationUser User { get; set; }
-        
-              
-        public Individual()
+
+       
+        //contructors
+        public Individual()//for new private
         {
             CreatedDate = DateTime.Now;
             Status = IndividualStatus.Inactive;
@@ -106,6 +107,26 @@ namespace TSMbank.Models
             Phones = phones;
             BankAccounts = new Collection<BankAccount>();
             PrimaryAddress = address;
+           
+        }
+
+
+        public static Individual NewForView()
+        {
+            var individual = new Individual();
+
+            return individual;
+
+        }
+
+
+        public static Individual New(IndividualFormViewModel IVM, ApplicationUser user, Collection<Phone> phones)
+        {
+            var individual = new Individual(IVM.Individual.FathersName, IVM.Individual.DateOfBirth,
+                IVM.Individual.FirstName, IVM.Individual.IdentificationCardNo, IVM.Individual.LastName,
+                IVM.Individual.SSN, IVM.Individual.VatNumber, user.Id, user.Email, phones, IVM.PrimaryAddress);
+
+            return individual;
         }
 
         public void Activate()
@@ -117,14 +138,6 @@ namespace TSMbank.Models
         {
             Status = IndividualStatus.Inactive;
         }
-
-        //public void New(IndividualFormViewModel individual)
-        //{
-        //    Phones = individual.Phones;
-        //    PrimaryAddress = individual.PrimaryAddress;
-        //}
-
-
         public void Edit(Individual individual)
         {
             DateOfBirth = individual.DateOfBirth;

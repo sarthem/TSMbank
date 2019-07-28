@@ -7,14 +7,6 @@ using TSMbank.Models;
 
 namespace TSMbank.ViewModels
 {
-    public enum ModificationAction
-    {
-        NewIndividual,
-        EditIndividual,
-        EditAddresses,
-        EditPhones
-    }
-
     public class IndividualFormViewModel
     {
         
@@ -45,14 +37,11 @@ namespace TSMbank.ViewModels
             }
         }
 
-        public IndividualFormViewModel(Individual individual)
+        public IndividualFormViewModel(Individual individual, List<Phone> phones, Address primaryAddress)
         {
             Individual = individual;
-            Phones = individual.Phones.ToList();
-            PrimaryAddress = individual.PrimaryAddress;
-            SecondaryAddress = individual.SecondaryAddress;
-            Individual = individual;
-            IndividualId = individual.Id;           
+            Phones = phones;
+            PrimaryAddress = primaryAddress;           
 
         }
 
