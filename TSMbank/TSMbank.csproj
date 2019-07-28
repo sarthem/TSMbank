@@ -236,6 +236,7 @@
       <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountStatus.cs" />
     <Compile Include="Models\BankAccount.cs" />
     <Compile Include="Models\BankAccRequest.cs" />
     <Compile Include="Models\BankAccountType.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Models\EmailInfo.cs" />
     <Compile Include="Models\Individual.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\IndividualStatus.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Models\Request.cs" />
