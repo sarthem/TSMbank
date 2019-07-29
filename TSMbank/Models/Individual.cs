@@ -81,8 +81,10 @@ namespace TSMbank.Models
         public ApplicationUser User { get; set; }
 
        
+        //public Individual()//extra
+        //{}
         //contructors
-        public Individual()//for new private
+        public  Individual()//for new private
         {
             CreatedDate = DateTime.Now;
             Status = IndividualStatus.Inactive;
