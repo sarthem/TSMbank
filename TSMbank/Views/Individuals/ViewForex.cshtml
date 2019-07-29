@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "ViewForex";
+}
+
+<h2>Forex</h2>
+
+<div class="form-group">
+    <!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-screener.js" async>
+            {
+                "width": 1000,
+                    "height": 490,
+                        "defaultColumn": "overview",
+                            "defaultScreen": "general",
+                                "market": "forex",
+                                    "showToolbar": true,
+                                        "colorTheme": "light",
+                                            "locale": "en",
+                                                "isTransparent": true
+            }
+        </script>
+    </div>
+    <!-- TradingView Widget END -->
+</div>
+

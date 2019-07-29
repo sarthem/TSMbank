@@ -154,5 +154,28 @@ namespace TSMbank.Controllers
 
             return RedirectToAction("Index", new { AccountNumber = transactionView.BankAccountId });
         }
+
+        public ActionResult MakePayment()
+        {
+            var userId = User.Identity.GetUserId();
+            var customerBankAccs = context.BankAccounts
+                    .Include(ba => ba.BankAccountType)
+                    .Where(ba => ba.IndividualId == userId)
+                    .ToList();
+
+            var publicAccounts = context.BankAccounts
+                    .Include(ba => ba.BankAccountType)
+                    .Where(pa => pa.BankAccountType.Description == Description.PublicServices)
+                    .ToList();
+
+            var viewModel = new PaymentViewFormModel()
+            {
+                CustomerBankAccs = customerBankAccs,
+                Category = TransactionCategory.Payment,
+                PublicPaymentAccs = publicAccounts
+            };
+
+            return View(viewModel);
+        }
     }
 }
