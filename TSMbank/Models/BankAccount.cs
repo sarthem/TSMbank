@@ -83,24 +83,32 @@ namespace TSMbank.Models
             BankAccountTypeId = accountTypeId;
         }
 
-        public static BankAccount CreditCardAccount(Individual individual)
+        public static BankAccount CreditCardAccount(Individual individual,decimal transLimit, decimal creditLimit)
         {
-            return new BankAccount(individual, TsmVisaClassicWithDrawalLimit, BankAccountType.TSMVisaClassic);
+            var creditCardAcc = new BankAccount(individual, TsmVisaClassicWithDrawalLimit, BankAccountType.TSMVisaClassic);
+            var creditCard = Card.CreditCard(creditCardAcc, transLimit, creditLimit);
+            return creditCardAcc;
         }
 
-        public static BankAccount CreditCardAccount(string individualId)
+        public static BankAccount CreditCardAccount(string individualId, decimal transLimit, decimal creditLimit)
         {
-            return new BankAccount(individualId, TsmVisaClassicWithDrawalLimit, BankAccountType.TSMVisaClassic);
+            var creditCardAcc = new BankAccount(individualId, TsmVisaClassicWithDrawalLimit, BankAccountType.TSMVisaClassic);
+            var creditCard = Card.CreditCard(creditCardAcc, transLimit, creditLimit);
+            return creditCardAcc;
         }
 
         public static BankAccount CheckingBasic(Individual individual)
         {
-            return new BankAccount(individual, CheckingWithDrawalLimit, BankAccountType.CheckingBasic);
+            var checkingBasic = new BankAccount(individual, CheckingWithDrawalLimit, BankAccountType.CheckingBasic);
+            checkingBasic.Card = Card.DebitCard(checkingBasic);
+            return checkingBasic;
         }
 
         public static BankAccount CheckingPremium(Individual individual)
         {
-            return new BankAccount(individual, CheckingWithDrawalLimit, BankAccountType.CheckingPremium);
+            var checkingPremium = new BankAccount(individual, CheckingWithDrawalLimit, BankAccountType.CheckingPremium);
+            checkingPremium.Card = Card.DebitCard(checkingPremium);
+            return checkingPremium;
         }
 
         public static BankAccount SavingsBasic(Individual individual)
@@ -137,5 +145,6 @@ namespace TSMbank.Models
             }
             return accountNumber;
         }
+        
     }
 }

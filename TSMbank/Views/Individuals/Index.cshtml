@@ -12,6 +12,10 @@
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
+    var checkingOrSavingsAccounts = Model.BankAccounts.Where(ba => ba.BankAccountType.Description == Description.Checking
+        || ba.BankAccountType.Description == Description.Savings);
+    var cards = Model.BankAccounts.Where(ba => ba.BankAccountType.Description == Description.CreditCard
+        || ba.BankAccountType.Description == Description.Checking).Select(ba => ba.Card);
 }
 
 <h2>Customers</h2>
@@ -44,7 +48,7 @@ else
                 }
             </td>
             <td>
-                <b>@Model.Status</b>       
+                <b>@Model.Status</b>
             </td>
         </tr>
     </table>
@@ -62,23 +66,24 @@ else
 
                     @if (Model.Status == TSMbank.Models.IndividualStatus.Inactive)
                     {
-                        <p>Account is not Active yet</p>
+                        <p>Your customer account is not active.</p>
                     }
-                    else if (!Model.BankAccounts.Any())
+                    else if (!checkingOrSavingsAccounts.Any())
                     {
-                        <p>No BankAccounts yet.</p>
+                        <p>There are no active bank accounts.</p>
                     }
                     else
                     {
-                        foreach (var account in Model.BankAccounts)
+                        foreach (var account in checkingOrSavingsAccounts)
                         {
 
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="heading">
                                         <h4 class="panel-title">
+                                            @account.BankAccountType.Summary &nbsp;
                                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                @account.IBAN
+                                                (@account.IBAN)
                                             </a>
                                         </h4>
                                     </div>
@@ -86,7 +91,7 @@ else
                                         <div class="panel-body">
                                             <p>
                                                 <label class="firstLabel">Account number :@Html.ActionLink(account.AccountNumber, "Details", "BankAccounts", new { accountNo = account.AccountNumber }, null)</label>
-                                                <span><label class="secondLabel">Balance : @account.Balance</label></span>
+                                                <span><label class="secondLabel">Balance : @account.Balance Eur</label></span>
 
                                                 <span><label class="thirdLabel">NickName : @account.NickName</label></span>
 
@@ -105,13 +110,56 @@ else
             <div class="panel-heading" role="tab" id="heading">
                 <h4 class="panel-title">
                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Credit Cards
+                        My Cards
                     </a>
                 </h4>
             </div>
             <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                 <div class="panel-body">
-                    No Credit Cards yet.
+                    @if (Model.Status == TSMbank.Models.IndividualStatus.Inactive)
+                    {
+                        <p>Your customer account is not active.</p>
+                    }
+                    else if (!cards.Any())
+                    {
+                        <p>There are no active cards.</p>
+                    }
+                    else
+                    {
+                        foreach (var card in cards)
+                        {
+                            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="heading">
+                                        <h4 class="panel-title">
+                                            @card.Description() &nbsp;
+                                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                (@card.FormattedNumber())
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            <p>
+                                                <div><label>Card Number:</label><a href="/cards/carddetails/@card.Id">@card.FormattedNumber()</a></div>
+                                                <div>
+                                                    @if (card.Type == CardType.CreditCard)
+                                                    {
+                                                        <label>Balance:</label><span>@card.BankAccount.Balance Eur</span>
+                                                    }
+                                                    else if (card.Type == CardType.DebitCard)
+                                                    {
+                                                        <label>Associated Account:</label><span>@card.BankAccount.BankAccountType.Summary (@card.BankAccount.IBAN)</span>
+                                                    }
+                                                </div>
+                                            </p>
+                                            @*@Html.Partial("_navBarMini", account)*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
                 </div>
             </div>
         </div>
@@ -146,7 +194,7 @@ else
     </div>
 }
 
-@*@if (Model != null)
+@if (Model != null)
 {
     @section scripts
     {
@@ -162,22 +210,37 @@ else
                     $(this).children('.collapse').collapse('hide');
                 }
             );
-            document.getElementById("change-individual-status").addEventListener("click", function () {
-                var r = confirm("Are you sure you want to change the status of your Account?")
+            //document.getElementById("change-individual-status").addEventListener("click", function () {
+            //    var r = confirm("Are you sure you want to change the status of your Account?")
 
-                if (r == true) {
-                    window.location.href = path;
-                } else {
-                    let txt = "Account is not Active!";
-                }
-            });
+            //    if (r == true) {
+            //        window.location.href = path;
+            //    } else {
+            //        let txt = "Account is not Active!";
+            //    }
+            //});
         });
 
+            
 
+            function b() {
+                console.log(myVar);
+                //var myVar;
+                //console.log(myVar);
+            }
 
+            function a() {
+                var myVar = 2;
+                console.log(myVar);
+                b();
+            }
+
+            var myVar = 1;
+            //console.log(myVar);
+            a();
         </script>
 
     }
 
-}*@
+}
 

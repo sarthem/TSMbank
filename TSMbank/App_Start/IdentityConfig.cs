@@ -39,7 +39,7 @@ namespace TSMbank
             var to = new EmailAddress(message.Destination, message.Subject);
             var plainTextContent = message.Body;
             var htmlContent = message.Body;
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent); 
             // var response = await client.SendEmailAsync(msg);
 
             // Send the email.
