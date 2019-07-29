@@ -11,11 +11,8 @@ namespace TSMbank.Persistance
     {
         private readonly ApplicationDbContext _context;
 
-
         public IndividualRepository Individuals;
         public BankAccountRepository BankAccounts;
-       
-
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -23,7 +20,6 @@ namespace TSMbank.Persistance
             Individuals = new IndividualRepository(context);
             BankAccounts = new BankAccountRepository(context);
         }
-
 
         public void Complete()
         {

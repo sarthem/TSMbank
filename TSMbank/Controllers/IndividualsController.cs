@@ -284,13 +284,13 @@ namespace TSMbank.Controllers
         public ActionResult BankAccountPetition(byte id)
         {
             var userId = User.Identity.GetUserId();
-            var individual = context.Individuals.SingleOrDefault(u => u.Id == userId);///????
+            var individual = context.Individuals.SingleOrDefault(u => u.Id == userId);
 
             var activeBankAccReq = context.BankAccRequests
                                     .Include(r => r.BankAccType)
                                     .SingleOrDefault(r => r.IndividualId == userId 
-                                    &&r.BankAccTypeId == id
-                                    && r.Status == RequestStatus.Pending);
+                                    && r.BankAccTypeId == id
+                                    && r.Status == RequestStatus.Pending || r.Status == RequestStatus.Approved);
 
             if (activeBankAccReq == null)
             {
