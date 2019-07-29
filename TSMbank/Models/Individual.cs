@@ -19,44 +19,45 @@ namespace TSMbank.Models
         [Display(Name = "First name")]
         [StringLength(255)]
         [Required]
-        public string FirstName { get; private set; }
+        public string FirstName { get; set; }
 
         [Display(Name = "Last name")]
         [StringLength(255)]
         [Required]
-        public string LastName { get; private set; }
+        public string LastName { get; set; }
 
         [Display(Name = "Father's name")]
         [StringLength(255)]
         [Required]
-        public string FathersName { get; private set; }
+        public string FathersName { get; set; }
 
-        public string Email { get; private set; }
+        public string Email { get; set; }
 
+        
         [Display(Name = "Date of birth")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime? DateOfBirth { get; private set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [Required]        
         [Display(Name = "Identity Card Number")]
         [StringLength(8, MinimumLength = 8, ErrorMessage = "This field must be 8 characters")]
         [RegularExpression("[a-zA-Z]{2}[0-9]{6}", ErrorMessage = "Identity Card Number must be 2 letters and 6 numbers")]
-        public string IdentificationCardNo { get; private set; }
+        public string IdentificationCardNo { get; set; }
 
         [Required]
         [Display(Name = "Social Security Number")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "This field must be 11 numbers")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Social Security Number must be numeric")]
-        public string SSN { get; private set; }
+        public string SSN { get; set; }
 
         [Required]
         [Display(Name = "Taxpayer Identification Number")]
         [StringLength(9, MinimumLength = 9, ErrorMessage = "This field must be 9 numbers")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Taxpayer Identification Number must be numeric")]
-        public string VatNumber { get; private set; }
+        public string VatNumber { get; set; }
 
-        public DateTime CreatedDate { get; private set; }
-        public IndividualStatus Status { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public IndividualStatus Status { get; set; } 
 
         public string FullName
         {
@@ -68,19 +69,22 @@ namespace TSMbank.Models
 
         //Navigation Properties   
        
-        public Address PrimaryAddress { get; private set; }
+        public Address PrimaryAddress { get; set; }
         public int PrimaryAddressId { get; set; }
 
-        public Address SecondaryAddress { get; set; } //private
+        public Address SecondaryAddress { get; set; } 
         public int? SecondaryAddressId { get; set; }
 
         public ICollection<Phone> Phones { get; set; }
         public ICollection<BankAccount> BankAccounts { get; set; }
         
         public ApplicationUser User { get; set; }
-        
-              
-        public Individual()
+
+       
+        //public Individual()//extra
+        //{}
+        //contructors
+        public  Individual()//for new private
         {
             CreatedDate = DateTime.Now;
             Status = IndividualStatus.Inactive;
@@ -106,6 +110,27 @@ namespace TSMbank.Models
             Phones = phones;
             BankAccounts = new Collection<BankAccount>();
             PrimaryAddress = address;
+           
+        }
+
+
+        public static Individual NewForView()
+        {
+            var individual = new Individual();
+
+            return individual;
+
+        }
+
+        
+
+        public static Individual New(IndividualFormViewModel IVM, ApplicationUser user, Collection<Phone> phones)
+        {
+            var individual = new Individual(IVM.Individual.FathersName, IVM.Individual.DateOfBirth,
+                IVM.Individual.FirstName, IVM.Individual.IdentificationCardNo, IVM.Individual.LastName,
+                IVM.Individual.SSN, IVM.Individual.VatNumber, user.Id, user.Email, phones, IVM.PrimaryAddress);
+
+            return individual;
         }
 
         public void Activate()
@@ -117,14 +142,6 @@ namespace TSMbank.Models
         {
             Status = IndividualStatus.Inactive;
         }
-
-        //public void New(IndividualFormViewModel individual)
-        //{
-        //    Phones = individual.Phones;
-        //    PrimaryAddress = individual.PrimaryAddress;
-        //}
-
-
         public void Edit(Individual individual)
         {
             DateOfBirth = individual.DateOfBirth;

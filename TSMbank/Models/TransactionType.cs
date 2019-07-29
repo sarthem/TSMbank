@@ -5,18 +5,6 @@ using System.Web;
 
 namespace TSMbank.Models
 {
-    public enum TransactionCategory
-    {
-        Deposit,
-        Withdrawal,
-        Payment,
-        Cancellation,
-        MoneyTransfer,
-        Purchase,
-        InterestFee,
-        OverdueFee
-    }
-
     public class TransactionType
     {
         public byte Id { get; set; }
