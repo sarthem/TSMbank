@@ -11,8 +11,8 @@ namespace TSMbank.Persistance
     {
         private readonly ApplicationDbContext _context;
 
-        public IndividualRepository Individuals;
-        public BankAccountRepository BankAccounts;
+        public IndividualRepository Individuals { get; private set; }
+        public BankAccountRepository BankAccounts { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
