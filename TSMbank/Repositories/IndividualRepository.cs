@@ -21,7 +21,8 @@ namespace TSMbank.Repositories
             return _context.Individuals
                             .Include(c => c.Phones)
                             .Include(c => c.PrimaryAddress)
-                            .Include(c => c.BankAccounts)
+                            .Include(c => c.BankAccounts.Select(ba => ba.Card))
+                            .Include(i => i.BankAccounts.Select(ba => ba.BankAccountType))
                             .SingleOrDefault(c => c.Id == userId);
         }
 
