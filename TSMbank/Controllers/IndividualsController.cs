@@ -60,22 +60,7 @@ namespace TSMbank.Controllers
             return View("Index");
         }
 
-        //public ActionResult New()
-        //{
-        //    var userId = User.Identity.GetUserId();
-        //    var appUser = context.Users.Find(userId);
-        //    var modelView = new IndividualFormViewModel()
-        //    {
-        //        Individual = new Individual()
-        //        {
-        //            Email = appUser.Email
-        //        },
-        //        ModificationAction = ModificationAction.NewIndividual,
-        //    };
-        //    return View("IndividualForm", modelView);
-        //}
-
-
+        
         public ActionResult New()
         {
             var userId = User.Identity.GetUserId();
@@ -153,6 +138,11 @@ namespace TSMbank.Controllers
 
         public ActionResult Update(IndividualFormViewModel individualVM)
         {
+
+            var individualDB = context.Individuals.Include(c => c.Phones)
+                                                       .Include(c => c.PrimaryAddress)
+                                                       .Include(c => c.SecondaryAddress)
+                                                       .SingleOrDefault(c => c.Id == individualVM.IndividualId);
             if (!ModelState.IsValid)
             {
                 var viewModel = new IndividualFormViewModel(individualVM);
@@ -172,10 +162,6 @@ namespace TSMbank.Controllers
                 return View("IndividualForm", viewModel);
             }
 
-            var individualDB = context.Individuals.Include(c => c.Phones)
-                                                       .Include(c => c.PrimaryAddress)
-                                                       .Include(c => c.SecondaryAddress)
-                                                       .SingleOrDefault(c => c.Id == individualVM.IndividualId);
 
             switch (individualVM.ModificationAction)
             {
@@ -221,6 +207,8 @@ namespace TSMbank.Controllers
             if (individualDb == null)
                 return HttpNotFound();
 
+
+            
             var viewModel = new IndividualFormViewModel(individualDb)
             {
                 ModificationAction = modify
@@ -339,3 +327,4 @@ namespace TSMbank.Controllers
         }
     }
 }
+
