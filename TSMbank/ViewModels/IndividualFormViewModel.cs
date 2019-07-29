@@ -44,6 +44,12 @@ namespace TSMbank.ViewModels
             PrimaryAddress = primaryAddress;           
 
         }
+        public IndividualFormViewModel(Individual individual)
+        {
+            Individual = individual;
+           
+
+        }
 
         public IndividualFormViewModel(IndividualFormViewModel model)
         {

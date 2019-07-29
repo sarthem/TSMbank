@@ -60,6 +60,20 @@ namespace TSMbank.Controllers
             return View("Index");
         }
 
+        //public ActionResult New()
+        //{
+        //    var userId = User.Identity.GetUserId();
+        //    var appUser = context.Users.Find(userId);
+        //    var modelView = new IndividualFormViewModel()
+        //    {
+        //        Individual = new Individual()
+        //        {
+        //            Email = appUser.Email
+        //        },
+        //        ModificationAction = ModificationAction.NewIndividual,
+        //    };
+        //    return View("IndividualForm", modelView);
+        //}
 
 
         public ActionResult New()
@@ -69,8 +83,8 @@ namespace TSMbank.Controllers
 
             var modelView = new IndividualFormViewModel()
             {
-                //Individual = Individual.NewForView(),//not private
-                Individual = new Individual(),
+                Individual = Individual.NewForView(),//not private
+                //Individual = new Individual(),
                 Phones = new List<Phone>(),
                 ModificationAction = ModificationAction.NewIndividual,
             };
@@ -116,15 +130,15 @@ namespace TSMbank.Controllers
 
             if (IFVM.IndividualId == null)
             {
-                var individual = new Individual(viewInd.FathersName, viewInd.DateOfBirth, viewInd.FirstName,
-                    viewInd.IdentificationCardNo, viewInd.LastName, viewInd.SSN, viewInd.VatNumber, appUser.Id
-                    , appUser.Email, viewPhones, viewAdr);
+                //var individual = new Individual(viewInd.FathersName, viewInd.DateOfBirth, viewInd.FirstName,
+                //    viewInd.IdentificationCardNo, viewInd.LastName, viewInd.SSN, viewInd.VatNumber, appUser.Id
+                //    , appUser.Email, viewPhones, viewAdr);
 
 
-                // var individual = Individual.New(IFVM, appUser, viewPhones);
+                var individual = Individual.New(IFVM, appUser, viewPhones);
 
 
-                appUser.RegisterCompletion = false;
+                appUser.RegisterCompletion = true;
                 context.Individuals.Add(individual);
                 var request = new Request(individual, RequestType.UserAccActivation);
                 context.Requests.Add(request);
@@ -197,33 +211,33 @@ namespace TSMbank.Controllers
         }
 
         //GET
-        
-        //public ActionResult Edit(string id, ModificationAction modify)
-        //{
-        //    var individualDb = context.Individuals.Include(c => c.Phones).Include(c => c.PrimaryAddress)
-        //                    .Include(c => c.SecondaryAddress)
-        //                    .SingleOrDefault(c => c.Id == id);
 
-        //    if (individualDb == null)
-        //        return HttpNotFound();
+        public ActionResult Edit(string id, ModificationAction modify)
+        {
+            var individualDb = context.Individuals.Include(c => c.Phones).Include(c => c.PrimaryAddress)
+                            .Include(c => c.SecondaryAddress)
+                            .SingleOrDefault(c => c.Id == id);
 
-        //    var viewModel = new IndividualFormViewModel(individualDb)
-        //    {
-        //        ModificationAction = modify               
-        //    };
-        //    switch (modify)
-        //    {
-        //        case ModificationAction.EditIndividual:
-        //            return View("EditIndividual", viewModel);
-                  
-        //        case ModificationAction.EditAddresses:
-        //            return View("EditAddress", viewModel);
-                   
-        //        case ModificationAction.EditPhones:                    
-        //            return View("EditPhones", viewModel);                    
-        //    }            
-        //    return View("IndividualForm", viewModel);
-        //}
+            if (individualDb == null)
+                return HttpNotFound();
+
+            var viewModel = new IndividualFormViewModel(individualDb)
+            {
+                ModificationAction = modify
+            };
+            switch (modify)
+            {
+                case ModificationAction.EditIndividual:
+                    return View("EditIndividual", viewModel);
+
+                case ModificationAction.EditAddresses:
+                    return View("EditAddress", viewModel);
+
+                case ModificationAction.EditPhones:
+                    return View("EditPhones", viewModel);
+            }
+            return View("IndividualForm", viewModel);
+        }
 
         //GET
         public ActionResult Details(string id, string detail)
