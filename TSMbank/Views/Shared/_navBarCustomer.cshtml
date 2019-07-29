@@ -1,4 +1,5 @@
-﻿@using TSMbank.Models;
+﻿@model TSMbank.ApplicationUserManager
+@using TSMbank.Models;
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -7,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            @Html.ActionLink("TSM bank", "Index", "Individuals", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("TSM bank", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -23,15 +24,6 @@
                 </li>
                 <li>@Html.ActionLink("Money transfers", "Deposit", "Transactions")</li>
                 <li>@Html.ActionLink("My bills", "MakePayment", "Transactions")</li>
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">View Stocks<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("ViewForex", "Individuals")">Forex</a></li>
-                        <li><a href="@Url.Action("ViewCrypto", "Individuals")">Cryptocurrency</a></li>
-                        <li><a href="@Url.Action("ViewHeatMap", "Individuals")">Heat Map</a></li>
-                    </ul>
-                </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Credit Cards<span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -52,6 +44,10 @@
                     <ul class="dropdown-menu">
                         <li><a href="@Url.Action("BankAccountSelection", "BankAccounts", new { description = Description.Term })">Term Accounts</a></li>
                         <li><a href="@Url.Action("BankAccountSelection", "BankAccounts", new { description = Description.Term })">Bonds</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("ViewForex", "Individuals")">Forex</a></li>
+                        <li><a href="@Url.Action("ViewCrypto", "Individuals")">Cryptocurrency</a></li>
+                        <li><a href="@Url.Action("ViewHeatMap", "Individuals")">HeatMap</a></li>
                     </ul>
                 </li>
             </ul>

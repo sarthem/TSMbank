@@ -158,20 +158,26 @@ namespace TSMbank.Controllers
         public ActionResult MakePayment()
         {
             var userId = User.Identity.GetUserId();
-            var appUser = context.Users.Include(a => a.Individual).Include(a => a.Individual.BankAccounts).SingleOrDefault(a => a.Id == userId);
+            var customerBankAccs = context.BankAccounts
+                    .Include(ba => ba.BankAccountType)
+                    .Where(ba => ba.IndividualId == userId)
+                    .ToList();
 
-            var publicAccounts = context.BankAccounts.Where(pa => pa.BankAccountType.Description == Description.PublicServices).ToList();
+            var publicAccounts = context.BankAccounts
+                    .Include(ba => ba.BankAccountType)
+                    .Where(pa => pa.BankAccountType.Description == Description.PublicServices)
+                    .ToList();
 
             var viewModel = new PaymentViewFormModel()
             {
-                Individual = appUser.Individual,
-                BankAccounts = appUser.Individual.BankAccounts.ToList(),
+                CustomerBankAccs = customerBankAccs,
                 Category = TransactionCategory.Payment,
-                PublicServiceType = publicAccounts
-
+                PublicPaymentAccs = publicAccounts
             };
 
             return View(viewModel);
         }
+
+        // makepayment post account pelati px eidap enimerosi balancing kai payment sthn vash me transaction sthn vash.
     }
 }

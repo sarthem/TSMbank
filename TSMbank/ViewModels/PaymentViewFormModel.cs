@@ -9,20 +9,12 @@ namespace TSMbank.ViewModels
     public class PaymentViewFormModel
     {
         // Transaction
-        public Individual Individual { get; set; }
-        public List<BankAccount> BankAccounts { get; set; }
-        public string BankAccountId { get; set; }
-        public string CreditAccount { get; set; }
-        public decimal Amount { get; set; }
-        public List<BankAccount> CreditIBAN { get; set; }
-        public TransactionCategory Category { get; set; }
-
-        // My Bill
-        public int Id { get; set; }
-        public int OnlinePaymentCode { get; set; }
-        public DateTime ExpirationDate { get; set; }
-        public string Comments { get; set; }
-
-        public List<BankAccount> PublicServiceType { get; set; }
+        public List<BankAccount> CustomerBankAccs { get; set; } //
+        public string CustomerBankAccNo { get; set; }
+        public string PublicPaymentAccNo { get; set; } 
+        public decimal Amount { get; set; } 
+        public List<BankAccount> PublicPaymentAccs { get; set; } //
+        public TransactionCategory Category { get; set; } //
+        public string OnlinePaymentCode { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace TSMbank.Models
         public const byte SavingsPremium = 22;
         public const byte TSMVisaClassic = 31;
         public const byte TermBasic = 41;
-
+        public const byte PublicServices = 51;
         
         public byte Id { get; set; }
         public Description Description { get; set; }

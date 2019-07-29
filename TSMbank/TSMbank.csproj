@@ -360,13 +360,11 @@
     <Content Include="Views\Individuals\AddSecondAddress.cshtml" />
     <Content Include="Views\Cards\CreditCard.cshtml" />
     <Content Include="Views\Requests\CardReqDetails.cshtml" />
-
     <Content Include="Views\Individuals\ViewCrypto.cshtml" />
     <Content Include="Views\Individuals\ViewForex.cshtml" />
     <Content Include="Views\Individuals\ViewHeatMap.cshtml" />
     <None Include="Views\Shared\_navbarMini.cshtml" />
     <Content Include="Views\Transactions\MakePayment.cshtml" />
-
     <Content Include="Views\Requests\BankAccReqDetails.cshtml" />
     <Content Include="Views\Requests\UserAccReqDetails.cshtml" />
     <Content Include="Views\Individuals\EditPhones.cshtml" />
