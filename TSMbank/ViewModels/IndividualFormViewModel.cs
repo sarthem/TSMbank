@@ -7,14 +7,6 @@ using TSMbank.Models;
 
 namespace TSMbank.ViewModels
 {
-    public enum ModificationAction
-    {
-        NewIndividual,
-        EditIndividual,
-        EditAddresses,
-        EditPhones
-    }
-
     public class IndividualFormViewModel
     {
         
@@ -45,6 +37,13 @@ namespace TSMbank.ViewModels
             }
         }
 
+        public IndividualFormViewModel(Individual individual, List<Phone> phones, Address primaryAddress)
+        {
+            Individual = individual;
+            Phones = phones;
+            PrimaryAddress = primaryAddress;           
+
+        }
         public IndividualFormViewModel(Individual individual)
         {
             Individual = individual;
@@ -52,8 +51,7 @@ namespace TSMbank.ViewModels
             PrimaryAddress = individual.PrimaryAddress;
             SecondaryAddress = individual.SecondaryAddress;
             Individual = individual;
-            IndividualId = individual.Id;           
-
+            IndividualId = individual.Id;
         }
 
         public IndividualFormViewModel(IndividualFormViewModel model)

@@ -7,14 +7,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TSMbank.Models
 {
-    public enum PhoneType
-    {
-        Mobile,
-        Home,
-        Work
-    };
-
-
     public class Phone
     {
         public int Id { get; set; }
