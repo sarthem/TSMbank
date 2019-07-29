@@ -47,8 +47,11 @@ namespace TSMbank.ViewModels
         public IndividualFormViewModel(Individual individual)
         {
             Individual = individual;
-           
-
+            Phones = individual.Phones.ToList();
+            PrimaryAddress = individual.PrimaryAddress;
+            SecondaryAddress = individual.SecondaryAddress;
+            Individual = individual;
+            IndividualId = individual.Id;
         }
 
         public IndividualFormViewModel(IndividualFormViewModel model)

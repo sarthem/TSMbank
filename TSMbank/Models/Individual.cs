@@ -33,6 +33,7 @@ namespace TSMbank.Models
 
         public string Email { get; set; }
 
+        
         [Display(Name = "Date of birth")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DateOfBirth { get; set; }
