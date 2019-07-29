@@ -32,18 +32,11 @@ namespace TSMbank.Controllers
             context.Dispose();
         }
 
-        
+
         public ActionResult Index()
         {
-            var userId = User.Identity.GetUserId();            
+            var userId = User.Identity.GetUserId();
             var individual = unitOfWork.Individuals.GetIndividual(userId);
-
-            //context.Individuals
-            //                .Include(c => c.Phones)
-            //                .Include(c => c.PrimaryAddress)
-            //                .Include(c => c.BankAccounts)                            
-            //                .SingleOrDefault(c => c.Id == userId);
-
             return View("Index", individual);
         }
 
@@ -52,11 +45,11 @@ namespace TSMbank.Controllers
         public ActionResult GetIndividuals()
         {
             var individuals = unitOfWork.Individuals.GetIndividuals();
-                
-                //context.Individuals
-                //                .Include(c => c.Phones)
-                //                .Include(c => c.PrimaryAddress)
-                //                .Include(c => c.BankAccounts).ToList();
+
+            //context.Individuals
+            //                .Include(c => c.Phones)
+            //                .Include(c => c.PrimaryAddress)
+            //                .Include(c => c.BankAccounts).ToList();
 
             return View(individuals);
         }
@@ -67,14 +60,14 @@ namespace TSMbank.Controllers
             return View("Index");
         }
 
-        
+
         public ActionResult New()
-        {            
+        {
             var appUser = context.Users.Find(User.Identity.GetUserId());
 
             var modelView = new IndividualFormViewModel()
             {
-                Individual = Individual.NewForView(),                
+                Individual = Individual.NewForView(),
                 Phones = new List<Phone>(),
                 ModificationAction = ModificationAction.NewIndividual,
             };
@@ -115,7 +108,7 @@ namespace TSMbank.Controllers
             }
             Collection<Phone> viewPhones = new Collection<Phone>(IFVM.Phones);
 
-            
+
 
             if (IFVM.IndividualId == null)
             {
@@ -160,7 +153,7 @@ namespace TSMbank.Controllers
 
 
 
-        switch (individualVM.ModificationAction)
+            switch (individualVM.ModificationAction)
             {
                 case ModificationAction.EditIndividual:
                     individualDB.Edit(individualVM.Individual);
@@ -205,7 +198,7 @@ namespace TSMbank.Controllers
 
             if (individualDb == null)
                 return HttpNotFound();
-            
+
             var viewModel = new IndividualFormViewModel(individualDb)
             {
                 ModificationAction = modify
@@ -234,11 +227,11 @@ namespace TSMbank.Controllers
 
             var individual = unitOfWork.Individuals.GetIndividualWithAddressAndPhone(id);
 
-                //context.Individuals
-                //            .Include(c => c.Phones)
-                //            .Include(c => c.PrimaryAddress)
-                //            .Include(c => c.SecondaryAddress)
-                //            .SingleOrDefault(c => c.Id == id);
+            //context.Individuals
+            //            .Include(c => c.Phones)
+            //            .Include(c => c.PrimaryAddress)
+            //            .Include(c => c.SecondaryAddress)
+            //            .SingleOrDefault(c => c.Id == id);
 
 
             if (individual == null)
@@ -249,9 +242,9 @@ namespace TSMbank.Controllers
             switch (detail)
             {
                 case "PersonalInfo":
-                    return View("Details", individual);                    
+                    return View("Details", individual);
                 case "AddressInfo":
-                    return View("DetailsAddress", individual);                    
+                    return View("DetailsAddress", individual);
                 case "PhoneInfo":
                     return View("DetailsPhone", individual);
                 default:
@@ -288,13 +281,13 @@ namespace TSMbank.Controllers
 
             var activeBankAccReq = context.BankAccRequests
                                     .Include(r => r.BankAccType)
-                                    .SingleOrDefault(r => r.IndividualId == userId 
+                                    .SingleOrDefault(r => r.IndividualId == userId
                                     && r.BankAccTypeId == id
                                     && r.Status == RequestStatus.Pending || r.Status == RequestStatus.Approved);
 
             if (activeBankAccReq == null)
             {
-                var bankAccReq = new BankAccRequest(individual,RequestType.BankAccActivation, id);
+                var bankAccReq = new BankAccRequest(individual, RequestType.BankAccActivation, id);
                 context.BankAccRequests.Add(bankAccReq);
                 unitOfWork.Complete();
                 return RedirectToAction("Index");
@@ -315,15 +308,15 @@ namespace TSMbank.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var viewModel = new Address(address);               
+                var viewModel = new Address(address);
                 return View("AddSecondAddress", viewModel);
             }
             var userId = User.Identity.GetUserId();
-            var user = context.Individuals             
+            var user = context.Individuals
                         .SingleOrDefault(u => u.Id == userId);
 
             user.SecondaryAddress = address;
-            unitOfWork.Complete();    
+            unitOfWork.Complete();
 
             return RedirectToAction("Index");
         }

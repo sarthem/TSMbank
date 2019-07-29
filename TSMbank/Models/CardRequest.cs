@@ -34,8 +34,9 @@ namespace TSMbank.Models
 
         public override async Task Approve()
         {
-            var creditCardAcc = BankAccount.CreditCardAccount(Individual);
-            var creditCard = Card.CreditCard(creditCardAcc, TransactionAmountLimit, CreditLimit);
+            //var creditCardAcc = BankAccount.CreditCardAccount(Individual);
+            //var creditCard = Card.CreditCard(creditCardAcc, TransactionAmountLimit, CreditLimit);
+            var creditCardAcc = BankAccount.CreditCardAccount(Individual, TransactionAmountLimit, CreditLimit);
             Individual.BankAccounts.Add(creditCardAcc);
             Status = RequestStatus.Approved;
             var emailnfo = EmailInfo.CreditCardApproved(Individual);

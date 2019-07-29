@@ -1,0 +1,108 @@
+﻿@model TSMbank.Models.Card
+@{
+    ViewBag.Title = "CreditCardDetails";
+}
+
+<div class="card-info-container">
+    <h4>TSM Visa Classic</h4>
+    <div class="card-info">
+        <div class="card-info-basic">
+            <div class="card-info-block">
+                <div class="small-header">Card Info</div>
+                <img class="sample-card" src="~/Image/tsmVisaPlatinum.png" alt="visa-sample-image" />
+                <div class="card-rowfield">
+                    <span class="field-property">Card Number: </span><span>@Model.FormattedNumber()</span>
+                </div>
+            </div>
+            <div class="card-info-block">
+                <div class="card-boxfield">
+                    <div class="field-value">@Model.CreditLimit Eur</div>
+                    <div class="field-property">Credit Limit</div>
+                </div>
+                <div class="card-boxfield">
+                    <div class="field-value">@Model.Status</div>
+                    <div class="field-property">Status</div>
+                </div>
+            </div>
+            <div class="card-info-block">
+                <div class="card-boxfield">
+                    <div class="field-value">@Model.AvailableBalance() Eur</div>
+                    <div class="field-property">Available Balance</div>
+                </div>
+                <div class="card-boxfield">
+                    <div class="field-value">@(-Model.BankAccount.Balance) Eur</div>
+                    <div class="field-property">Current Balance</div>
+                </div>
+            </div>
+        </div>
+        <div class="section-card-details">
+            <div class="card-details-header" data-toggle="collapse" data-target="#card-details">
+                Details
+            </div>
+            <div id="card-details" class="card-details-content clearfix collapse" >
+                <div class="col-md-6">
+                    <table class="table-card-details">
+                        <tbody>
+                            <tr>
+                                <th colspan="2">Credit Card Details</th>
+                            </tr>
+                            <tr>
+                                <td>Card Holder Name: </td>
+                                <td>@Model.CardHolderName</td>
+                            </tr>
+                            <tr>
+                                <td>Issue Date: </td>
+                                <td>@Model.IssueDate.ToShortDateString()</td>
+                            </tr>
+                            <tr>
+                                <td>Expiry Date: </td>
+                                <td>@Model.ExpiryDate.ToShortDateString()</td>
+                            </tr>
+                            <tr>
+                                <td>Billing Address: </td>
+                                <td>@Model.BankAccount.Individual.PrimaryAddress.FullAddress</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6 ">
+                    <table class="table-card-details">
+                        <tbody>
+                            <tr>
+                                <th colspan="2">Spending Limits & Interest Rates</th>
+                            </tr>
+                            <tr>
+                                <td>Credit Limit: </td>
+                                <td>@Model.CreditLimit Eur</td>
+                            </tr>
+                            <tr>
+                                <td>Transactions Limit: </td>
+                                <td>@Model.TransactionAmountLimit Eur</td>
+                            </tr>
+                            <tr>
+                                <td>Purchases Interest Rate: </td>
+                                <td>@Model.BankAccount.BankAccountType.InterestRate%</td>
+                            </tr>
+                            <tr>
+                                <td>Billing Address: </td>
+                                <td>@Model.BankAccount.Individual.PrimaryAddress.FullAddress</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('.card-details-header').on('click', function () {
+
+            })
+        });
+    </script>
+}

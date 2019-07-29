@@ -293,6 +293,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Image\images %2812%29.png" />
+    <Content Include="Image\tsmVisaPlatinum.png" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -374,6 +375,7 @@
     <Content Include="Views\Individuals\EditPhones.cshtml" />
     <Content Include="Views\Individuals\EditAddress.cshtml" />
     <Content Include="Views\Individuals\EditIndividual.cshtml" />
+    <Content Include="Views\Cards\CreditCardDetails.cshtml" />
     <None Include="Views\Shared\_navbarMini.cshtml" />
     <Content Include="Views\Transactions\TransferToAccountERROR.cshtml" />
   </ItemGroup>

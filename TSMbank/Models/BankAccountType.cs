@@ -7,7 +7,7 @@ using System.Web;
 
 namespace TSMbank.Models
 {
-    
+
 
     public class BankAccountType
     {
@@ -17,8 +17,9 @@ namespace TSMbank.Models
         public const byte SavingsPremium = 22;
         public const byte TSMVisaClassic = 31;
         public const byte TermBasic = 41;
+        public const byte PublicServices = 51;
 
-        
+
         public byte Id { get; set; }
         public Description Description { get; set; }
         public decimal InterestRate { get; set; }
