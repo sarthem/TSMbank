@@ -62,16 +62,17 @@ else
         $.connection.hub.start().done(function () {
         });
         progress.client.showTransactions = function (trans) {
-
+            let timenow = new Date(trans.Time);
             if (Model.AccountNumber == trans.CreditAccountNo) {
-                $("#transactionsId").prepend(`<td>${trans.Time.ToLongTimeString()}</td>
-                                            <td>${trans.Time.ToLongDateString()} </td>
+                
+                $("#transactionsId").prepend(`<td>${timenow.Time.ToLongTimeString()}</td>
+                                            <td>${timenow.Time.ToLongDateString()} </td>
                                             <td><label>Transfered From </label>: ${trans.DebitAccountNo}</td>
                                             <td> ${trans.DebitAmount}</td>
                                             <td> ${trans.CreditAccountBalanceAfterTransaction}</td>`);
             } else {
-                $("#transactionsId").prepend(`<td>${trans.Time.ToLongTimeString()}</td>
-                                            <td>${trans.Time.ToLongDateString()} </td>
+                $("#transactionsId").prepend(`<td>${timenow.Time.ToLongTimeString()}</td>
+                                            <td>${timenow.Time.ToLongDateString()} </td>
                                             <td><label>Transfered To </label>: ${trans.CreditAccountNo}</td>
                                             <td> - ${trans.DebitAmount}</td>
                                             <td> ${trans.DebitAccountBalanceAfterTransaction}</td>`);
