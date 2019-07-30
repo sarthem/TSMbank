@@ -2,18 +2,25 @@
 @{
     ViewBag.Title = "Home Page";
 }
+<head>
+    <style>
+        body {
+            background-image: url('/Image/Taichung Commercial Bank_Hero.jpg');
+            width: 100%;
+            height: auto;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 
-<style>
-    body {
-        background-image: url('/Image/Taichung Commercial Bank_Hero.jpg');
-        width: 100%;
-        height: auto;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-</style>
+</head>
 
-<div class="animated-css">
-    <span class="animated-span-1">Welcome in</span>
-    <span class="animated-span-2">TSM Bank</span>
-</div>
+<body>
+    <div class="animated-css">
+        <span class="animated-span-1">Welcome to</span><br />
+        <span class="animated-span-2">TSM Bank</span>
+        <br /> 
+            @Html.ActionLink("Login", "Login", "Account", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-primary" })
+    </div>
+</body>
