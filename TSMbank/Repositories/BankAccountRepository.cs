@@ -46,5 +46,15 @@ namespace TSMbank.Repositories
                             .Include(a => a.DebitTransactions)
                             .SingleOrDefault(a => a.AccountNumber == accountNumber);
         }
+
+        public IEnumerable<BankAccount> GetCheckingAndSavingsBankAccs(string id)
+        {
+            return _context.BankAccounts
+                    .Include(ba => ba.BankAccountType)
+                    .Where(ba => ba.IndividualId == id && (ba.BankAccountType.Description == Description.Checking
+                        || ba.BankAccountType.Description == Description.Savings))
+                    .ToList();
+        }
+
     }
 }

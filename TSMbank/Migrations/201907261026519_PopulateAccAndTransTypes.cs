@@ -26,6 +26,9 @@ namespace TSMbank.Migrations
             Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (6, 5, 0, 'Purchase')");
             Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (7, 6, 0, 'Interest Fee')");
             Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (8, 7, 0, 'Overdue Fee')");
+            Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (9, 8, 0, 'Bank Commission')");
+
+
         }
 
         public override void Down()

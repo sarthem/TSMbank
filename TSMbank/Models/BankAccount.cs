@@ -12,13 +12,14 @@ namespace TSMbank.Models
         private const decimal CheckingWithDrawalLimit = 1500.0m;
         private const decimal TsmVisaClassicWithDrawalLimit = 0m;
         private const decimal SavingsWithdrawalLimit = 99999999999.99m;
+        private const decimal InitialBalance = 5000.0m;
 
         [Key]
-        [StringLength(16,MinimumLength = 16)]
+        [StringLength(16, MinimumLength = 16)]
         public string AccountNumber { get; set; }
 
         public AccountStatus AccountStatus { get; set; }
-        public decimal Balance { get; set; }
+        public decimal Balance { get; private set; }
         public decimal WithdrawalLimit { get; set; }
         public string NickName { get; set; }
         public DateTime OpenedDate { get; set; }
@@ -35,7 +36,7 @@ namespace TSMbank.Models
             }
         }
 
-        public string IBAN  
+        public string IBAN
         {
             get
             {
@@ -48,13 +49,13 @@ namespace TSMbank.Models
         [Display(Name = "Account Type")]
         public byte BankAccountTypeId { get; set; }
 
-        public ICollection<Transaction> CreditTransactions { get; set; }
-        public ICollection<Transaction> DebitTransactions { get; set; }
+        public ICollection<Transaction> CreditTransactions { get; private set; }
+        public ICollection<Transaction> DebitTransactions { get; private set; }
         public Card Card { get; set; }
 
         public BankAccount()
         {
-            Balance = 0;
+            Balance = InitialBalance;
             WithdrawalLimit = 1500;
             AccountStatus = AccountStatus.Inactive;
         }
@@ -63,7 +64,7 @@ namespace TSMbank.Models
         {
             AccountNumber = CreateRandomAccountNumber();
             AccountStatus = AccountStatus.Active;
-            Balance = 0;
+            Balance = InitialBalance;
             OpenedDate = DateTime.Now;
             StatusUpdatedDateTime = DateTime.Now;
             Individual = individual;
@@ -75,7 +76,7 @@ namespace TSMbank.Models
         {
             AccountNumber = CreateRandomAccountNumber();
             AccountStatus = AccountStatus.Active;
-            Balance = 0;
+            Balance = InitialBalance;
             OpenedDate = DateTime.Now;
             StatusUpdatedDateTime = DateTime.Now;
             IndividualId = individualId;
@@ -83,7 +84,7 @@ namespace TSMbank.Models
             BankAccountTypeId = accountTypeId;
         }
 
-        public static BankAccount CreditCardAccount(Individual individual,decimal transLimit, decimal creditLimit)
+        public static BankAccount CreditCardAccount(Individual individual, decimal transLimit, decimal creditLimit)
         {
             var creditCardAcc = new BankAccount(individual, TsmVisaClassicWithDrawalLimit, BankAccountType.TSMVisaClassic);
             var creditCard = Card.CreditCard(creditCardAcc, transLimit, creditLimit);
@@ -94,6 +95,7 @@ namespace TSMbank.Models
         {
             var creditCardAcc = new BankAccount(individualId, TsmVisaClassicWithDrawalLimit, BankAccountType.TSMVisaClassic);
             var creditCard = Card.CreditCard(creditCardAcc, transLimit, creditLimit);
+            creditCardAcc.Balance = creditLimit;
             return creditCardAcc;
         }
 
@@ -145,6 +147,53 @@ namespace TSMbank.Models
             }
             return accountNumber;
         }
-        
+
+        public string ProductIdentifier()
+        {
+            if (BankAccountType.Description == Description.CreditCard && Card != null)
+                return Card.FormattedNumber();
+            return IBAN;
+        }
+
+        public bool InitiateTransaction(BankAccount creditAcc, decimal amount, TransactionType transType,
+            BankAccount tsmBankAcc, out List<Transaction> transactions)
+        {
+            Transaction transaction = null;
+            transactions = new List<Transaction>();
+            if (transType.Category == TransactionCategory.Payment || transType.Category == TransactionCategory.MoneyTransfer)
+            {
+                if (Balance - amount - transType.Fee < 0)
+                    return false;
+                var newBalance = Balance - amount;
+                var newCreditAccBalance = creditAcc.Balance + amount;
+                transaction = new Transaction(transType, this, creditAcc, amount, Balance, newBalance, amount, creditAcc.Balance, newCreditAccBalance);
+                Balance = newBalance;
+                creditAcc.Balance = newCreditAccBalance;
+                transactions.Add(transaction);
+                //DebitTransactions.Add(transaction);
+                if (transType.Fee > 0)
+                {
+                    newBalance = Balance - transType.Fee;
+                    var newTsmBankAccBalance = tsmBankAcc.Balance + transType.Fee;
+                    var commissionTrans = Transaction.BankCommission(this, tsmBankAcc, transType.Fee, Balance,
+                        newBalance, transType.Fee, tsmBankAcc.Balance, newTsmBankAccBalance);
+                    transactions.Add(commissionTrans);
+                    //DebitTransactions.Add(commissionTrans);
+                }
+                return true;
+            }
+            return false;
+
+            //if (transType.Category == TransactionCategory.MoneyTransfer)
+            //{
+            //    if (Balance - amount - transType.Fee < 0)
+            //        return false;
+            //    var newBalance = Balance - amount;
+            //    var newCreditAccBalance = creditAcc.Balance + amount;
+            //    var transaction = Transaction.Payment(this, creditAcc, amount, Balance, newBalance, amount, creditAcc.Balance, newCreditAccBalance);
+            //    Balance = newBalance;
+            //    creditAcc.Balance = newCreditAccBalance;
+            //}
+        }
     }
 }

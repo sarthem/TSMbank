@@ -235,6 +235,18 @@
     <Compile Include="Migrations\201907261026519_PopulateAccAndTransTypes.Designer.cs">
       <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907301055332_SeedPublicServicesAccs.cs" />
+    <Compile Include="Migrations\201907301055332_SeedPublicServicesAccs.Designer.cs">
+      <DependentUpon>201907301055332_SeedPublicServicesAccs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907301115558_SeedDbWithTsmAcc.cs" />
+    <Compile Include="Migrations\201907301115558_SeedDbWithTsmAcc.Designer.cs">
+      <DependentUpon>201907301115558_SeedDbWithTsmAcc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907301545188_TransactionMods1.cs" />
+    <Compile Include="Migrations\201907301545188_TransactionMods1.Designer.cs">
+      <DependentUpon>201907301545188_TransactionMods1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountStatus.cs" />
     <Compile Include="Models\BankAccount.cs" />
@@ -284,7 +296,7 @@
     <Compile Include="ViewModels\CheckingAccApplicationViewModel.cs" />
     <Compile Include="ViewModels\PaymentFormViewModel.cs" />
     <Compile Include="ViewModels\RequestsViewModel.cs" />
-    <Compile Include="ViewModels\TransactionViewModel.cs" />
+    <Compile Include="ViewModels\TransferMoneyViewModel.cs" />
     <Compile Include="ViewModels\TransactionsDetailsViewModel.cs" />
     <Compile Include="ViewModels\ValidCardTransLimit.cs" />
     <Compile Include="ViewModels\ErrorTransactionMessage.cs" />
@@ -362,7 +374,7 @@
     <Content Include="Views\Shared\_navBarCustomer.cshtml" />
     <Content Include="Views\Shared\Info.cshtml" />
     <Content Include="Views\Transactions\Index.cshtml" />
-    <Content Include="Views\Transactions\Deposit.cshtml" />
+    <Content Include="Views\Transactions\TransferMoney.cshtml" />
     <Content Include="Views\BankAccounts\Details.cshtml" />
     <Content Include="Views\Shared\_navBarAdmin.cshtml" />
     <Content Include="Views\Individuals\DetailsAddress.cshtml" />
@@ -413,6 +425,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907261026519_PopulateAccAndTransTypes.resx">
       <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907301055332_SeedPublicServicesAccs.resx">
+      <DependentUpon>201907301055332_SeedPublicServicesAccs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907301115558_SeedDbWithTsmAcc.resx">
+      <DependentUpon>201907301115558_SeedDbWithTsmAcc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907301545188_TransactionMods1.resx">
+      <DependentUpon>201907301545188_TransactionMods1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

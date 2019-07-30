@@ -50,7 +50,7 @@ namespace TSMbank.Controllers
         // GET: Individuals/newIndividuals
         public ActionResult NewIndividual()
         {
-            return View("Index");
+            return View("IndividualForm");
         }
 
 

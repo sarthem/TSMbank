@@ -14,6 +14,7 @@ namespace TSMbank.Models
         MoneyTransfer,
         Purchase,
         InterestFee,
-        OverdueFee
+        OverdueFee,
+        Commision
     }
 }

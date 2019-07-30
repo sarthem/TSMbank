@@ -26,11 +26,11 @@
             </div>
             <div class="card-info-block">
                 <div class="card-boxfield">
-                    <div class="field-value">@Model.AvailableBalance() Eur</div>
+                    <div class="field-value">@Model.BankAccount.Balance Eur</div>
                     <div class="field-property">Available Balance</div>
                 </div>
                 <div class="card-boxfield">
-                    <div class="field-value">@(-Model.BankAccount.Balance) Eur</div>
+                    <div class="field-value">@Model.CurrentBalance() Eur</div>
                     <div class="field-property">Current Balance</div>
                 </div>
             </div>

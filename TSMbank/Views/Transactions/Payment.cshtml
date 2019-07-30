@@ -4,11 +4,11 @@
     ViewBag.Title = "MakePayment";
 }
 @{
-    var custBankAccsInfo = Model.CustomerBankAccs.Select(ba => new { AccNo = ba.AccountNumber, Info = ba.BankAccountType.Summary + " (" + ba.IBAN + ")" });
+    var custBankAccsInfo = Model.CustomerBankAccs.Select(ba => new { AccNo = ba.AccountNumber, Info = ba.BankAccountType.Summary + " (" + ba.ProductIdentifier() + ")" });
 }
 <h2>Make a Payment</h2>
 
-@using (Html.BeginForm("MakePayment", "Transactions", Model.Category = TransactionCategory.Payment))
+@using (Html.BeginForm("Payment", "Transactions", Model.Category = TransactionCategory.Payment))
 {
     <div class="form-group">
         @Html.Label("From Account")

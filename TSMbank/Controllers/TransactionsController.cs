@@ -30,7 +30,7 @@ namespace TSMbank.Controllers
 
         public ActionResult Details(int id, string accountNumber)
         {
-            var transaction = unitOfWork.Transactions.GetTransactions(id);//1
+            var transaction = unitOfWork.Transactions.GetTransactions(id);
 
             var viewModel = new TransactionsDetailsViewModel()
             {
@@ -43,7 +43,7 @@ namespace TSMbank.Controllers
         // GET: Transactions
         public ActionResult Index(string accountNumber)
         {
-            var bankAccount = unitOfWork.BankAccounts.GetBankAccountWithTransactions(accountNumber);//2    
+            var bankAccount = unitOfWork.BankAccounts.GetBankAccountWithTransactions(accountNumber);   
             var transactions = bankAccount.DebitTransactions.Concat(bankAccount.CreditTransactions);
             var orderedTransactions = transactions.OrderByDescending(t => t.ValueDateTime);
 
@@ -56,101 +56,53 @@ namespace TSMbank.Controllers
             return View(viewModel);
         }
 
-        // Get 
-        public ActionResult Deposit()
+        [Authorize]
+        public ActionResult TransferMoney()
         {
-            //3            
             var userId = User.Identity.GetUserId();
-            var individual = unitOfWork.Individuals.GetIndividualWithBankAcc(userId);//4
-
-            var bankAccount = unitOfWork.BankAccounts.GetBankAccountsOfIndividual(individual.Id);//5
+            var customerBankAccs = unitOfWork.BankAccounts.GetCheckingAndSavingsBankAccs(userId);
                 
-            var viewModel = new TransactionViewModel()
+            var viewModel = new TransferMoneyViewModel()
             {
-                Individual = individual,
-                BankAccounts = bankAccount.ToList(),                
+                CustomerBankAccs = customerBankAccs,
+                TransactionCategory = TransactionCategory.MoneyTransfer
             };
 
             return View(viewModel);
         }
 
-        public ActionResult TransferToAccount(TransactionViewModel transactionView)
+        [HttpPost]
+        [Authorize]
+        public ActionResult TransferMoney(TransferMoneyViewModel viewModel)
         {
-            var transactionType = unitOfWork.TransactionTypes.GetTransactionType(transactionView.Category);//9
+            var transactions = new List<Transaction>();
+            var userId = User.Identity.GetUserId();
+            var transactionType = unitOfWork.TransactionTypes.GetTransactionType(viewModel.TransactionCategory);
+            var debitAccount = unitOfWork.BankAccounts.GetJustBankAccount(viewModel.DebitAccNo);
+            var creditAccNo = viewModel.CreditAccNo ?? viewModel.CreditAccIban.Substring(10);
+            var creditAccount = unitOfWork.BankAccounts.GetJustBankAccount(creditAccNo);
             
-            var debitAccount = unitOfWork.BankAccounts.GetJustBankAccount(transactionView.BankAccountId);//6
 
-            string creditNumber = "";
-            string creditAccountNumber = "";
-            if ( transactionView.CreditIBAN != null)
+            if (creditAccount == null)
             {
-                creditNumber = transactionView.CreditIBAN;
-                creditAccountNumber = creditNumber.Substring(10);
-            }
-            else
-            {
-                creditAccountNumber = transactionView.CreditAccount;
-            }            
-
-            var creditAccount = unitOfWork.BankAccounts.GetJustBankAccount(creditAccountNumber);//7
-
-            if(creditAccount == null)
-            {
-                var viewModel = new ErrorTransactionMessage()
-                {
-                    message = "no credit iban"
-                };
-                return View("TransferToAccountERROR", viewModel);
-            }
-            else if(transactionView.Amount > debitAccount.Balance)
-            {
-                var viewModel = new ErrorTransactionMessage()
-                {
-                    message = "no balance"
-                };
-                return View("TransferToAccountERROR", viewModel);
+                viewModel.CustomerBankAccs = unitOfWork.BankAccounts.GetCheckingAndSavingsBankAccs(userId);
+                viewModel.ErrorMessage = "Credit Bank Account could not be found.";
+                return View("TransferMoney", viewModel);
             }
 
-            var transaction = new Transaction()
+            if (!debitAccount.InitiateTransaction(creditAccount, viewModel.Amount, transactionType, null, out transactions))
             {
-                ValueDateTime = DateTime.Now,
-                //from
-                DebitAccount = debitAccount,
-                DebitAccountNo = debitAccount.AccountNumber,
-                DebitIBAN = debitAccount.IBAN,
-                DebitAccountBalance = debitAccount.Balance,
-                DebitAccountCurrency = "EURO",
-                DebitAmount = transactionView.Amount,
-                DebitAccountBalanceAfterTransaction = 
-                debitAccount.Balance 
-                - transactionView.Amount
-                - transactionType.Fee,
-                //to
-                CreditAccount = creditAccount,
-                CreditAccountNo = creditAccount.AccountNumber,
-                CreditIBAN = creditAccount.IBAN,
-                CreditAccountBalance = creditAccount.Balance,
-                CreditAccountCurrency = "EURO",
-                CreditAmount = transactionView.Amount,
+                viewModel.CustomerBankAccs = unitOfWork.BankAccounts.GetCheckingAndSavingsBankAccs(userId);
+                viewModel.ErrorMessage = "Could not complete transaction.";
+                return View("TransferMoney", viewModel);
+            }
 
-                CreditAccountBalanceAfterTransaction = creditAccount.Balance + transactionView.Amount ,
-
-                TypeId = transactionType.Id,
-                ApprovedFromBankManager = true,
-                PendingForApproval = false,
-                TransactionApprovedReview = TransactionApprovedReview.Approve,
-                IsCompleted = true,
-                Type = transactionType,                
-                
-            };
-            
-            creditAccount.Balance = transaction.CreditAccountBalanceAfterTransaction;
-            debitAccount.Balance = transaction.DebitAccountBalanceAfterTransaction;
-            //8
-            unitOfWork.Transactions.AddTransaction(transaction);
+            foreach (var transaction in transactions)
+            {
+                unitOfWork.Transactions.AddTransaction(transaction);
+            }
             unitOfWork.Complete();            
-
-            return RedirectToAction("Index", new { AccountNumber = transactionView.BankAccountId });
+            return RedirectToAction("Index", new { AccountNumber = debitAccount.AccountNumber });
         }
 
         public ActionResult Payment()
@@ -158,6 +110,7 @@ namespace TSMbank.Controllers
             var userId = User.Identity.GetUserId();
             var customerBankAccs = context.BankAccounts
                     .Include(ba => ba.BankAccountType)
+                    .Include(ba => ba.Card)
                     .Where(ba => ba.IndividualId == userId)
                     .ToList();
 
@@ -177,37 +130,4 @@ namespace TSMbank.Controllers
         }
     }
 }
-//1
-//context.Transactions.Where(t => t.TransactionId == id).ToList();
 
-//2    
-//context.BankAccounts
-//                .Include(a => a.CreditTransactions)
-//                .Include(a => a.DebitTransactions)
-//                .SingleOrDefault(a => a.AccountNumber == accountNumber);
-
-//3
-// var appUser = unitOfWork.Users.GetUser(User.Identity.GetUserId());
-// context.Users.Find();
-
-//4
-//context.Individuals
-//                        .Include(c => c.BankAccounts)
-//                        .SingleOrDefault(c => c.Id == appUser.Id);
-
-//5
-//context.BankAccounts
-//            .Where(c => c.IndividualId == individual.Id);
-
-//6
-//context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == transactionView.BankAccountId);
-
-//7
-//context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == creditAccountNumber);
-
-//8
-//context.Transactions.Add(transaction);
-//context.SaveChanges();
-
-//9
-//context.TransactionTypes.SingleOrDefault(tr => tr.Category == transactionView.Category);
