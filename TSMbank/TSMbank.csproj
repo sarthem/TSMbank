@@ -242,6 +242,10 @@
     <Compile Include="Migrations\201907261026519_PopulateAccAndTransTypes.Designer.cs">
       <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201907301953351_addSgnalR.cs" />
+    <Compile Include="Migrations\201907301953351_addSgnalR.Designer.cs">
+      <DependentUpon>201907301953351_addSgnalR.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountStatus.cs" />
     <Compile Include="Models\BankAccount.cs" />
@@ -409,6 +413,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907261026519_PopulateAccAndTransTypes.resx">
       <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907301953351_addSgnalR.resx">
+      <DependentUpon>201907301953351_addSgnalR.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
