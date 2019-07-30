@@ -32,7 +32,6 @@ namespace TSMbank.Controllers
             context.Dispose();
         }
 
-
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
@@ -44,13 +43,7 @@ namespace TSMbank.Controllers
         [Authorize(Roles = RoleName.Administrator)]
         public ActionResult GetIndividuals()
         {
-            var individuals = unitOfWork.Individuals.GetIndividuals();
-
-            //context.Individuals
-            //                .Include(c => c.Phones)
-            //                .Include(c => c.PrimaryAddress)
-            //                .Include(c => c.BankAccounts).ToList();
-
+            var individuals = unitOfWork.Individuals.GetIndividuals();//1
             return View(individuals);
         }
 
@@ -63,7 +56,8 @@ namespace TSMbank.Controllers
 
         public ActionResult New()
         {
-            var appUser = context.Users.Find(User.Identity.GetUserId());
+            var userId = User.Identity.GetUserId();
+            var appUser = unitOfWork.Users.GetUser(userId);
 
             var modelView = new IndividualFormViewModel()
             {
@@ -72,53 +66,37 @@ namespace TSMbank.Controllers
                 ModificationAction = ModificationAction.NewIndividual,
             };
             modelView.Individual.SetEmail(appUser);
-
             return View("IndividualForm", modelView);
         }
 
 
         [HttpPost]
         [Authorize]
-        public ActionResult Save(IndividualFormViewModel IFVM)
+        public ActionResult Save(IndividualFormViewModel ifvm)
         {
             var userId = User.Identity.GetUserId();
-            var appUser = context.Users.Single(a => a.Id == userId);
-            var viewInd = IFVM.Individual;
-            var viewAdr = IFVM.PrimaryAddress;
+            var appUser = unitOfWork.Users.GetUser(userId);            
 
-            // Code only for testing/debugging. Fetch modelstate errors.
-            var errors = new List<ModelState>();
-            foreach (ModelState modelState in ModelState.Values)
-            {
-                if (modelState.Errors.Count > 0)
-                {
-                    errors.Add(modelState);
-                }
-            }
             if (!ModelState.IsValid)
             {
                 var viewModel = new IndividualFormViewModel()
                 {
-                    Individual = IFVM.Individual,
-                    Phones = IFVM.Phones,
-                    PrimaryAddress = IFVM.PrimaryAddress
+                    Individual = ifvm.Individual,
+                    Phones = ifvm.Phones,
+                    PrimaryAddress = ifvm.PrimaryAddress
                 };
-
                 return View("IndividualForm", viewModel);
             }
-            Collection<Phone> viewPhones = new Collection<Phone>(IFVM.Phones);
+            Collection<Phone> viewPhones = new Collection<Phone>(ifvm.Phones);
 
-
-
-            if (IFVM.IndividualId == null)
+            if (ifvm.IndividualId == null)
             {
-                var individual = Individual.New(IFVM, appUser, viewPhones);
+                var individual = Individual.New(ifvm, appUser, viewPhones);
                 appUser.RegisterCompletion = true;
-                context.Individuals.Add(individual);
+                unitOfWork.Individuals.AddIndividual(individual);//2                
                 var request = new Request(individual, RequestType.UserAccActivation);
-                context.Requests.Add(request);
+                unitOfWork.Requests.AddRequest(request);//3                
             }
-
             unitOfWork.Complete();
             if (User.IsInRole(RoleName.Administrator)) return RedirectToAction("GetIndividuals");
             return RedirectToAction("Index");
@@ -129,7 +107,6 @@ namespace TSMbank.Controllers
             if (!ModelState.IsValid)
             {
                 var viewModel = new IndividualFormViewModel(individualVM);
-
                 switch (individualVM.ModificationAction)
                 {
                     case ModificationAction.EditIndividual:
@@ -144,14 +121,8 @@ namespace TSMbank.Controllers
                 }
                 return View("IndividualForm", viewModel);
             }
-
-            //var individualDB = context.Individuals.Include(c => c.Phones)
-            //                                           .Include(c => c.PrimaryAddress)
-            //                                           .Include(c => c.SecondaryAddress)
-            //                                           .SingleOrDefault(c => c.Id == individualVM.IndividualId);
-            var individualDB = unitOfWork.Individuals.GetIndividualWithAddressAndPhone(individualVM.IndividualId);
-
-
+           
+            var individualDB = unitOfWork.Individuals.GetIndividualWithAddressAndPhone(individualVM.IndividualId);//4
 
             switch (individualVM.ModificationAction)
             {
@@ -190,11 +161,8 @@ namespace TSMbank.Controllers
         //GET
 
         public ActionResult Edit(string id, ModificationAction modify)
-        {
-            //var individualDb = context.Individuals.Include(c => c.Phones).Include(c => c.PrimaryAddress)
-            //                .Include(c => c.SecondaryAddress)
-            //                .SingleOrDefault(c => c.Id == id);
-            var individualDb = unitOfWork.Individuals.GetIndividualWithAddressAndPhone(id);
+        {            
+            var individualDb = unitOfWork.Individuals.GetIndividualWithAddressAndPhone(id);//5
 
             if (individualDb == null)
                 return HttpNotFound();
@@ -225,14 +193,7 @@ namespace TSMbank.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var individual = unitOfWork.Individuals.GetIndividualWithAddressAndPhone(id);
-
-            //context.Individuals
-            //            .Include(c => c.Phones)
-            //            .Include(c => c.PrimaryAddress)
-            //            .Include(c => c.SecondaryAddress)
-            //            .SingleOrDefault(c => c.Id == id);
-
+            var individual = unitOfWork.Individuals.GetIndividualWithAddressAndPhone(id);//6
 
             if (individual == null)
             {
@@ -256,13 +217,7 @@ namespace TSMbank.Controllers
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var individual = unitOfWork.Individuals.GetIndividualWithAddressAndPhone(id);
-
-            //context.Individuals
-            //            .Include(ph => ph.Phones)
-            //            .Include(a => a.PrimaryAddress)
-            //            .SingleOrDefault(c => c.Id == id);
-
+            var individual = unitOfWork.Individuals.GetIndividualWithAddressAndPhone(id);//7
 
             if (individual == null) return HttpNotFound();
 
@@ -277,18 +232,13 @@ namespace TSMbank.Controllers
         public ActionResult BankAccountPetition(byte id)
         {
             var userId = User.Identity.GetUserId();
-            var individual = context.Individuals.SingleOrDefault(u => u.Id == userId);
-
-            var activeBankAccReq = context.BankAccRequests
-                                    .Include(r => r.BankAccType)
-                                    .SingleOrDefault(r => r.IndividualId == userId
-                                    && r.BankAccTypeId == id
-                                    && r.Status == RequestStatus.Pending || r.Status == RequestStatus.Approved);
-
+            var individual = unitOfWork.Individuals.GetJustIndividual(userId);//8            
+            var activeBankAccReq = unitOfWork.BankAccountRequests.GetBankAccountRequestWithStatus(userId, id);//9    
+            
             if (activeBankAccReq == null)
             {
-                var bankAccReq = new BankAccRequest(individual, RequestType.BankAccActivation, id);
-                context.BankAccRequests.Add(bankAccReq);
+                var bankAccRequest = new BankAccRequest(individual, RequestType.BankAccActivation, id);
+                unitOfWork.BankAccountRequests.AddBankAccountRequest(bankAccRequest);//10                
                 unitOfWork.Complete();
                 return RedirectToAction("Index");
             }
@@ -299,7 +249,6 @@ namespace TSMbank.Controllers
         public ActionResult AddSecondAddress()
         {
             var address = new Address();
-
             return View(address);
         }
 
@@ -311,15 +260,70 @@ namespace TSMbank.Controllers
                 var viewModel = new Address(address);
                 return View("AddSecondAddress", viewModel);
             }
-            var userId = User.Identity.GetUserId();
-            var user = context.Individuals
-                        .SingleOrDefault(u => u.Id == userId);
 
+            var userId = User.Identity.GetUserId();
+            var user = unitOfWork.Individuals.GetJustIndividual(userId);            
             user.SecondaryAddress = address;
             unitOfWork.Complete();
-
             return RedirectToAction("Index");
         }
     }
 }
+//1
+//context.Individuals
+//                .Include(c => c.Phones)
+//                .Include(c => c.PrimaryAddress)
+//                .Include(c => c.BankAccounts).ToList();
 
+//2
+//context.Individuals.Add(individual);
+
+//3
+//context.Requests.Add(request);
+
+//4
+//var individualDB = context.Individuals.Include(c => c.Phones)
+//                                           .Include(c => c.PrimaryAddress)
+//                                           .Include(c => c.SecondaryAddress)
+//                                           .SingleOrDefault(c => c.Id == individualVM.IndividualId);
+
+//5
+//var individualDb = context.Individuals.Include(c => c.Phones).Include(c => c.PrimaryAddress)
+//                .Include(c => c.SecondaryAddress)
+//                .SingleOrDefault(c => c.Id == id);
+
+//6
+//context.Individuals
+//            .Include(c => c.Phones)
+//            .Include(c => c.PrimaryAddress)
+//            .Include(c => c.SecondaryAddress)
+//            .SingleOrDefault(c => c.Id == id);
+
+//7
+//context.Individuals
+//            .Include(ph => ph.Phones)
+//            .Include(a => a.PrimaryAddress)
+//            .SingleOrDefault(c => c.Id == id);
+
+//8
+//context.Individuals.SingleOrDefault(u => u.Id == userId);
+
+//9
+//context.BankAccRequests
+//                    .Include(r => r.BankAccType)
+//                    .SingleOrDefault(r => r.IndividualId == userId
+//                    && r.BankAccTypeId == id
+//                    && r.Status == RequestStatus.Pending || r.Status == RequestStatus.Approved);
+
+//10
+//context.BankAccRequests.Add(bankAccReq);
+
+//// Code only for testing/debugging. Fetch modelstate errors.
+//var errors = new List<ModelState>();
+//foreach (ModelState modelState in ModelState.Values)
+//{
+//    if (modelState.Errors.Count > 0)
+//    {
+//        errors.Add(modelState);
+//    }
+//}

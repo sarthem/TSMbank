@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using TSMbank.Models;
@@ -15,6 +16,35 @@ namespace TSMbank.Repositories
             _context = context;
         }
 
+        public BankAccount GetJustBankAccount(string accountNumber)
+        {
+            return _context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == accountNumber);
+        }
 
+        public BankAccount GetBankAccount(string accountNumber)
+        {
+            return _context.BankAccounts
+                            .Include(a => a.Individual)
+                            .Include(a => a.BankAccountType)
+                            .SingleOrDefault(a => a.AccountNumber == accountNumber);
+        }
+
+        public IQueryable<BankAccount> GetBankAccountsOfIndividual(string id)
+        {
+            return _context.BankAccounts.Where(c => c.IndividualId == id);
+        }
+
+        public void AddBankAccount(BankAccount bankAccount)
+        {
+            _context.BankAccounts.Add(bankAccount);
+        }
+
+        public BankAccount GetBankAccountWithTransactions(string accountNumber)
+        {
+            return _context.BankAccounts
+                            .Include(a => a.CreditTransactions)
+                            .Include(a => a.DebitTransactions)
+                            .SingleOrDefault(a => a.AccountNumber == accountNumber);
+        }
     }
 }

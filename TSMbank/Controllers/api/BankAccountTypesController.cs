@@ -7,16 +7,19 @@ using System.Net.Http;
 using System.Web.Http;
 using TSMbank.Models;
 using TSMbank.Dtos;
+using TSMbank.Persistance;
 
 namespace TSMbank.Controllers.api
 {
     public class BankAccountTypesController : ApiController
     {
-        private ApplicationDbContext context;
+        private readonly ApplicationDbContext context;
+        private readonly UnitOfWork unitOfWork;
 
         public BankAccountTypesController()
         {
             context = new ApplicationDbContext();
+            unitOfWork = new UnitOfWork(context);
         }
 
 
@@ -24,8 +27,8 @@ namespace TSMbank.Controllers.api
         public IHttpActionResult GetAccountTypes(Description? description = null)
         {
             var bankAccountTypes = from t in context.BankAccountTypes
-                                   select t;
-
+                                   select t;//2
+            
             if (description.HasValue)
             {
                 bankAccountTypes = bankAccountTypes.Where(t => t.Description == description);
@@ -38,7 +41,8 @@ namespace TSMbank.Controllers.api
         // GET /api/bankaccounttypes/5
         public IHttpActionResult GetAccountType(int id)
         {
-            var bankAccountTypes = context.BankAccountTypes.SingleOrDefault(a => a.Id == id);
+            var bankAccountTypes = unitOfWork.BankAccountTypes.GetBankAccountType((byte)(id));//???? //1                
+                
             if (bankAccountTypes == null)
                 return NotFound();
             return Ok(Mapper.Map<BankAccountTypeDto>(bankAccountTypes));
@@ -50,3 +54,7 @@ namespace TSMbank.Controllers.api
         }
     }
 }
+//1
+//context.BankAccountTypes.SingleOrDefault(a => a.Id == id);//edw theloume byte kai fernume int paizei?
+//2
+//var bankAccoutTypes = unitOfWork.BankAccountTypes.BankAccountType(); ayto den 8a mporuse na antikatastisei tin epanw?

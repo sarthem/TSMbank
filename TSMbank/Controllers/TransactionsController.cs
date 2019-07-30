@@ -6,19 +6,21 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TSMbank.Models;
+using TSMbank.Persistance;
 using TSMbank.ViewModels;
 
 namespace TSMbank.Controllers
 {
     public class TransactionsController : Controller
     {
-        private ApplicationDbContext context;
-        
+        private readonly ApplicationDbContext context;
+        private readonly UnitOfWork unitOfWork;
+
 
         public TransactionsController()
         {
             context = new ApplicationDbContext();
-            
+            unitOfWork = new UnitOfWork(context);            
         }
 
         protected override void Dispose(bool disposing)
@@ -28,24 +30,20 @@ namespace TSMbank.Controllers
 
         public ActionResult Details(int id, string accountNumber)
         {
-            var transaction = context.Transactions.Where(t => t.TransactionId == id).ToList();
+            var transaction = unitOfWork.Transactions.GetTransactions(id);//1
+
             var viewModel = new TransactionsDetailsViewModel()
             {
                 Transactions = transaction,
                 AccountNumber = accountNumber
             };
-
             return View(viewModel);
         }
 
         // GET: Transactions
         public ActionResult Index(string accountNumber)
         {
-            var bankAccount = context.BankAccounts
-                .Include(a => a.CreditTransactions)
-                .Include(a => a.DebitTransactions)
-                .SingleOrDefault(a => a.AccountNumber == accountNumber);
-
+            var bankAccount = unitOfWork.BankAccounts.GetBankAccountWithTransactions(accountNumber);//2    
             var transactions = bankAccount.DebitTransactions.Concat(bankAccount.CreditTransactions);
             var orderedTransactions = transactions.OrderByDescending(t => t.ValueDateTime);
 
@@ -61,14 +59,16 @@ namespace TSMbank.Controllers
         // Get 
         public ActionResult Deposit()
         {
-            var appUser = context.Users.Find(User.Identity.GetUserId());
-            var individual = context.Individuals.Include(c => c.BankAccounts).SingleOrDefault(c => c.Id == appUser.Id);
-            var bankAccount = context.BankAccounts.Where(c => c.IndividualId == individual.Id);
+            //3            
+            var userId = User.Identity.GetUserId();
+            var individual = unitOfWork.Individuals.GetIndividualWithBankAcc(userId);//4
+
+            var bankAccount = unitOfWork.BankAccounts.GetBankAccountsOfIndividual(individual.Id);//5
+                
             var viewModel = new TransactionViewModel()
             {
                 Individual = individual,
-                BankAccounts = bankAccount.ToList(),
-                
+                BankAccounts = bankAccount.ToList(),                
             };
 
             return View(viewModel);
@@ -76,9 +76,9 @@ namespace TSMbank.Controllers
 
         public ActionResult TransferToAccount(TransactionViewModel transactionView)
         {
-            var transactionType = context.TransactionTypes.SingleOrDefault(tr => tr.Category == transactionView.Category);
-
-            var debitAccount = context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == transactionView.BankAccountId);
+            var transactionType = unitOfWork.TransactionTypes.GetTransactionType(transactionView.Category);//9
+            
+            var debitAccount = unitOfWork.BankAccounts.GetJustBankAccount(transactionView.BankAccountId);//6
 
             string creditNumber = "";
             string creditAccountNumber = "";
@@ -91,8 +91,8 @@ namespace TSMbank.Controllers
             {
                 creditAccountNumber = transactionView.CreditAccount;
             }            
-            var creditAccount = context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == creditAccountNumber);
 
+            var creditAccount = unitOfWork.BankAccounts.GetJustBankAccount(creditAccountNumber);//7
 
             if(creditAccount == null)
             {
@@ -110,7 +110,6 @@ namespace TSMbank.Controllers
                 };
                 return View("TransferToAccountERROR", viewModel);
             }
-
 
             var transaction = new Transaction()
             {
@@ -141,18 +140,51 @@ namespace TSMbank.Controllers
                 PendingForApproval = false,
                 TransactionApprovedReview = TransactionApprovedReview.Approve,
                 IsCompleted = true,
-                Type = transactionType,
-                
+                Type = transactionType,                
                 
             };
             
             creditAccount.Balance = transaction.CreditAccountBalanceAfterTransaction;
-            debitAccount.Balance = transaction.DebitAccountBalanceAfterTransaction;                        
-
-            context.Transactions.Add(transaction);
-            context.SaveChanges();
+            debitAccount.Balance = transaction.DebitAccountBalanceAfterTransaction;
+            //8
+            unitOfWork.Transactions.AddTransaction(transaction);
+            unitOfWork.Complete();            
 
             return RedirectToAction("Index", new { AccountNumber = transactionView.BankAccountId });
         }
     }
 }
+//1
+//context.Transactions.Where(t => t.TransactionId == id).ToList();
+
+//2    
+//context.BankAccounts
+//                .Include(a => a.CreditTransactions)
+//                .Include(a => a.DebitTransactions)
+//                .SingleOrDefault(a => a.AccountNumber == accountNumber);
+
+//3
+// var appUser = unitOfWork.Users.GetUser(User.Identity.GetUserId());
+// context.Users.Find();
+
+//4
+//context.Individuals
+//                        .Include(c => c.BankAccounts)
+//                        .SingleOrDefault(c => c.Id == appUser.Id);
+
+//5
+//context.BankAccounts
+//            .Where(c => c.IndividualId == individual.Id);
+
+//6
+//context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == transactionView.BankAccountId);
+
+//7
+//context.BankAccounts.SingleOrDefault(ac => ac.AccountNumber == creditAccountNumber);
+
+//8
+//context.Transactions.Add(transaction);
+//context.SaveChanges();
+
+//9
+//context.TransactionTypes.SingleOrDefault(tr => tr.Category == transactionView.Category);
