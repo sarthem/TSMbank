@@ -56,5 +56,9 @@ namespace TSMbank.Repositories
                     .ToList();
         }
 
+        public BankAccount GetTsmBankAcc()
+        {
+            return _context.BankAccounts.SingleOrDefault(ba => ba.AccountNumber == Bank.AccNumber);
+        }
     }
 }

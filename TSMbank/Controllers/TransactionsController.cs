@@ -81,7 +81,6 @@ namespace TSMbank.Controllers
             var debitAccount = unitOfWork.BankAccounts.GetJustBankAccount(viewModel.DebitAccNo);
             var creditAccNo = viewModel.CreditAccNo ?? viewModel.CreditAccIban.Substring(10);
             var creditAccount = unitOfWork.BankAccounts.GetJustBankAccount(creditAccNo);
-            
 
             if (creditAccount == null)
             {

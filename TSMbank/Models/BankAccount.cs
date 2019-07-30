@@ -177,6 +177,8 @@ namespace TSMbank.Models
                     var newTsmBankAccBalance = tsmBankAcc.Balance + transType.Fee;
                     var commissionTrans = Transaction.BankCommission(this, tsmBankAcc, transType.Fee, Balance,
                         newBalance, transType.Fee, tsmBankAcc.Balance, newTsmBankAccBalance);
+                    Balance = newBalance;
+                    tsmBankAcc.Balance = newTsmBankAccBalance;
                     transactions.Add(commissionTrans);
                     //DebitTransactions.Add(commissionTrans);
                 }
