@@ -467,11 +467,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Image\images %2812%29.png" />
-<<<<<<< HEAD
     <Content Include="Image\Taichung Commercial Bank_Hero.jpg" />
-=======
     <Content Include="Image\tsmVisaPlatinum.png" />
->>>>>>> master
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -632,14 +629,11 @@
     <Content Include="Views\Individuals\EditPhones.cshtml" />
     <Content Include="Views\Individuals\EditAddress.cshtml" />
     <Content Include="Views\Individuals\EditIndividual.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Individuals\ViewCrypto.cshtml" />
     <Content Include="Views\Individuals\ViewForex.cshtml" />
     <Content Include="Views\Individuals\ViewHeatMap.cshtml" />
-=======
     <Content Include="Views\Cards\CreditCardDetails.cshtml" />
     <Content Include="Views\BankAccounts\EditNickName.cshtml" />
->>>>>>> master
     <None Include="Views\Shared\_navbarMini.cshtml" />
     <Content Include="Views\Transactions\TransferToAccountERROR.cshtml" />
     <Content Include="Views\Transactions\MakePayment.cshtml" />
