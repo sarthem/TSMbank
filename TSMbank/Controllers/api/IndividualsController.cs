@@ -5,36 +5,44 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using TSMbank.Models;
+using TSMbank.Persistance;
 
 namespace TSMbank.Controllers.api
 {
     public class IndividualsController : ApiController
     {
-        private ApplicationDbContext context;
+        private readonly ApplicationDbContext context;
+        private readonly UnitOfWork unitOfWork;
+
+        public IndividualsController()
+        {
+            context = new ApplicationDbContext();
+            unitOfWork = new UnitOfWork(context);
+        }
 
         public IHttpActionResult ChangeCustomerStatus(string id)
         {
-            var individual = context.Individuals.SingleOrDefault(c => c.Id == id);
+            var individual = unitOfWork.Individuals.GetJustIndividual(id);//1
 
             if (individual == null)
                 return NotFound();
 
-            //individual.Status = individual.Status == IndividualStatus.Active ? IndividualStatus.Inactive : IndividualStatus.Active;
             if (individual.Status == IndividualStatus.Active) individual.Deactivate();
             else individual.Activate();
 
-            context.SaveChanges();
+            unitOfWork.Complete();//2            
             return Ok();
         }
                 
-        public IndividualsController()
-        {
-            context = new ApplicationDbContext();
-        }
-
         protected override void Dispose(bool disposing)
         {
             context.Dispose();
         }
     }
 }
+
+
+//1
+//context.Individuals.SingleOrDefault(c => c.Id == id);
+//2
+//context.SaveChanges();

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TSMbank.Models;
+using TSMbank.Persistance;
 using TSMbank.ViewModels;
 
 namespace TSMbank.Controllers
@@ -17,16 +18,19 @@ namespace TSMbank.Controllers
     public class RequestsController : Controller
     {
 
-        private ApplicationDbContext context;
+        private readonly ApplicationDbContext context;
+        private readonly UnitOfWork unitOfWork;
 
         public RequestsController()
         {
             context = new ApplicationDbContext();
+            unitOfWork = new UnitOfWork(context);
         }
 
         public ActionResult Index(RequestStatus status)
         {
-            var parentQuery = context.Requests.Where(r => r.Status == status);
+            var parentQuery = unitOfWork.Requests.GetRequestsByStatus(status);//1
+              
             var requests = parentQuery.Include(r => r.Individual).ToList();
             parentQuery.OfType<BankAccRequest>().Include(r => r.BankAccType).Load();
 
@@ -42,13 +46,13 @@ namespace TSMbank.Controllers
 
         public async Task<ActionResult> Handle(int id, RequestStatus requestStatus)
         {
-            var request = context.Requests.Include(r => r.Individual.BankAccounts).SingleOrDefault(r => r.Id == id);
+            var request = unitOfWork.Requests.GetRequest(id);//2               
 
             if (requestStatus == RequestStatus.Approved)
                 await request.Approve();
             else
                 await request.Reject();
-            context.SaveChanges();
+            unitOfWork.Complete();//3            
             return RedirectToAction("Index", new { status = RequestStatus.Pending });
         }
 
@@ -66,29 +70,45 @@ namespace TSMbank.Controllers
         [Authorize(Roles = RoleName.Administrator)]
         public ActionResult BankAccReqDetails(int id)
         {
-            var bankAccReq = context.BankAccRequests
-                    .Include(r => r.Individual)
-                    .Include(r => r.BankAccType)
-                    .SingleOrDefault(r => r.Id == id);
+            var bankAccRequest = unitOfWork.BankAccountRequests.GetBankAccRequest(id);//4
 
-            if (bankAccReq == null)
+            if (bankAccRequest == null)
                 return HttpNotFound();
 
-            return View(bankAccReq);
+            return View(bankAccRequest);
         }
 
         [Authorize(Roles = RoleName.Administrator)]
         public ActionResult UserAccReqDetails(int id)
         {
-            var userAccReq = context.Requests
-                    .Include(r => r.Individual.Phones)
-                    .Include(r => r.Individual.PrimaryAddress)
-                    .SingleOrDefault(r => r.Id == id);
+            var userAccountRequest = unitOfWork.Requests.GetUserAccRequest(id);//5            
 
-            if (userAccReq == null)
+            if (userAccountRequest == null)
                 return HttpNotFound();
 
-            return View(userAccReq);
+            return View(userAccountRequest);
         }
     }
 }
+
+//1
+//context.Requests.Where(r => r.Status == status);
+//2
+//context.Requests
+//                .Include(r => r.Individual.BankAccounts)
+//                .SingleOrDefault(r => r.Id == id);
+
+//3
+//context.SaveChanges();
+
+//4
+//context.BankAccRequests
+//                        .Include(r => r.Individual)
+//                        .Include(r => r.BankAccType)
+//                        .SingleOrDefault(r => r.Id == id);
+
+//5
+//context.Requests
+//    .Include(r => r.Individual.Phones)
+//    .Include(r => r.Individual.PrimaryAddress)
+//    .SingleOrDefault(r => r.Id == id);
