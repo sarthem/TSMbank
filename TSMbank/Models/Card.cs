@@ -10,7 +10,10 @@ namespace TSMbank.Models
     public class Card
     {
         private const decimal DebitCardTransLimit = 1000.0m;
-        
+        private const string CreditCardBrand = "Visa";
+        private const string DebitCardBrand = "MasterCard";
+
+
         public string Id { get; private set; }
 
         public string CardHolderName { get; private set; }
@@ -31,13 +34,12 @@ namespace TSMbank.Models
         public BankAccount BankAccount { get; private set; }
 
         protected Card()
-        {}
+        { }
 
         private Card(BankAccount bankAccount, decimal transLimit, decimal creditLimit)
         {
             BankAccount = bankAccount ?? throw new NullReferenceException("bankAccount");
             CardHolderName = bankAccount.Individual.FullName;
-            Brand = "Visa";
             IssueDate = DateTime.Now;
             ExpiryDate = DateTime.Now.AddYears(4);
             CVV = Bank.random.Next(100, 1000).ToString();
@@ -45,13 +47,14 @@ namespace TSMbank.Models
             CreditLimit = creditLimit;
             Status = CardStatus.Active;
             Number = GenerateCardNumber();
-            bankAccount.Card = this;
         }
 
         public static Card CreditCard(BankAccount bankAccount, decimal transLimit, decimal creditLimit)
         {
             var creditCard = new Card(bankAccount, transLimit, creditLimit);
             creditCard.Type = CardType.CreditCard;
+            creditCard.Brand = CreditCardBrand;
+            bankAccount.Card = creditCard;
             return creditCard;
         }
 
@@ -59,6 +62,7 @@ namespace TSMbank.Models
         {
             var debitCard = new Card(bankAccount, DebitCardTransLimit, 0);
             debitCard.Type = CardType.DebitCard;
+            debitCard.Brand = DebitCardBrand;
             return debitCard;
         }
 
@@ -82,6 +86,30 @@ namespace TSMbank.Models
                 cardNumber += number.ToString();
 
             return cardNumber;
+        }
+
+        public string FormattedNumber()
+        {
+            var formattedNumber = "";
+            for (var i = 0; i < Number.Length; i += 4)
+            {
+                formattedNumber += Number.Substring(i, Math.Min(4, Number.Length - i));
+                if (Number.Length - i > 4)
+                    formattedNumber += " ";
+            }
+            return formattedNumber;
+        }
+
+        public string Description()
+        {
+            if (Type == CardType.CreditCard)
+                return BankAccount.BankAccountType.Summary;
+            return Type.ToString();
+        }
+
+        public decimal AvailableBalance()
+        {
+            return BankAccount.Balance + CreditLimit;
         }
     }
 }

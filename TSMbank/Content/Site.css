@@ -15,7 +15,6 @@ body {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -34,7 +33,6 @@ textarea {
 
 .navbar-brand {
     font-size: 30px;
-  
 }
 
 
@@ -42,10 +40,8 @@ textarea {
 
 
 /*Validation message */
-.field-validation-error{
+.field-validation-error {
     color: red;
-    
-
 }
 /* Links */
 .link-grey {
@@ -61,7 +57,7 @@ textarea {
         border: 1px solid #3e3e3e;
         text-decoration: none;
     }
- 
+
 
 
 /* Bootstrap Jumbotron */
@@ -70,18 +66,19 @@ textarea {
 }
 
 
-/* Bootstrap Jumbotron */
-.jumbotron p {
-    margin-bottom: 15px;
-    font-size: 16px;
-    font-weight: 200;
-}
-.jumbotron p {
-    margin-top:30px;
-    margin-bottom: 15px;
-    font-size: 16px;
-    font-weight: 200;
-}
+    /* Bootstrap Jumbotron */
+    .jumbotron p {
+        margin-bottom: 15px;
+        font-size: 16px;
+        font-weight: 200;
+    }
+
+    .jumbotron p {
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-size: 16px;
+        font-weight: 200;
+    }
 
 
 
@@ -101,13 +98,15 @@ textarea {
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
     }
 
-#customers td{
-    text-align:center
+#customers td {
+    text-align: center
 }
+
 #customers th {
     text-align: center
 }
-.green-ok{
+
+.green-ok {
     color: #0be41d;
 }
 
@@ -174,7 +173,7 @@ textarea {
     transform: translateY(-100%);
     transition: all .5s ease-out;
 }
- 
+
 .acctype-container {
     display: flex;
 }
@@ -262,6 +261,7 @@ textarea {
 .firstLabel {
     margin-right: 50px;
 }
+
 .secondLabel {
     margin-right: 50px;
 }
@@ -331,8 +331,8 @@ textarea {
         }
 
 
- /*admin menu collapse*/
-#admincollapseFathersName{
+/*admin menu collapse*/
+#admincollapseFathersName {
     padding-left: 50px;
 }
 
@@ -340,10 +340,21 @@ textarea {
     padding-left: 50px;
 }
 
-.panel-body p span {
+/*.panel-body p span {
+    display: inline-block;
+    margin-left: 7px;
+}*/
+
+.panel-body div span {
     display: inline-block;
     margin-left: 7px;
 }
+
+.panel-body div a {
+    display: inline-block;
+    margin-left: 7px;
+}
+
 /*maybe hor header*/
 
 /*.navbar-inverse {
@@ -372,6 +383,7 @@ textarea {
     margin-top:-2%;
 }*/
 
+<<<<<<< HEAD
 /*Footer*/
 #footer {
     position: fixed;
@@ -386,3 +398,107 @@ textarea {
 * {
     margin: 0;
 }
+=======
+/* Temp navbar mod */
+
+.navbar-fixed-top {
+    position: static;
+}
+
+/* Credit Card Details */
+.card-info-container {
+    width: 80%;
+    margin: auto;
+}
+
+.card-info {
+    /*padding: 10px 30px;*/
+    border: 1px solid #cbcbcb;
+    border-radius: 2px;
+    background-color: #f8f8f8;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, .2);
+}
+
+.card-info-basic {
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.card-details {
+}
+
+.card-details-header {
+    border-top: 1px solid #cbcbcb;
+    padding: 20px 30px;
+    color: #414141;
+    font-weight: 600;
+    font-size: 1.7rem;
+    transition: all .3s;
+}
+
+    .card-details-header:hover {
+        background-color: #e8e8e8;
+        cursor: pointer;
+    }
+
+.small-header {
+    font-size: 1.7rem;
+    margin-bottom: .3rem;
+    font-weight: 600;
+}
+
+.field-value {
+    font-weight: 600;
+    font-size: 1.6rem;
+    color: #414141;
+}
+
+.sample-card {
+    width: 150px;
+}
+
+.field-property {
+    color: #767676;
+}
+
+.card-boxfield:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+/* table view */
+.card-details-content {
+    padding: 10px 20px;
+}
+
+.table-card-details {
+    line-height: 2.2em;
+    text-align: left;
+    border-collapse: collapse;
+    border-spacing: 0;
+    /*vertical-align: top;*/
+    /*display: table;*/
+}
+
+.card-details-content tr {
+    vertical-align: bottom;
+}
+
+.card-details-content th,
+.card-details-content td {
+    /*border: 1px solid black;*/
+}
+
+.table-card-details td:first-child {
+    color: #666;
+    padding-left: 0;
+    padding-right: 4px;
+}
+
+.table-card-details td:last-child {
+    padding-right: 0;
+    padding-left: 4px;
+}
+>>>>>>> master

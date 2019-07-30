@@ -64,10 +64,25 @@ namespace TSMbank.Controllers
 
         }
 
-        // GET
-        public ActionResult New()
+
+        public ActionResult CardDetails(string id)
         {
-            return View();
+            var card = context.Cards
+                    .Include(c => c.BankAccount.Individual.PrimaryAddress)
+                    .Include(c => c.BankAccount.BankAccountType)
+                    .SingleOrDefault(c => c.Id == id);
+
+            switch (card.Type)
+            {
+                case CardType.DebitCard:
+                    return RedirectToAction("Index", "Individuals");
+                case CardType.CreditCard:
+                    return View("CreditCardDetails", card);
+                case CardType.PrepaidCard:
+                    return RedirectToAction("Index", "Individuals");
+                default:
+                    return RedirectToAction("Index", "Individuals");
+            }
         }
     }
 }

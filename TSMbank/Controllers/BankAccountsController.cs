@@ -12,17 +12,20 @@ using System.Net.Mail;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
+using TSMbank.Persistance;
 
 namespace TSMbank.Controllers
 {
 
     public class BankAccountsController : Controller
     {
-        private ApplicationDbContext context;
+        private readonly ApplicationDbContext context;
+        private readonly UnitOfWork unitOfWork;
 
         public BankAccountsController()
         {
             context = new ApplicationDbContext();
+            unitOfWork = new UnitOfWork(context);
         }
 
         // GET: Accounts
@@ -30,35 +33,36 @@ namespace TSMbank.Controllers
         {
             return View();
         }
-
-
+        
         // GET
         public ActionResult New(string individualId)
         {
             if (individualId == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var individual = context.Individuals.SingleOrDefault(c => c.Id == individualId);
+            var individual = unitOfWork.Individuals.GetJustIndividual(individualId);//1
+               
             if (individual == null)
                 return HttpNotFound();
 
             var bankAccount = new BankAccount();
             bankAccount.IndividualId = individual.Id;
-
             var viewModel = new BankAccountFormViewModel()
             {
                 BankAccount = bankAccount,
                 IndividualFullName = individual.FullName,
-                BankAccountTypes = context.BankAccountTypes.ToList(),
+                BankAccountTypes = unitOfWork.BankAccountTypes.GetBankAccountTypes().ToList(),//2                
             };
 
             return View("BankAccountForm", viewModel);
         }
 
-        [Authorize]
+        [Authorize]//iparxei pia?
         public ActionResult NewAccountRequest(int requestId)
         {
-            var bankAccReq = context.BankAccRequests.Include(r => r.Individual).SingleOrDefault(r => r.Id == requestId);
+            var bankAccReq = context.BankAccRequests
+                                .Include(r => r.Individual)
+                                .SingleOrDefault(r => r.Id == requestId);
 
             var viewModel = new BankAccountFormViewModel()
             {
@@ -74,12 +78,14 @@ namespace TSMbank.Controllers
         }
 
         // GET 
-        public ActionResult Edit(string accountNo)
+        public ActionResult Edit(string accountNumber)
         {
-            if (accountNo == null)
+            if (accountNumber == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var bankAccount = context.BankAccounts.Include(a => a.Individual).SingleOrDefault(a => a.AccountNumber == accountNo);
+            var bankAccount = context.BankAccounts
+                                    .Include(a => a.Individual)
+                                    .SingleOrDefault(a => a.AccountNumber == accountNumber);
 
             if (bankAccount == null)
                 return HttpNotFound();
@@ -91,27 +97,25 @@ namespace TSMbank.Controllers
                 IndividualFullName = bankAccount.Individual.FullName
             };
 
-            return View("BankAccountForm", viewModel);
+            return View("EditNickName", viewModel);
         }
 
         //GET
-        public ActionResult Details(string accountNo)
+        public ActionResult Details(string accountNumber)
         {
-            if (accountNo == null)
+            if (accountNumber == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var bankAccount = context.BankAccounts
-                .Include(a => a.Individual)
-                .Include(a => a.BankAccountType)
-                .SingleOrDefault(a => a.AccountNumber == accountNo);
-            var acctype = context.BankAccountTypes.SingleOrDefault(a => a.Id == bankAccount.BankAccountTypeId);
+            var bankAccount = unitOfWork.BankAccounts.GetBankAccount(accountNumber);//3
+            var acctype = unitOfWork.BankAccountTypes.GetBankAccountType(bankAccount.BankAccountTypeId);//4
+
             if (bankAccount == null)
                 return HttpNotFound();
 
             var viewModel = new BankAccountFormViewModel()
             {
                 BankAccount = bankAccount,
-                BankAccountTypes = context.BankAccountTypes.ToList(),
+                BankAccountTypes = unitOfWork.BankAccountTypes.GetBankAccountTypes().ToList(),//5                
                 IndividualFullName = bankAccount.Individual.FullName,
                 AccoutTypeDescription = acctype.Summary
             };
@@ -128,8 +132,8 @@ namespace TSMbank.Controllers
                 var viewModel = new BankAccountFormViewModel()
                 {
                     BankAccount = bankAccount,
-                    IndividualFullName = context.Individuals.SingleOrDefault(c => c.Id == bankAccount.IndividualId).FullName,
-                    BankAccountTypes = context.BankAccountTypes.ToList(),
+                    IndividualFullName = unitOfWork.Individuals.GetJustIndividual(bankAccount.IndividualId).FullName,//6                    
+                    BankAccountTypes = unitOfWork.BankAccountTypes.GetBankAccountTypes().ToList()//7
                 };
                 return View("BankAccountForm", viewModel);
             }
@@ -138,39 +142,37 @@ namespace TSMbank.Controllers
             {
                 bankAccount.AccountNumber = BankAccount.CreateRandomAccountNumber();
                 bankAccount.OpenedDate = DateTime.Now;
-                bankAccount.StatusUpdatedDateTime = DateTime.Now;                   
-                context.BankAccounts.Add(bankAccount);
+                bankAccount.StatusUpdatedDateTime = DateTime.Now;
+                unitOfWork.BankAccounts.AddBankAccount(bankAccount);//8
 
-                var request = context.BankAccRequests
-                                .Include(r => r.Individual)
-                                .Single(r => r.IndividualId == bankAccount.IndividualId
-                                && r.Status == RequestStatus.Processing);
-
+                var request = unitOfWork.BankAccountRequests
+                                .GetBankAccRequestByStatus(bankAccount.IndividualId, RequestStatus.Processing);//9       
                 await request.Approve();
             }
             else
             {
-                var bankAccountInDb = context.BankAccounts.SingleOrDefault(a => a.AccountNumber == bankAccount.AccountNumber);
+                var bankAccountInDb = unitOfWork.BankAccounts.GetBankAccount(bankAccount.AccountNumber);//10                    
+
                 bankAccountInDb.WithdrawalLimit = bankAccount.WithdrawalLimit;
-                bankAccountInDb.BankAccountTypeId = bankAccount.BankAccountTypeId;
+                bankAccountInDb.NickName = bankAccount.NickName;
             }
-            context.SaveChanges();
-            return RedirectToAction("GetIndividuals", "Individuals");
+            unitOfWork.Complete();//11
+            return RedirectToAction("index", "Individuals");
         }
 
         [Route("Accounts/ChangeStatus/{individualId}")]
-        public ActionResult ChangeStatus(string accountNo)
+        public ActionResult ChangeStatus(string accountNumber)
         {
-            if (accountNo == null)
+            if (accountNumber == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var bankAccount = context.BankAccounts.SingleOrDefault(a => a.AccountNumber == accountNo);
+            var bankAccount = unitOfWork.BankAccounts.GetBankAccount(accountNumber);//12
 
             if (bankAccount == null)
                 return HttpNotFound();
 
             bankAccount.AccountStatus = bankAccount.AccountStatus == AccountStatus.Active ? AccountStatus.Inactive : AccountStatus.Active;
-            context.SaveChanges();
+            unitOfWork.Complete();//13
             return RedirectToAction("Index");
         }
 
@@ -178,7 +180,7 @@ namespace TSMbank.Controllers
         public ActionResult CheckingAccount()
         {
             var userId = User.Identity.GetUserId();
-            var individual = context.Individuals.SingleOrDefault(i => i.Id == userId);
+            var individual = unitOfWork.Individuals.GetJustIndividual(userId);//14
             var viewModel = new CheckingAccApplicationViewModel()
             {
                 IndividualStatus = individual.Status,
@@ -189,7 +191,7 @@ namespace TSMbank.Controllers
         public ActionResult BankAccountSelection(Description description)
         {
             var userId = User.Identity.GetUserId();
-            var individual = context.Individuals.SingleOrDefault(i => i.Id == userId);
+            var individual = unitOfWork.Individuals.GetJustIndividual(userId);//15
             var viewModel = new CheckingAccApplicationViewModel() { IndividualStatus = individual.Status };
             switch (description)
             {
@@ -212,3 +214,52 @@ namespace TSMbank.Controllers
         }
     }
 }
+
+//1
+//context.Individuals.SingleOrDefault(c => c.Id == individualId);
+//2
+//context.BankAccountTypes.ToList(),
+
+//3
+//context.BankAccounts
+//                .Include(a => a.Individual)
+//                .Include(a => a.BankAccountType)
+//                .SingleOrDefault(a => a.AccountNumber == accountNo);
+
+//4
+//context.BankAccountTypes.SingleOrDefault(a => a.Id == bankAccount.BankAccountTypeId);
+
+//5
+//context.BankAccountTypes.ToList(),
+
+//6
+//context.Individuals.SingleOrDefault(c => c.Id == bankAccount.IndividualId).FullName,
+
+//7
+//context.BankAccountTypes.ToList(),
+//8
+//context.BankAccounts.Add(bankAccount);
+
+//9
+//context.BankAccRequests
+//            .Include(r => r.Individual)
+//            .Single(r => r.IndividualId == bankAccount.IndividualId
+//            && r.Status == RequestStatus.Processing);
+
+//10
+//context.BankAccounts.SingleOrDefault(a => a.AccountNumber == bankAccount.AccountNumber);
+//11
+//context.SaveChanges();
+//12
+//context.BankAccounts.SingleOrDefault(a => a.AccountNumber == accountNumber);
+//13
+//context.SaveChanges();
+//14
+//context.Individuals.SingleOrDefault(i => i.Id == userId);
+
+//15
+//context.Individuals.SingleOrDefault(i => i.Id == userId);
+
+
+
+
