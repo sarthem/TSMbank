@@ -54,30 +54,30 @@ else
    
         $(document).ready(function () {
             $('#transactions').DataTable();
-            var progress = $.connection.signalHub;
-            $.connection.hub.start().done(function () {
-                });
-                progress.client.showTransactions = function (trans) {
-                    
-                    if (Model.AccountNumber == trans.CreditAccountNo) {
-                        $("#transactionsId").prepend(`<td>${trans.ValueDateTime.ToLongTimeString()}</td>
-                                            <td>${trans.ValueDateTime.ToLongDateString()} </td>
-                                            <td><label>Transfered From </label>: ${trans.DebitIBAN}</td>
-                                            <td> ${trans.CreditAmount}</td>
-                                            <td> ${trans.CreditAccountBalanceAfterTransaction}</td>`);
-                    } else {
-                        $("#transactionsId").prepend(`<td>${trans.ValueDateTime.ToLongTimeString()}</td>
-                                            <td>${trans.ValueDateTime.ToLongDateString()} </td>
-                                            <td><label>Transfered To </label>: ${trans.CreditIBAN}</td>
-                                            <td> - ${trans.CreditAmount}</td>
-                                            <td> ${trans.DebitAccountBalanceAfterTransaction}</td>`);
-                    }
-
-                };
+            
         });
          
         
+        var progress = $.connection.signalHub;
+        $.connection.hub.start().done(function () {
+        });
+        progress.client.showTransactions = function (trans) {
 
+            if (Model.AccountNumber == trans.CreditAccountNo) {
+                $("#transactionsId").prepend(`<td>${trans.Time.ToLongTimeString()}</td>
+                                            <td>${trans.Time.ToLongDateString()} </td>
+                                            <td><label>Transfered From </label>: ${trans.DebitAccountNo}</td>
+                                            <td> ${trans.DebitAmount}</td>
+                                            <td> ${trans.CreditAccountBalanceAfterTransaction}</td>`);
+            } else {
+                $("#transactionsId").prepend(`<td>${trans.Time.ToLongTimeString()}</td>
+                                            <td>${trans.Time.ToLongDateString()} </td>
+                                            <td><label>Transfered To </label>: ${trans.CreditAccountNo}</td>
+                                            <td> - ${trans.DebitAmount}</td>
+                                            <td> ${trans.DebitAccountBalanceAfterTransaction}</td>`);
+            }
+
+        };
 
     </script>
 }
