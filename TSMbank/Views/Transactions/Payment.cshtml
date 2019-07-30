@@ -1,0 +1,32 @@
+﻿@model TSMbank.ViewModels.PaymentFormViewModel
+@using TSMbank.Models
+@{
+    ViewBag.Title = "MakePayment";
+}
+@{
+    var custBankAccsInfo = Model.CustomerBankAccs.Select(ba => new { AccNo = ba.AccountNumber, Info = ba.BankAccountType.Summary + " (" + ba.IBAN + ")" });
+}
+<h2>Make a Payment</h2>
+
+@using (Html.BeginForm("MakePayment", "Transactions", Model.Category = TransactionCategory.Payment))
+{
+    <div class="form-group">
+        @Html.Label("From Account")
+        @Html.DropDownListFor(m => m.CustomerBankAccNo, new SelectList(custBankAccsInfo, "AccNo", "Info"), "Select Account", new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Ammount")
+        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Online Payment Code")
+        @Html.TextBoxFor(m => m.OnlinePaymentCode, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Public Service")
+        @Html.DropDownListFor(m => m.PublicPaymentAccNo, new SelectList(Model.PublicPaymentAccs, "AccountNumber", "NickName"), "Select Service", new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+}

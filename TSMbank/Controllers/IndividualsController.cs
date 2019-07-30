@@ -267,6 +267,21 @@ namespace TSMbank.Controllers
             unitOfWork.Complete();
             return RedirectToAction("Index");
         }
+
+        public ActionResult ViewCrypto()
+        {
+            return View();
+        }
+
+        public ActionResult ViewForex()
+        {
+            return View();
+        }
+
+        public ActionResult ViewHeatMap()
+        {
+            return View();
+        }
     }
 }
 //1

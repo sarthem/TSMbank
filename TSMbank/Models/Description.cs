@@ -10,6 +10,7 @@ namespace TSMbank.Models
         Checking,
         Savings,
         Term,
-        CreditCard
+        CreditCard,
+        PublicServices
     }
 }

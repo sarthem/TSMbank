@@ -282,6 +282,7 @@
     <Compile Include="ViewModels\CardReqViewModel.cs" />
     <Compile Include="ViewModels\IndividualFormViewModel.cs" />
     <Compile Include="ViewModels\CheckingAccApplicationViewModel.cs" />
+    <Compile Include="ViewModels\PaymentFormViewModel.cs" />
     <Compile Include="ViewModels\RequestsViewModel.cs" />
     <Compile Include="ViewModels\TransactionViewModel.cs" />
     <Compile Include="ViewModels\TransactionsDetailsViewModel.cs" />
@@ -382,8 +383,12 @@
     <Content Include="Views\Individuals\EditAddress.cshtml" />
     <Content Include="Views\Individuals\EditIndividual.cshtml" />
     <Content Include="Views\Cards\CreditCardDetails.cshtml" />
+    <Content Include="Views\Individuals\ViewCrypto.cshtml" />
+    <Content Include="Views\Individuals\ViewForex.cshtml" />
+    <Content Include="Views\Individuals\ViewHeatMap.cshtml" />
     <None Include="Views\Shared\_navbarMini.cshtml" />
     <Content Include="Views\Transactions\TransferToAccountERROR.cshtml" />
+    <Content Include="Views\Transactions\Payment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
