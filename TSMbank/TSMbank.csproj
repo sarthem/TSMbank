@@ -235,6 +235,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\SignalRHub.cs" />
     <Compile Include="Migrations\201907261025147_InitialModel.cs" />
     <Compile Include="Migrations\201907261025147_InitialModel.Designer.cs">
       <DependentUpon>201907261025147_InitialModel.cs</DependentUpon>
@@ -250,6 +251,10 @@
     <Compile Include="Migrations\201907301351121_datebirthNotation.cs" />
     <Compile Include="Migrations\201907301351121_datebirthNotation.Designer.cs">
       <DependentUpon>201907301351121_datebirthNotation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907302006418_addSgnalR2.cs" />
+    <Compile Include="Migrations\201907302006418_addSgnalR2.Designer.cs">
+      <DependentUpon>201907302006418_addSgnalR2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountStatus.cs" />
@@ -642,7 +647,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Hub\" />
     <Folder Include="Views\Individuals\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
@@ -670,6 +674,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907301351121_datebirthNotation.resx">
       <DependentUpon>201907301351121_datebirthNotation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907302006418_addSgnalR2.resx">
+      <DependentUpon>201907302006418_addSgnalR2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

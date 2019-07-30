@@ -51,114 +51,72 @@ else
 @section scripts
 {
     <script>
-        if (@Model != null) {
-            let model = @Model;
+   
+        $(document).ready(function () {
+            $('#transactions').DataTable();
             var progress = $.connection.signalHub;
-            $(document).ready(function () {
-                let table = $("#transactions").DataTable();
-
-                $.connection.hub.start().done(function () {
+            $.connection.hub.start().done(function () {
                 });
-                progress.client.showTransactions = function (request) {
-                    let timenow = new Date(request.Time);
-                    if (Model.AccountNumber == request.CreditAccountNo) {
-                        $("#transactionsId").prepend(`<td>${request.ValueDateTime.ToLongTimeString()}</td> 
-                                            <td>${request.ValueDateTime.ToLongDateString()} </td>
-                                            <td><label>Transfered From </label>: ${request.DebitIBAN}</td>
+                progress.client.showTransactions = function (trans) {
+                    
+                    if (Model.AccountNumber == trans.CreditAccountNo) {
+                        $("#transactionsId").prepend(`<td>${trans.ValueDateTime.ToLongTimeString()}</td>
+                                            <td>${trans.ValueDateTime.ToLongDateString()} </td>
+                                            <td><label>Transfered From </label>: ${trans.DebitIBAN}</td>
                                             <td> ${trans.CreditAmount}</td>
                                             <td> ${trans.CreditAccountBalanceAfterTransaction}</td>`);
                     } else {
-                        $("#transactionsId").prepend(`<td>${request.ValueDateTime.ToLongTimeString()}</td> 
-                                            <td>${request.ValueDateTime.ToLongDateString()} </td>
+                        $("#transactionsId").prepend(`<td>${trans.ValueDateTime.ToLongTimeString()}</td>
+                                            <td>${trans.ValueDateTime.ToLongDateString()} </td>
                                             <td><label>Transfered To </label>: ${trans.CreditIBAN}</td>
                                             <td> - ${trans.CreditAmount}</td>
                                             <td> ${trans.DebitAccountBalanceAfterTransaction}</td>`);
                     }
 
                 };
-            };
-            
+        });
+         
         
 
-            //{
-            //    ajax: {
-            //        url: "/api/transactions",
-            //        dataSrc: ""
-            //    },
-            //    columns: [
-            //        {
-            //            data: "name",
-            //            render: function (data, type, transaction) {
-            //                return "<a href='/viewers/edit/" + viewer.id + "'>" + viewer.name + "</a>";
-            //                return "<p>'t' </p>";
-            //            }
-            //        },
-            //        {
-            //            data: "transaction.amount"
-            //        },
-            //        {
-            //            data: "id",
-            //            render: function (data) {
-            //                return "<button class='btn-link js-delete' data-viewer-id=" + data + ">Delete</button>";
-            //            }
-            //        }
 
-            //    ]
-            //});
-
-            //$("#viewers").on("click", ".js-delete", function () {
-            //    let button = $(this);
-
-            //    bootbox.confirm("Do you want to delete me?", function (result) {
-            //        if (result) {
-            //            $.ajax({
-            //                url: "/api/viewers/" + button.attr("data-viewer-id"),
-            //                method: "DELETE",
-            //                success: function () {
-            //                    table.row(button.parents("tr")).remove().draw();
-
-            //                }
-            //            });
-
-            //        }
-            //    });
-
-
-            //});
-        };
     </script>
 }
 
+
+@**@
+
+
+
 @*@model IEnumerable<TSMbank.Models.Transaction>
 
-<h2>Bank Transactions</h2>
-<ul id="transactionsId">
-    @foreach (var transaction in Model)
+    <h2>Bank Transactions</h2>
+    <ul id="transactionsId">
+        @foreach (var transaction in Model)
+        {
+
+            <li>From @transaction.DebitAccountNo To @transaction.CreditAccountNo  amount @transaction.DebitAmount time @transaction.ValueDateTime.ToShortTimeString() </li>
+
+        }
+    </ul>
+    @section scripts
     {
-
-        <li>From @transaction.DebitAccountNo To @transaction.CreditAccountNo  amount @transaction.DebitAmount time @transaction.ValueDateTime.ToShortTimeString() </li>
-
-    }
-</ul>
-@section scripts
-{
-    <script>
-        var progress = $.connection.signalHub;
+        <script>
+            var progress = $.connection.signalHub;
 
 
-        $.connection.hub.start().done(function () {
-        });
-        progress.client.showTransactions = function (request) {
-            let timenow = new Date(request.Time);
-            $("#transactionsId").prepend(`<li>From ${request.DebitAccountNo} To ${request.CreditAccountNo} amount
-                ${request.DebitAmount} time ${timenow.toLocaleTimeString()}</li>`)
+            $.connection.hub.start().done(function () {
+            });
+            progress.client.showTransactions = function (request) {
+                let timenow = new Date(request.Time);
+                $("#transactionsId").prepend(`<li>From ${request.DebitAccountNo} To ${request.CreditAccountNo} amount
+                    ${request.DebitAmount} time ${timenow.toLocaleTimeString()}</li>`)
 
-        };
+            };
 
 
 
 
 
-    </script>
+        </script>
 
-}*@
+    }*@

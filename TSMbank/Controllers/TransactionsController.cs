@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TSMbank.Hubs;
 using TSMbank.Models;
 using TSMbank.Persistance;
 using TSMbank.ViewModels;
@@ -148,6 +149,16 @@ namespace TSMbank.Controllers
             debitAccount.Balance = transaction.DebitAccountBalanceAfterTransaction;
             //8
             unitOfWork.Transactions.AddTransaction(transaction);
+            var transHub = new
+            {
+                DebitAccountNo = debitAccount.AccountNumber,
+                CreditAccountNo = creditAccount.AccountNumber,
+                DebitAmount = transactionView.Amount,
+                Time = transaction.ValueDateTime
+            };
+
+            SignalRHub.GetTransactions(transHub);
+
             unitOfWork.Complete();            
 
             return RedirectToAction("Index", new { AccountNumber = transactionView.BankAccountId });
