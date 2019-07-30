@@ -12,36 +12,43 @@
 }
 else
 {
-    <table id="transactions" class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>Time</th>
-                <th>Date</th>
-                <th>Account</th>
-                <th>Amount</th>
-                <th>Balance</th>
-            </tr>
-        </thead>
-        @foreach (var trans in Model.Transactions)
+    <ul id="transactionsId">
+        @foreach (var transaction in Model.Transactions)
         {
-            <tr id="transactionsId">
-                <td> @trans.ValueDateTime.ToLongTimeString()</td>
-                <td>@Html.ActionLink(trans.ValueDateTime.ToLongDateString(), "Details", "Transactions", new { id = trans.TransactionId, accountNumber = Model.AccountNumber }, null)</td>
-                @if (Model.AccountNumber == trans.CreditAccountNo)
-                {
-                    <td><label>Transfered From </label>: @trans.DebitIBAN</td>
-                    <td> @trans.CreditAmount</td>
-                    <td> @trans.CreditAccountBalanceAfterTransaction</td>
-                }
-                else
-                {
-                    <td><label>Transfered To </label>: @trans.CreditIBAN</td>
-                    <td> - @trans.CreditAmount</td>
-                    <td> @trans.DebitAccountBalanceAfterTransaction</td>
-                }
-            </tr>
+            <li>From @transaction.DebitAccountNo To @transaction.CreditAccountNo  amount @transaction.DebitAmount time @transaction.ValueDateTime.ToShortTimeString() </li>
         }
-    </table>
+    </ul>
+
+    @*<table id="transactions" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Date</th>
+                    <th>Account</th>
+                    <th>Amount</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            @foreach (var trans in Model.Transactions)
+            {
+                <tr id="transactionsId">
+                    <td> @trans.ValueDateTime.ToLongTimeString()</td>
+                    <td>@Html.ActionLink(trans.ValueDateTime.ToLongDateString(), "Details", "Transactions", new { id = trans.TransactionId, accountNumber = Model.AccountNumber }, null)</td>
+                    @if (Model.AccountNumber == trans.CreditAccountNo)
+                    {
+                        <td><label>Transfered From </label>: @trans.DebitIBAN</td>
+                        <td> @trans.CreditAmount</td>
+                        <td> @trans.CreditAccountBalanceAfterTransaction</td>
+                    }
+                    else
+                    {
+                        <td><label>Transfered To </label>: @trans.CreditIBAN</td>
+                        <td> - @trans.CreditAmount</td>
+                        <td> @trans.DebitAccountBalanceAfterTransaction</td>
+                    }
+                </tr>
+            }
+        </table>*@
 
 }
 <p>
@@ -51,36 +58,59 @@ else
 @section scripts
 {
     <script>
-   
-        //$(document).ready(function () {
-        //    $('#transactions').DataTable();
-            
-        //});
-         
-        
+
         var progress = $.connection.signalHub;
         $.connection.hub.start().done(function () {
         });
-        
+        progress.client.showTransactions = function (request) {
+            let timenow = new Date(request.Time);
+            $("#transactionsId").prepend(`<li>From ${request.DebitAccountNo} To ${request.CreditAccountNo} amount
+                ${request.DebitAmount} time ${timenow.toLocaleTimeString()}</li>`)
 
-        //progress.client.showTransactions = function (trans) {
-        //    let timenow = new Date(trans.Time);
-        //    if (Model.AccountNumber == trans.CreditAccountNo) {
-                
-        //        $("#transactionsId").prepend(`<td>${timenow.ToLongTimeString()}</td>
-        //                                    <td>${timenow.ToLongDateString()} </td>
-        //                                    <td><label>Transfered From </label>: ${trans.DebitAccountNo}</td>
-        //                                    <td> ${trans.DebitAmount}</td>
-        //                                    <td> ${trans.CreditAccountBalanceAfterTransaction}</td>`);
-        //    } else {
-        //        $("#transactionsId").prepend(`<td>${timenow.ToLongTimeString()}</td>
-        //                                    <td>${timenow.ToLongDateString()} </td>
-        //                                    <td><label>Transfered To </label>: ${trans.CreditAccountNo}</td>
-        //                                    <td> - ${trans.DebitAmount}</td>
-        //                                    <td> ${trans.DebitAccountBalanceAfterTransaction}</td>`);
-        //    }
+        };
 
-        //};
+
+
+
+
+
+
+
+
+
+
+
+
+            /////////////////////////////////////////////////////////////////////////////////////////
+            //$(document).ready(function () {
+            //    $('#transactions').DataTable();
+
+            //});
+
+
+            //var progress = $.connection.signalHub;
+            //$.connection.hub.start().done(function () {
+            //});
+
+
+            //progress.client.showTransactions = function (trans) {
+            //    let timenow = new Date(trans.Time);
+            //    if (Model.AccountNumber == trans.CreditAccountNo) {
+
+            //        $("#transactionsId").prepend(`<td>${timenow.ToLongTimeString()}</td>
+            //                                    <td>${timenow.ToLongDateString()} </td>
+            //                                    <td><label>Transfered From </label>: ${trans.DebitAccountNo}</td>
+            //                                    <td> ${trans.DebitAmount}</td>
+            //                                    <td> ${trans.CreditAccountBalanceAfterTransaction}</td>`);
+            //    } else {
+            //        $("#transactionsId").prepend(`<td>${timenow.ToLongTimeString()}</td>
+            //                                    <td>${timenow.ToLongDateString()} </td>
+            //                                    <td><label>Transfered To </label>: ${trans.CreditAccountNo}</td>
+            //                                    <td> - ${trans.DebitAmount}</td>
+            //                                    <td> ${trans.DebitAccountBalanceAfterTransaction}</td>`);
+            //    }
+
+            //};
 
     </script>
 }
