@@ -28,9 +28,8 @@ namespace TSMbank.Repositories
         {
             return _context.BankAccRequests
                             .Include(r => r.BankAccType)
-                            .SingleOrDefault(r => r.IndividualId == userId
-                            && r.BankAccTypeId == id
-                            && r.Status == RequestStatus.Pending || r.Status == RequestStatus.Approved);
+                            .SingleOrDefault(r => r.IndividualId == userId && r.BankAccTypeId == id
+                            && (r.Status == RequestStatus.Pending || r.Status == RequestStatus.Approved));
         }
 
         public BankAccRequest GetBankAccRequestByStatus(string userId, RequestStatus status)

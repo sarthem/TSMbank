@@ -47,7 +47,7 @@ namespace TSMbank.Controllers
             return View(individuals);
         }
 
-        // GET: Individuals/newIndividuals
+       // GET: Individuals/newIndividuals
         public ActionResult NewIndividual()
         {
             return View("Index");

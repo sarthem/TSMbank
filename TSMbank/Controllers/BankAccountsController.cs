@@ -77,15 +77,15 @@ namespace TSMbank.Controllers
             return View("BankAccountForm", viewModel);
         }
 
-        // GET theloume pia edit?
-        public ActionResult Edit(string accountNo)
+        // GET 
+        public ActionResult Edit(string accountNumber)
         {
-            if (accountNo == null)
+            if (accountNumber == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var bankAccount = context.BankAccounts
                                     .Include(a => a.Individual)
-                                    .SingleOrDefault(a => a.AccountNumber == accountNo);
+                                    .SingleOrDefault(a => a.AccountNumber == accountNumber);
 
             if (bankAccount == null)
                 return HttpNotFound();
@@ -97,7 +97,7 @@ namespace TSMbank.Controllers
                 IndividualFullName = bankAccount.Individual.FullName
             };
 
-            return View("BankAccountForm", viewModel);
+            return View("EditNickName", viewModel);
         }
 
         //GET
@@ -154,10 +154,10 @@ namespace TSMbank.Controllers
                 var bankAccountInDb = unitOfWork.BankAccounts.GetBankAccount(bankAccount.AccountNumber);//10                    
 
                 bankAccountInDb.WithdrawalLimit = bankAccount.WithdrawalLimit;
-                bankAccountInDb.BankAccountTypeId = bankAccount.BankAccountTypeId;
+                bankAccountInDb.NickName = bankAccount.NickName;
             }
             unitOfWork.Complete();//11
-            return RedirectToAction("GetIndividuals", "Individuals");
+            return RedirectToAction("index", "Individuals");
         }
 
         [Route("Accounts/ChangeStatus/{individualId}")]
