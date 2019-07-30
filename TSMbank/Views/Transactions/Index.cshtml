@@ -15,6 +15,7 @@ else
     <table id="transactions" class="table table-bordered table-hover">
         <thead>
             <tr>
+                <th>Time</th>
                 <th>Date</th>
                 <th>Account</th>
                 <th>Amount</th>
@@ -22,24 +23,24 @@ else
             </tr>
         </thead>
         @foreach (var trans in Model.Transactions)
-            {
-                <tr>
-                    <td>@Html.ActionLink(trans.ValueDateTime.ToLongDateString(), "Details", "Transactions", new { id = trans.TransactionId, accountNumber = Model.AccountNumber }, null)</td>
-                    @if (Model.AccountNumber == trans.CreditAccountNo)
-                    {
-                        <td><label>Transfered From </label>: @trans.DebitIBAN</td>
-                        <td> @trans.CreditAmount</td>
-                        <td> @trans.CreditAccountBalanceAfterTransaction</td>
-
-                    }
-                    else
-                    {
-                        <td><label>Transfered To </label>: @trans.CreditIBAN</td>
-                        <td> - @trans.CreditAmount</td>
-                        <td> @trans.DebitAccountBalanceAfterTransaction</td>
-                    }
-                </tr>
-            }
+        {
+            <tr id="transactionsId">
+                <td> @trans.ValueDateTime.ToLongTimeString()</td>
+                <td>@Html.ActionLink(trans.ValueDateTime.ToLongDateString(), "Details", "Transactions", new { id = trans.TransactionId, accountNumber = Model.AccountNumber }, null)</td>
+                @if (Model.AccountNumber == trans.CreditAccountNo)
+                {
+                    <td><label>Transfered From </label>: @trans.DebitIBAN</td>
+                    <td> @trans.CreditAmount</td>
+                    <td> @trans.CreditAccountBalanceAfterTransaction</td>
+                }
+                else
+                {
+                    <td><label>Transfered To </label>: @trans.CreditIBAN</td>
+                    <td> - @trans.CreditAmount</td>
+                    <td> @trans.DebitAccountBalanceAfterTransaction</td>
+                }
+            </tr>
+        }
     </table>
 
 }
@@ -48,10 +49,37 @@ else
 </p>
 
 @section scripts
-    {
+{
     <script>
-        $(document).ready(function () {
-            let table = $("#transactions").DataTable();
+        if (@Model != null) {
+            let model = @Model;
+            var progress = $.connection.signalHub;
+            $(document).ready(function () {
+                let table = $("#transactions").DataTable();
+
+                $.connection.hub.start().done(function () {
+                });
+                progress.client.showTransactions = function (request) {
+                    let timenow = new Date(request.Time);
+                    if (Model.AccountNumber == request.CreditAccountNo) {
+                        $("#transactionsId").prepend(`<td>${request.ValueDateTime.ToLongTimeString()}</td> 
+                                            <td>${request.ValueDateTime.ToLongDateString()} </td>
+                                            <td><label>Transfered From </label>: ${request.DebitIBAN}</td>
+                                            <td> ${trans.CreditAmount}</td>
+                                            <td> ${trans.CreditAccountBalanceAfterTransaction}</td>`);
+                    } else {
+                        $("#transactionsId").prepend(`<td>${request.ValueDateTime.ToLongTimeString()}</td> 
+                                            <td>${request.ValueDateTime.ToLongDateString()} </td>
+                                            <td><label>Transfered To </label>: ${trans.CreditIBAN}</td>
+                                            <td> - ${trans.CreditAmount}</td>
+                                            <td> ${trans.DebitAccountBalanceAfterTransaction}</td>`);
+                    }
+
+                };
+            };
+            
+        
+
             //{
             //    ajax: {
             //        url: "/api/transactions",
@@ -97,7 +125,40 @@ else
 
 
             //});
-        });
+        };
     </script>
 }
 
+@*@model IEnumerable<TSMbank.Models.Transaction>
+
+<h2>Bank Transactions</h2>
+<ul id="transactionsId">
+    @foreach (var transaction in Model)
+    {
+
+        <li>From @transaction.DebitAccountNo To @transaction.CreditAccountNo  amount @transaction.DebitAmount time @transaction.ValueDateTime.ToShortTimeString() </li>
+
+    }
+</ul>
+@section scripts
+{
+    <script>
+        var progress = $.connection.signalHub;
+
+
+        $.connection.hub.start().done(function () {
+        });
+        progress.client.showTransactions = function (request) {
+            let timenow = new Date(request.Time);
+            $("#transactionsId").prepend(`<li>From ${request.DebitAccountNo} To ${request.CreditAccountNo} amount
+                ${request.DebitAmount} time ${timenow.toLocaleTimeString()}</li>`)
+
+        };
+
+
+
+
+
+    </script>
+
+}*@
