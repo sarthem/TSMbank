@@ -46,5 +46,23 @@ else
 <p>
     @Html.ActionLink("back", "Index", "Individuals", null, new { @class = "btn btn-primary" })
 </p>
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            let table = $("#transactions").DataTable();
+        });
+    </script>
+
+
+
+
+
+
+}
+
+
+
+
 
 
