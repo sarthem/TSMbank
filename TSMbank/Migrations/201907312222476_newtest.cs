@@ -3,7 +3,7 @@ namespace TSMbank.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class TransactionMods1 : DbMigration
+    public partial class newtest : DbMigration
     {
         public override void Up()
         {

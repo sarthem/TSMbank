@@ -254,17 +254,9 @@
     <Compile Include="Migrations\201907301115558_SeedDbWithTsmAcc.Designer.cs">
       <DependentUpon>201907301115558_SeedDbWithTsmAcc.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907301545188_TransactionMods1.cs" />
-    <Compile Include="Migrations\201907301545188_TransactionMods1.Designer.cs">
-      <DependentUpon>201907301545188_TransactionMods1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907302009408_test.cs" />
-    <Compile Include="Migrations\201907302009408_test.Designer.cs">
-      <DependentUpon>201907302009408_test.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907302006418_addSgnalR2.cs" />
-    <Compile Include="Migrations\201907302006418_addSgnalR2.Designer.cs">
-      <DependentUpon>201907302006418_addSgnalR2.cs</DependentUpon>
+    <Compile Include="Migrations\201907312222476_newtest.cs" />
+    <Compile Include="Migrations\201907312222476_newtest.Designer.cs">
+      <DependentUpon>201907312222476_newtest.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountStatus.cs" />
@@ -697,14 +689,8 @@
     <EmbeddedResource Include="Migrations\201907301115558_SeedDbWithTsmAcc.resx">
       <DependentUpon>201907301115558_SeedDbWithTsmAcc.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907301545188_TransactionMods1.resx">
-      <DependentUpon>201907301545188_TransactionMods1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907302009408_test.resx">
-      <DependentUpon>201907302009408_test.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907302006418_addSgnalR2.resx">
-      <DependentUpon>201907302006418_addSgnalR2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907312222476_newtest.resx">
+      <DependentUpon>201907312222476_newtest.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
