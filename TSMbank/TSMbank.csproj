@@ -232,6 +232,8 @@
     <Compile Include="Dtos\BankAccountTypeDto.cs" />
     <Compile Include="Dtos\IndividualDto.cs" />
     <Compile Include="Dtos\IndividualStatusDto.cs" />
+    <Compile Include="Dtos\TransactionViewModelDto.cs" />
+    <Compile Include="Dtos\TransactionInfoDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -244,13 +246,21 @@
     <Compile Include="Migrations\201907261026519_PopulateAccAndTransTypes.Designer.cs">
       <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907301239506_populateAccounts.cs" />
-    <Compile Include="Migrations\201907301239506_populateAccounts.Designer.cs">
-      <DependentUpon>201907301239506_populateAccounts.cs</DependentUpon>
+    <Compile Include="Migrations\201907301055332_SeedPublicServicesAccs.cs" />
+    <Compile Include="Migrations\201907301055332_SeedPublicServicesAccs.Designer.cs">
+      <DependentUpon>201907301055332_SeedPublicServicesAccs.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907301351121_datebirthNotation.cs" />
-    <Compile Include="Migrations\201907301351121_datebirthNotation.Designer.cs">
-      <DependentUpon>201907301351121_datebirthNotation.cs</DependentUpon>
+    <Compile Include="Migrations\201907301115558_SeedDbWithTsmAcc.cs" />
+    <Compile Include="Migrations\201907301115558_SeedDbWithTsmAcc.Designer.cs">
+      <DependentUpon>201907301115558_SeedDbWithTsmAcc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907301545188_TransactionMods1.cs" />
+    <Compile Include="Migrations\201907301545188_TransactionMods1.Designer.cs">
+      <DependentUpon>201907301545188_TransactionMods1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907302009408_test.cs" />
+    <Compile Include="Migrations\201907302009408_test.Designer.cs">
+      <DependentUpon>201907302009408_test.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201907302006418_addSgnalR2.cs" />
     <Compile Include="Migrations\201907302006418_addSgnalR2.Designer.cs">
@@ -303,8 +313,9 @@
     <Compile Include="ViewModels\CardReqViewModel.cs" />
     <Compile Include="ViewModels\IndividualFormViewModel.cs" />
     <Compile Include="ViewModels\CheckingAccApplicationViewModel.cs" />
+    <Compile Include="ViewModels\PaymentFormViewModel.cs" />
     <Compile Include="ViewModels\RequestsViewModel.cs" />
-    <Compile Include="ViewModels\TransactionViewModel.cs" />
+    <Compile Include="ViewModels\TransferMoneyViewModel.cs" />
     <Compile Include="ViewModels\TransactionsDetailsViewModel.cs" />
     <Compile Include="ViewModels\ValidCardTransLimit.cs" />
     <Compile Include="ViewModels\ErrorTransactionMessage.cs" />
@@ -626,7 +637,7 @@
     <Content Include="Views\Shared\_navBarCustomer.cshtml" />
     <Content Include="Views\Shared\Info.cshtml" />
     <Content Include="Views\Transactions\Index.cshtml" />
-    <Content Include="Views\Transactions\Deposit.cshtml" />
+    <Content Include="Views\Transactions\TransferMoney.cshtml" />
     <Content Include="Views\BankAccounts\Details.cshtml" />
     <Content Include="Views\Shared\_navBarAdmin.cshtml" />
     <Content Include="Views\Individuals\DetailsAddress.cshtml" />
@@ -647,9 +658,13 @@
     <Content Include="Views\Individuals\EditAddress.cshtml" />
     <Content Include="Views\Individuals\EditIndividual.cshtml" />
     <Content Include="Views\Cards\CreditCardDetails.cshtml" />
+    <Content Include="Views\Individuals\ViewCrypto.cshtml" />
+    <Content Include="Views\Individuals\ViewForex.cshtml" />
+    <Content Include="Views\Individuals\ViewHeatMap.cshtml" />
     <Content Include="Views\BankAccounts\EditNickName.cshtml" />
     <None Include="Views\Shared\_navbarMini.cshtml" />
     <Content Include="Views\Transactions\TransferToAccountERROR.cshtml" />
+    <Content Include="Views\Transactions\Payment.cshtml" />
     <Content Include="Views\Transactions\GetTransactions.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -676,11 +691,17 @@
     <EmbeddedResource Include="Migrations\201907261026519_PopulateAccAndTransTypes.resx">
       <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907301239506_populateAccounts.resx">
-      <DependentUpon>201907301239506_populateAccounts.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907301055332_SeedPublicServicesAccs.resx">
+      <DependentUpon>201907301055332_SeedPublicServicesAccs.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907301351121_datebirthNotation.resx">
-      <DependentUpon>201907301351121_datebirthNotation.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907301115558_SeedDbWithTsmAcc.resx">
+      <DependentUpon>201907301115558_SeedDbWithTsmAcc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907301545188_TransactionMods1.resx">
+      <DependentUpon>201907301545188_TransactionMods1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907302009408_test.resx">
+      <DependentUpon>201907302009408_test.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907302006418_addSgnalR2.resx">
       <DependentUpon>201907302006418_addSgnalR2.cs</DependentUpon>

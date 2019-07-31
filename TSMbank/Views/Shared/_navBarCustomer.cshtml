@@ -21,27 +21,31 @@
                         <li><a href="#">My accounts</a></li>
                     </ul>
                 </li>
-                <li>@Html.ActionLink("money transfers", "Deposit", "Transactions")</li>
-                <li>@Html.ActionLink("my bills", "Index", "Individuals")</li>
+                <li>@Html.ActionLink("Money transfers", "TransferMoney", "Transactions")</li>
+                <li>@Html.ActionLink("My bills", "Payment", "Transactions")</li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cards<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="@Url.Action("CreateCardReq", "Cards", new { cardType = CardType.CreditCard })">Credit Card</a></li>
-                        <li><a href="@Url.Action("CreateCardReq", "Cards", new { description = CardType.PrepaidCard })">Prepaid Card</a></li>                
+                        <li><a href="@Url.Action("CreateCardReq", "Cards", new { description = CardType.PrepaidCard })">Prepaid Card</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Loans<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="@Url.Action("Index", "Individuals", new { description = Description.Checking })">Mortgage Loans</a></li>
-                        <li><a href="@Url.Action("Index", "Individuals", new { description = Description.Savings })">Consumer Loans</a></li>                        
+                        <li><a href="@Url.Action("Index", "Individuals", new { description = Description.Savings })">Consumer Loans</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Investments<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="@Url.Action("BankAccountSelection", "BankAccounts", new { description = Description.Term })">Term Accounts</a></li>
-                        <li><a href="@Url.Action("BankAccountSelection", "BankAccounts", new { description = Description.Term })">Bonds</a></li>                        
+                        <li><a href="@Url.Action("BankAccountSelection", "BankAccounts", new { description = Description.Term })">Bonds</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("ViewForex", "Individuals")">Forex</a></li>
+                        <li><a href="@Url.Action("ViewCrypto", "Individuals")">Cryptocurrency</a></li>
+                        <li><a href="@Url.Action("ViewHeatMap", "Individuals")">HeatMap</a></li>
                     </ul>
                 </li>
             </ul>
@@ -49,4 +53,3 @@
         </div>
     </div>
 </div>
-

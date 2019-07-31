@@ -1,0 +1,87 @@
+﻿@model TSMbank.ViewModels.PaymentFormViewModel
+@using TSMbank.Models
+@{
+    ViewBag.Title = "MakePayment";
+}
+@{
+    var custBankAccsInfo = Model.CustomerBankAccs.Select(ba => new { AccNo = ba.AccountNumber, Info = ba.BankAccountType.Summary + " (" + ba.ProductIdentifier() + ")" });
+}
+<h2>Make a Payment</h2>
+
+@using (Html.BeginForm("Payment", "Transactions", FormMethod.Post, new { id = "newPayment" }))
+{
+    @Html.HiddenFor(m => m.Category, new { id = "transCategory" })
+    <div class="form-group">
+        @Html.Label("From Account")
+        @Html.DropDownListFor(m => m.CustomerBankAccNo, new SelectList(custBankAccsInfo, "AccNo", "Info"), "Select Account", new { @class = "form-control", id = "debitAccNo" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Amount")
+        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", id = "amount" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Online Payment Code")
+        @Html.TextBoxFor(m => m.OnlinePaymentCode, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Public Service")
+        @Html.DropDownListFor(m => m.PublicPaymentAccNo, new SelectList(Model.PublicPaymentAccs, "AccountNumber", "NickName"), "Select Service", new { @class = "form-control", id = "creditAccNo" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var viewModel = {};
+            var creditAccAlias;
+            $("#newPayment").submit(function (e) {
+                e.preventDefault();
+                viewModel.debitAccNo = $("#debitAccNo").val();
+                viewModel.creditAccNo = $("#creditAccNo").val();
+                viewModel.amount = $("#amount").val();
+                viewModel.category = $("#transCategory").val();
+                creditAccAlias = $("#creditAccNo option:selected").text();
+
+                console.log(creditAccAlias);
+                var dialog = bootbox.dialog({
+                    title: "Confirm Payment",
+                    message: `<label>Debit Account: </label><span>${viewModel.debitAccNo}</span><br/>
+                             <label>Transaction Info: </label><span>Payment for ${creditAccAlias}</span><br/>
+                              <label>Amount: </label><span>${viewModel.amount} Eur</span>`,
+                    size: "large",
+                    buttons: {
+                        no: {
+                            label: "No",
+                            className: "btn-default",
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        yes: {
+                            label: "Yes",
+                            className: "btn-danger",
+                            callback: function () {
+                                $.ajax({
+                                    url: "/api/transactions",
+                                    method: "POST",
+                                    data: viewModel
+                                })
+                                    .done(function () {
+                                        toastr.success("Transaction has been completed.");
+                                    })
+                                    .fail(function () {
+                                        toastr.fail("Transaction could not be completed.");
+                                    });
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+}

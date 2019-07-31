@@ -25,10 +25,19 @@ namespace TSMbank.Repositories
                             .Include(i => i.BankAccounts.Select(ba => ba.BankAccountType))
                             .SingleOrDefault(c => c.Id == userId);
         }
-        public Individual GetIndividualWithBankAcc(string id)
+        public Individual GetIndividualWithBankAccs(string id)
         {
             return _context.Individuals
                             .Include(c => c.BankAccounts)
+                            .SingleOrDefault(c => c.Id == id);
+        }
+
+        public Individual GetIndividualWithMTBankAccs(string id)
+        {
+            return _context.Individuals
+                            .Include(i => i.BankAccounts
+                                .Where(ba => ba.BankAccountType.Description == Description.Checking
+                                    || ba.BankAccountType.Description == Description.Savings).Select(ba => ba.BankAccountType))
                             .SingleOrDefault(c => c.Id == id);
         }
 

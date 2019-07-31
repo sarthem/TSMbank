@@ -12,7 +12,6 @@
     {
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
-   
 }
 
 <h2>Customers</h2>
@@ -24,7 +23,7 @@
 else
 {
     var checkingOrSavingsAccounts = Model.BankAccounts.Where(ba => ba.BankAccountType.Description == Description.Checking
-       || ba.BankAccountType.Description == Description.Savings);
+        || ba.BankAccountType.Description == Description.Savings);
     var cards = Model.BankAccounts.Where(ba => ba.BankAccountType.Description == Description.CreditCard
         || ba.BankAccountType.Description == Description.Checking).Select(ba => ba.Card);
     <table id="customers" class="table table-bordered table-hover">

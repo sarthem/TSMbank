@@ -42,9 +42,23 @@ namespace TSMbank.Repositories
         public BankAccount GetBankAccountWithTransactions(string accountNumber)
         {
             return _context.BankAccounts
-                            .Include(a => a.CreditTransactions)
-                            .Include(a => a.DebitTransactions)
+                            .Include(a => a.CreditTransactions.Select(t => t.Type))
+                            .Include(a => a.DebitTransactions.Select(t => t.Type))
                             .SingleOrDefault(a => a.AccountNumber == accountNumber);
+        }
+
+        public IEnumerable<BankAccount> GetCheckingAndSavingsBankAccs(string id)
+        {
+            return _context.BankAccounts
+                    .Include(ba => ba.BankAccountType)
+                    .Where(ba => ba.IndividualId == id && (ba.BankAccountType.Description == Description.Checking
+                        || ba.BankAccountType.Description == Description.Savings))
+                    .ToList();
+        }
+
+        public BankAccount GetTsmBankAcc()
+        {
+            return _context.BankAccounts.SingleOrDefault(ba => ba.AccountNumber == Bank.AccNumber);
         }
     }
 }

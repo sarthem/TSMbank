@@ -107,9 +107,9 @@ namespace TSMbank.Models
             return Type.ToString();
         }
 
-        public decimal AvailableBalance()
+        public decimal CurrentBalance()
         {
-            return BankAccount.Balance + CreditLimit;
+            return CreditLimit - BankAccount.Balance;
         }
     }
 }
