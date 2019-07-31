@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNet.SignalR;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 
 namespace TSMbank.Hubs
 {
-    public class SignalRHub : Hub
+    public class SignalHub : Hub
     {
-        private static IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalRHub>();
+        private static IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalHub>();
 
         public override Task OnConnected()
         {

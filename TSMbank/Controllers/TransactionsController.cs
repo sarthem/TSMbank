@@ -58,13 +58,20 @@ namespace TSMbank.Controllers
         }
 
         // Get 
-        public ActionResult Deposit()
+        public ActionResult Deposit(string accountNumber)
         {
             //3            
             var userId = User.Identity.GetUserId();
             var individual = unitOfWork.Individuals.GetIndividualWithBankAcc(userId);//4
-
-            var bankAccount = unitOfWork.BankAccounts.GetBankAccountsOfIndividual(individual.Id);//5
+            IQueryable<BankAccount> bankAccount;
+            if (accountNumber != null)
+            {
+                bankAccount = unitOfWork.BankAccounts.GetBankAccountsOfIndividual(individual.Id).Where(a => a.AccountNumber == accountNumber);
+            }
+            else
+            {
+                bankAccount = unitOfWork.BankAccounts.GetBankAccountsOfIndividual(individual.Id);//5
+            }
                 
             var viewModel = new TransactionViewModel()
             {
@@ -157,7 +164,7 @@ namespace TSMbank.Controllers
                 Time = transaction.ValueDateTime
             };
 
-            SignalRHub.GetTransactions(transHub);
+            SignalHub.GetTransactions(transHub);
 
             unitOfWork.Complete();            
 

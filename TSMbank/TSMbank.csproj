@@ -235,7 +235,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\SignalRHub.cs" />
+    <Compile Include="Hubs\SignalHub.cs" />
     <Compile Include="Migrations\201907261025147_InitialModel.cs" />
     <Compile Include="Migrations\201907261025147_InitialModel.Designer.cs">
       <DependentUpon>201907261025147_InitialModel.cs</DependentUpon>
