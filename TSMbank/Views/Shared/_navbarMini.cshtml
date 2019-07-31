@@ -1,7 +1,7 @@
 ﻿@model TSMbank.Models.BankAccount
 <div class="navbarmini">
     <ul>
-        <li><a class="active" href="#home">Home</a></li>        
+        <li>@Html.ActionLink("money transfers", "Deposit", "Transactions", new { accountNumber = Model.AccountNumber }, null)</li>        
         <li>@Html.ActionLink("Change NickName", "Edit", "BankAccounts", new { accountNumber = Model.AccountNumber }, null)</li>
         <li>@Html.ActionLink("Transactions", "Index", "Transactions", new { AccountNumber = Model.AccountNumber }, null)</li>
         <li>@Html.ActionLink("Details", "Details", "BankAccounts", new { accountNumber = Model.AccountNumber }, null)</li>

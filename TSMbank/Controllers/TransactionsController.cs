@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TSMbank.Hubs;
 using TSMbank.Models;
 using TSMbank.Persistance;
 using TSMbank.ViewModels;
@@ -27,6 +28,15 @@ namespace TSMbank.Controllers
         {
             context.Dispose();
         }
+
+        public ActionResult GetTransactions()
+        {
+            var transaction = context.Transactions.OrderByDescending(t => t.ValueDateTime).ToList();
+
+            return View(transaction);
+        }
+
+
 
         public ActionResult Details(int id, string accountNumber)
         {
@@ -57,13 +67,20 @@ namespace TSMbank.Controllers
         }
 
         // Get 
-        public ActionResult Deposit()
+        public ActionResult Deposit(string accountNumber)
         {
             //3            
             var userId = User.Identity.GetUserId();
             var individual = unitOfWork.Individuals.GetIndividualWithBankAcc(userId);//4
-
-            var bankAccount = unitOfWork.BankAccounts.GetBankAccountsOfIndividual(individual.Id);//5
+            IQueryable<BankAccount> bankAccount;
+            if (accountNumber != null)
+            {
+                bankAccount = unitOfWork.BankAccounts.GetBankAccountsOfIndividual(individual.Id).Where(a => a.AccountNumber == accountNumber);
+            }
+            else
+            {
+                bankAccount = unitOfWork.BankAccounts.GetBankAccountsOfIndividual(individual.Id);//5
+            }
                 
             var viewModel = new TransactionViewModel()
             {
@@ -148,6 +165,21 @@ namespace TSMbank.Controllers
             debitAccount.Balance = transaction.DebitAccountBalanceAfterTransaction;
             //8
             unitOfWork.Transactions.AddTransaction(transaction);
+
+            
+            var transHub = new
+            {
+                DebitAccountNo = debitAccount.AccountNumber,
+                DebitBalance= debitAccount.Balance,
+                CreditAccountNo = creditAccount.AccountNumber,
+                CreditBalance = creditAccount.Balance,
+                DebitAmount = transactionView.Amount,
+                Time = transaction.ValueDateTime.ToLongTimeString(),
+                Date = transaction.ValueDateTime.ToLongDateString()
+            };
+
+            SignalHub.GetTransactions(transHub);
+
             unitOfWork.Complete();            
 
             return RedirectToAction("Index", new { AccountNumber = transactionView.BankAccountId });
