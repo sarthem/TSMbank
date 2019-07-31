@@ -42,8 +42,8 @@ namespace TSMbank.Repositories
         public BankAccount GetBankAccountWithTransactions(string accountNumber)
         {
             return _context.BankAccounts
-                            .Include(a => a.CreditTransactions)
-                            .Include(a => a.DebitTransactions)
+                            .Include(a => a.CreditTransactions.Select(t => t.Type))
+                            .Include(a => a.DebitTransactions.Select(t => t.Type))
                             .SingleOrDefault(a => a.AccountNumber == accountNumber);
         }
 

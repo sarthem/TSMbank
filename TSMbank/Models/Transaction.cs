@@ -111,5 +111,24 @@ namespace TSMbank.Models
             return new Transaction(TransactionType.BankCommission, debitAcc, tsmBankAcc, debitAmount, debitAccBalance,
                 newDebitAccBalance, creditAmount, creditAccBalance, newCreditAccBalance);
         }
+
+        public string RelatedAccInfo(BankAccount bankAcc)
+        {
+            if (bankAcc.AccountNumber != DebitAccountNo && bankAcc.AccountNumber != CreditAccountNo)
+                throw new InvalidOperationException("Invalid Bank Account");
+
+            var relatedAcc = bankAcc.AccountNumber == DebitAccountNo ? CreditAccount : DebitAccount;
+            var relatedAccNickName = relatedAcc.NickName ?? ""; 
+            if (relatedAcc.BankAccountType.Description == Description.PublicServices)
+                return relatedAccNickName;
+            return relatedAccNickName + " (" + relatedAcc.IBAN + ")";
+        }
+
+        public string GetFinancialType(BankAccount bankAcc)
+        {
+            if (bankAcc.AccountNumber != DebitAccountNo && bankAcc.AccountNumber != CreditAccountNo)
+                throw new InvalidOperationException("Invalid Bank Account");
+            return bankAcc.AccountNumber == DebitAccountNo ? "Debit" : "Credit";
+        }
     }
 }

@@ -225,7 +225,8 @@
     <Compile Include="Dtos\BankAccountTypeDto.cs" />
     <Compile Include="Dtos\IndividualDto.cs" />
     <Compile Include="Dtos\IndividualStatusDto.cs" />
-    <Compile Include="Dtos\TransactionDto.cs" />
+    <Compile Include="Dtos\TransactionViewModelDto.cs" />
+    <Compile Include="Dtos\TransactionInfoDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

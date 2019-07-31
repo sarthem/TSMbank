@@ -24,16 +24,16 @@ namespace TSMbank.Controllers.api
         }
 
 
-        public IHttpActionResult GetTransactions()
-        {
-            var transactions = context.Transactions
-                              .Include(t => t.CreditAccount)
-                              .Include(t => t.DebitAccount).ToList();
-            return Ok(transactions);
-        }
+        //public IHttpActionResult GetTransactions()
+        //{
+        //    var transactions = context.Transactions
+        //                      .Include(t => t.CreditAccount)
+        //                      .Include(t => t.DebitAccount).ToList();
+        //    return Ok(transactions);
+        //}
 
         [HttpPost]
-        public IHttpActionResult MakePayment(TransactionDto transactionDto)
+        public IHttpActionResult MakePayment(TransactionInfoDto transactionDto)
         {
             var transactions = new List<Transaction>();
             var userId = User.Identity.GetUserId();
@@ -57,8 +57,37 @@ namespace TSMbank.Controllers.api
                 unitOfWork.Transactions.AddTransaction(transaction);
             }
             unitOfWork.Complete();
-            
+
             return Ok();
+        }
+
+        [HttpGet]
+        public IHttpActionResult FetchTransactions(string bankAccNo)
+        {
+            if (bankAccNo == null)
+                return BadRequest();
+
+            List<TransactionViewModelDto> dtos = new List<TransactionViewModelDto>();
+            //var transactions = unitOfWork.Transactions.GetTransactions(bankAccNo);
+            var bankAcc = unitOfWork.BankAccounts.GetBankAccountWithTransactions(bankAccNo);
+
+            if (bankAcc == null)
+                return NotFound();
+
+            var transactions = bankAcc.DebitTransactions.Concat(bankAcc.CreditTransactions);
+            foreach (var transaction in transactions)
+            {
+                dtos.Add(new TransactionViewModelDto
+                {
+                    Amount = transaction.GetFinancialType(bankAcc) == "Debit" ? -transaction.DebitAmount : transaction.CreditAmount,
+                    Category = transaction.Type.Category,
+                    FinancialType = transaction.GetFinancialType(bankAcc),
+                    RelatedAccInfo = transaction.RelatedAccInfo(bankAcc),
+                    ValueDate = transaction.ValueDateTime
+                });
+            }
+
+            return Ok(dtos);
         }
 
     }

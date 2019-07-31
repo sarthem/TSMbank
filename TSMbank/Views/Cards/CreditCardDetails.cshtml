@@ -39,7 +39,7 @@
             <div class="card-details-header" data-toggle="collapse" data-target="#card-details">
                 Details
             </div>
-            <div id="card-details" class="card-details-content clearfix collapse" >
+            <div id="card-details" class="card-details-content clearfix collapse">
                 <div class="col-md-6">
                     <table class="table-card-details">
                         <tbody>
@@ -95,6 +95,32 @@
         </div>
     </div>
 </div>
+
+<button id="loadTransactions" class="btn btn-primary" value="Load Transactions"></button>
+
+<table id="creditCardTransactions" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Value Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @*@foreach (var viewer in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(viewer.Name, "Edit", "Viewers", new { id = viewer.Id }, null)</td>
+                    <td>@viewer.MembershipType.DiscountRate %</td>
+                    <td>@viewer.MembershipType.Name</td>
+                    <td>
+                        <button data-viewer-id="@viewer.Id" class="btn-link js-delete">Delete</button>
+                    </td>
+                </tr>
+            }*@
+    </tbody>
+</table>
+
 
 @section scripts
 {
