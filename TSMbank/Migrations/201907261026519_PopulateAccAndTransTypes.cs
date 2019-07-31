@@ -21,7 +21,7 @@ namespace TSMbank.Migrations
             Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (3, 2, 2, 'Payment')");
             Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (4, 3, 25, 'Cancellation')");
             Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (5, 4, 0, 'Money Transfer')");
-            Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (6, 5, 0, 'Purchase')");
+            Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (6, 5, 1, 'Purchase')");
             Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (7, 6, 0, 'Interest Fee')");
             Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (8, 7, 0, 'Overdue Fee')");
             Sql("INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES (9, 8, 0, 'Bank Commission')");

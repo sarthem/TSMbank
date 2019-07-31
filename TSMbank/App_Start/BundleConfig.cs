@@ -14,11 +14,7 @@ namespace TSMbank
                         "~/Scripts/bootbox.js",
                          "~/Scripts/DataTables/jquery.dataTables.js",
                         "~/Scripts/DataTables/dataTables.bootstrap.js",
-<<<<<<< HEAD
                         "~/Scripts/toastr.js"));
-=======
-                         "~/Scripts/toastr.js"));
->>>>>>> master
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

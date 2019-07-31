@@ -71,11 +71,9 @@ namespace TSMbank.Controllers
         {
             var userId = User.Identity.GetUserId();
             var customerBankAccs = unitOfWork.BankAccounts.GetCheckingAndSavingsBankAccs(userId);
-            IQueryable<BankAccount> bankAccount;
+
             if (accountNumber != null)
-            {
-                bankAccount = unitOfWork.BankAccounts.GetBankAccountsOfIndividual(individual.Id).Where(a => a.AccountNumber == accountNumber);
-            }
+                customerBankAccs = customerBankAccs.Where(a => a.AccountNumber == accountNumber);
 
             var viewModel = new TransferMoneyViewModel()
             {
@@ -116,6 +114,19 @@ namespace TSMbank.Controllers
                 unitOfWork.Transactions.AddTransaction(transaction);
             }
             unitOfWork.Complete();
+
+            var transHub = new
+            {
+                DebitAccountNo = debitAccount.AccountNumber,
+                DebitBalance = debitAccount.Balance,
+                CreditAccountNo = creditAccount.AccountNumber,
+                CreditBalance = creditAccount.Balance,
+                DebitAmount = transactions[0].DebitAmount,
+                Time = transactions[0].ValueDateTime.ToLongTimeString(),
+                Date = transactions[0].ValueDateTime.ToLongDateString()
+            };
+
+            SignalHub.GetTransactions(transHub);
             return RedirectToAction("Index", new { AccountNumber = debitAccount.AccountNumber });
         }
 
@@ -139,27 +150,6 @@ namespace TSMbank.Controllers
                 Category = TransactionCategory.Payment,
                 PublicPaymentAccs = publicAccounts
             };
-
-            // creditAccount.Balance = transaction.CreditAccountBalanceAfterTransaction;
-            // debitAccount.Balance = transaction.DebitAccountBalanceAfterTransaction;
-            // //8
-            // unitOfWork.Transactions.AddTransaction(transaction);
-
-
-            // var transHub = new
-            // {
-            //     DebitAccountNo = debitAccount.AccountNumber,
-            //     DebitBalance= debitAccount.Balance,
-            //     CreditAccountNo = creditAccount.AccountNumber,
-            //     CreditBalance = creditAccount.Balance,
-            //     DebitAmount = transactionView.Amount,
-            //     Time = transaction.ValueDateTime.ToLongTimeString(),
-            //     Date = transaction.ValueDateTime.ToLongDateString()
-            // };
-
-            // SignalHub.GetTransactions(transHub);
-
-            unitOfWork.Complete();
 
             return View(viewModel);
         }
