@@ -1,0 +1,39 @@
+﻿@model TSMbank.ViewModels.TransferMoneyViewModel
+@using TSMbank.Models
+@{
+
+
+    ViewBag.Title = "Deposit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Transfer Money</h2>
+
+@using (Html.BeginForm("TransferMoney", "Transactions"))
+{
+    @Html.HiddenFor(m => m.TransactionCategory)
+    <div class="form-group">
+        @Html.Label("From Account")
+        @Html.DropDownListFor(m => m.DebitAccNo, new SelectList(Model.CustomerBankAccs, "AccountNumber", "IBAN"), "Select Account", new { @class = "form-control" })
+
+    </div>
+    <div class="form-group">
+        @Html.Label("Amount")
+        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
+    </div>
+    @Html.Label("To Account")
+    <div class="form-group form-inline">
+        @Html.Label("IBAN", new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.CreditAccIban, new { @maxlength = "26", @class = "form-control", @style = "text-transform:uppercase;width:260px" })
+    </div>
+    <div class="form-group form-inline">
+        <p>@Html.Label("OR")</p>
+        @Html.Label("Account Number", new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.CreditAccNo, new { @maxlength = "16", @class = "form-control", style = "width:160px" })
+    </div>
+    if (Model.ErrorMessage != null)
+    {
+        <div class="alert alert-danger" style="width:50%">@Model.ErrorMessage</div>
+    }
+    <button type="submit" class="btn btn-primary">Save</button>
+}

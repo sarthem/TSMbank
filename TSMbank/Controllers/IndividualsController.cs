@@ -51,7 +51,7 @@ namespace TSMbank.Controllers
        // GET: Individuals/newIndividuals
         public ActionResult NewIndividual()
         {
-            return View("Index");
+            return View("IndividualForm");
         }
 
 
@@ -275,6 +275,21 @@ namespace TSMbank.Controllers
             user.SecondaryAddress = address;
             unitOfWork.Complete();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult ViewCrypto()
+        {
+            return View();
+        }
+
+        public ActionResult ViewForex()
+        {
+            return View();
+        }
+
+        public ActionResult ViewHeatMap()
+        {
+            return View();
         }
     }
 }
