@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TSMbank.Hubs;
 using TSMbank.Models;
 using TSMbank.Persistance;
 using TSMbank.ViewModels;
@@ -20,13 +21,22 @@ namespace TSMbank.Controllers
         public TransactionsController()
         {
             context = new ApplicationDbContext();
-            unitOfWork = new UnitOfWork(context);            
+            unitOfWork = new UnitOfWork(context);
         }
 
         protected override void Dispose(bool disposing)
         {
             context.Dispose();
         }
+
+        public ActionResult GetTransactions()
+        {
+            var transaction = context.Transactions.OrderByDescending(t => t.ValueDateTime).ToList();
+
+            return View(transaction);
+        }
+
+
 
         public ActionResult Details(int id, string accountNumber)
         {
@@ -43,7 +53,7 @@ namespace TSMbank.Controllers
         // GET: Transactions
         public ActionResult Index(string accountNumber)
         {
-            var bankAccount = unitOfWork.BankAccounts.GetBankAccountWithTransactions(accountNumber);   
+            var bankAccount = unitOfWork.BankAccounts.GetBankAccountWithTransactions(accountNumber);
             var transactions = bankAccount.DebitTransactions.Concat(bankAccount.CreditTransactions);
             var orderedTransactions = transactions.OrderByDescending(t => t.ValueDateTime);
 
@@ -57,11 +67,16 @@ namespace TSMbank.Controllers
         }
 
         [Authorize]
-        public ActionResult TransferMoney()
+        public ActionResult TransferMoney(string accountNumber)
         {
             var userId = User.Identity.GetUserId();
             var customerBankAccs = unitOfWork.BankAccounts.GetCheckingAndSavingsBankAccs(userId);
-                
+            IQueryable<BankAccount> bankAccount;
+            if (accountNumber != null)
+            {
+                bankAccount = unitOfWork.BankAccounts.GetBankAccountsOfIndividual(individual.Id).Where(a => a.AccountNumber == accountNumber);
+            }
+
             var viewModel = new TransferMoneyViewModel()
             {
                 CustomerBankAccs = customerBankAccs,
@@ -100,7 +115,7 @@ namespace TSMbank.Controllers
             {
                 unitOfWork.Transactions.AddTransaction(transaction);
             }
-            unitOfWork.Complete();            
+            unitOfWork.Complete();
             return RedirectToAction("Index", new { AccountNumber = debitAccount.AccountNumber });
         }
 
@@ -124,6 +139,27 @@ namespace TSMbank.Controllers
                 Category = TransactionCategory.Payment,
                 PublicPaymentAccs = publicAccounts
             };
+
+            // creditAccount.Balance = transaction.CreditAccountBalanceAfterTransaction;
+            // debitAccount.Balance = transaction.DebitAccountBalanceAfterTransaction;
+            // //8
+            // unitOfWork.Transactions.AddTransaction(transaction);
+
+
+            // var transHub = new
+            // {
+            //     DebitAccountNo = debitAccount.AccountNumber,
+            //     DebitBalance= debitAccount.Balance,
+            //     CreditAccountNo = creditAccount.AccountNumber,
+            //     CreditBalance = creditAccount.Balance,
+            //     DebitAmount = transactionView.Amount,
+            //     Time = transaction.ValueDateTime.ToLongTimeString(),
+            //     Date = transaction.ValueDateTime.ToLongDateString()
+            // };
+
+            // SignalHub.GetTransactions(transHub);
+
+            unitOfWork.Complete();
 
             return View(viewModel);
         }

@@ -14,7 +14,11 @@ namespace TSMbank
                         "~/Scripts/bootbox.js",
                          "~/Scripts/DataTables/jquery.dataTables.js",
                         "~/Scripts/DataTables/dataTables.bootstrap.js",
+<<<<<<< HEAD
                         "~/Scripts/toastr.js"));
+=======
+                         "~/Scripts/toastr.js"));
+>>>>>>> master
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -27,7 +31,8 @@ namespace TSMbank
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-United.css",
                        "~/Content/DataTables/css/dataTables.bootstrap.css",
-                      "~/Content/site.css"));
+                        "~/Content/toastr.css",
+                       "~/Content/site.css" ));
         }
     }
 }

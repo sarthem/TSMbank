@@ -8,7 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
     
 </head>
-<body>   
+<body>
     <div>
         @if (User.IsInRole("Customer") && User.Identity.IsAuthenticated)
         {
@@ -33,6 +33,8 @@
     </div>
 
     @Scripts.Render("~/bundles/lib")
+    @Scripts.Render("~/Scripts/jquery.signalR-2.4.1.min.js");
+    @Scripts.Render("~/signalr/hubs");
     @RenderSection("scripts", required: false)
 </body>
 </html>

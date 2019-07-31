@@ -12,34 +12,38 @@
 }
 else
 {
+    
     <table id="transactions" class="table table-bordered table-hover">
         <thead>
             <tr>
+                <th>Time</th>
                 <th>Date</th>
                 <th>Account</th>
                 <th>Amount</th>
                 <th>Balance</th>
             </tr>
         </thead>
+        <thead id="transactionsId"></thead>
         @foreach (var trans in Model.Transactions)
-            {
-                <tr>
-                    <td>@Html.ActionLink(trans.ValueDateTime.ToLongDateString(), "Details", "Transactions", new { id = trans.TransactionId, accountNumber = Model.AccountNumber }, null)</td>
-                    @if (Model.AccountNumber == trans.CreditAccountNo)
-                    {
-                        <td><label>Transfered From </label>: @trans.DebitIBAN</td>
-                        <td> @trans.CreditAmount</td>
-                        <td> @trans.CreditAccountBalanceAfterTransaction</td>
+        {
 
-                    }
-                    else
-                    {
-                        <td><label>Transfered To </label>: @trans.CreditIBAN</td>
-                        <td> - @trans.CreditAmount</td>
-                        <td> @trans.DebitAccountBalanceAfterTransaction</td>
-                    }
-                </tr>
+         <tr>
+            <td> @trans.ValueDateTime.ToLongTimeString()</td>
+            <td>@Html.ActionLink(trans.ValueDateTime.ToLongDateString(), "Details", "Transactions", new { id = trans.TransactionId, accountNumber = Model.AccountNumber }, null)</td>
+            @if (Model.AccountNumber == trans.CreditAccountNo)
+            {
+                <td><label>Transfered From </label>: @trans.DebitIBAN</td>
+                <td> @trans.CreditAmount</td>
+                <td> @trans.CreditAccountBalanceAfterTransaction</td>
             }
+            else
+            {
+                <td><label>Transfered To </label>: @trans.CreditIBAN</td>
+                <td> - @trans.CreditAmount</td>
+                <td> @trans.DebitAccountBalanceAfterTransaction</td>
+            }
+        </tr>
+        }
     </table>
 
 }
@@ -48,56 +52,39 @@ else
 </p>
 
 @section scripts
-    {
+{
     <script>
+       
         $(document).ready(function () {
-            let table = $("#transactions").DataTable();
-            //{
-            //    ajax: {
-            //        url: "/api/transactions",
-            //        dataSrc: ""
-            //    },
-            //    columns: [
-            //        {
-            //            data: "name",
-            //            render: function (data, type, transaction) {
-            //                return "<a href='/viewers/edit/" + viewer.id + "'>" + viewer.name + "</a>";
-            //                return "<p>'t' </p>";
-            //            }
-            //        },
-            //        {
-            //            data: "transaction.amount"
-            //        },
-            //        {
-            //            data: "id",
-            //            render: function (data) {
-            //                return "<button class='btn-link js-delete' data-viewer-id=" + data + ">Delete</button>";
-            //            }
-            //        }
+            $('#transactions').DataTable();
 
-            //    ]
-            //});
-
-            //$("#viewers").on("click", ".js-delete", function () {
-            //    let button = $(this);
-
-            //    bootbox.confirm("Do you want to delete me?", function (result) {
-            //        if (result) {
-            //            $.ajax({
-            //                url: "/api/viewers/" + button.attr("data-viewer-id"),
-            //                method: "DELETE",
-            //                success: function () {
-            //                    table.row(button.parents("tr")).remove().draw();
-
-            //                }
-            //            });
-
-            //        }
-            //    });
-
-
-            //});
         });
+
+        var progress = $.connection.signalHub;
+        $.connection.hub.start().done(function () {
+        });
+        @*progress.client.showTransactions = function (trans) {
+                       let priAccNumber = @Model.AccountNumber; 
+            
+            let row;
+            if (priAccNumber === trans.CreditAccountNo) {
+                row = '<tr><td>' + trans.Time + '</td><td>'
+                    + trans.Date + '</td> <td><label>Transfered From </label>:'
+                    + trans.DebitAccountNo + '</td><td>'
+                    + trans.DebitAmount + '</td><td>'
+                    + trans.CreditBalance + '</td></tr>';
+            }
+            else {
+                row = '<tr><td>' + trans.Time + '</td><td>'
+                    + trans.Date + '</td> <td><label>Transfered To</label>:'
+                    + trans.CreditAccountNo + '</td><td>'
+                    +'-'+ trans.DebitAmount + '</td><td>'
+                    + trans.DebitBalance + '</td></tr>';
+            }     
+            
+            $("#transactionsId").prepend(row);          
+            };*@
+
     </script>
 }
-
+       
