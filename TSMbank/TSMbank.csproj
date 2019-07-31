@@ -644,6 +644,7 @@
     <Content Include="Views\BankAccounts\EditNickName.cshtml" />
     <None Include="Views\Shared\_navbarMini.cshtml" />
     <Content Include="Views\Transactions\TransferToAccountERROR.cshtml" />
+    <Content Include="Views\Transactions\GetTransactions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

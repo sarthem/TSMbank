@@ -29,6 +29,15 @@ namespace TSMbank.Controllers
             context.Dispose();
         }
 
+        public ActionResult GetTransactions()
+        {
+            var transaction = context.Transactions.OrderByDescending(t => t.ValueDateTime).ToList();
+
+            return View(transaction);
+        }
+
+
+
         public ActionResult Details(int id, string accountNumber)
         {
             var transaction = unitOfWork.Transactions.GetTransactions(id);//1

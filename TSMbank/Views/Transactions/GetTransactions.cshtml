@@ -1,0 +1,33 @@
+﻿@model IEnumerable<TSMbank.Models.Transaction>
+@{
+    ViewBag.Title = "GetTransactions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bank Transactions</h2>
+<ul id="transactionsId">
+    @foreach (var transaction in Model)
+    {
+
+        <li>From @transaction.DebitAccountNo To @transaction.CreditAccountNo  amount @transaction.DebitAmount time @transaction.ValueDateTime.ToShortTimeString() </li>
+
+    }
+</ul>
+@section scripts
+{
+    <script>
+        var progress = $.connection.signalHub;
+
+        $.connection.hub.start().done(function () {
+        });
+        progress.client.showTransactions = function (request) {
+            let time = new Date(request.Time); 
+            let date = new Date(request.Time); 
+            $("#transactionsId").prepend(`<li>From ${request.DebitAccountNo} To ${request.CreditAccountNo} amount
+            ${request.DebitAmount} time ${time.toLocaleTimeString()} date ${date.toDateString()}</li>`)
+
+        };
+
+    </script>
+
+}
