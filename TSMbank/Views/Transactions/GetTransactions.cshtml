@@ -5,14 +5,45 @@
 }
 
 <h2>Bank Transactions</h2>
-<ul id="transactionsId">
+@*<ul id="transactionsId">
     @foreach (var transaction in Model)
     {
 
         <li>From @transaction.DebitAccountNo To @transaction.CreditAccountNo  amount @transaction.DebitAmount time @transaction.ValueDateTime.ToShortTimeString() </li>
 
     }
-</ul>
+</ul>*@
+
+
+<table id="transactions" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Time</th>
+            <th>Date</th>
+            <th>Transfered From</th>
+            <th>Transfered To</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <thead id="transactionsId"></thead>
+    @foreach (var trans in Model)
+    {
+        <tr>
+            <td> @trans.ValueDateTime.ToLongTimeString()</td>
+            <td> @trans.ValueDateTime.ToLongDateString()</td>
+            <td> @trans.DebitIBAN</td>
+            <td> @trans.CreditIBAN</td>
+            <td> @trans.CreditAmount</td>
+        </tr>
+    }
+</table>
+
+}
+
+
+
+
+
 @section scripts
 {
     <script>
@@ -21,18 +52,22 @@
         $.connection.hub.start().done(function () {
         });
         progress.client.showTransactions = function (request) {
-            let time = new Date(request.Time); 
-            let date = new Date(request.Time); 
-            $("#transactionsId").prepend(`<li>From ${request.DebitAccountNo} To ${request.CreditAccountNo} amount
-            ${request.DebitAmount} time ${time.toLocaleTimeString()} date ${date.toDateString()}</li>`)
+            let row = '<tr><td>'
+                    + request.Time + '</td><td>'
+                    + request.Date + '</td> <td>'
+                    + request.DebitAccountNo + '</td><td>'
+                    + request.CreditAccountNo + '</td><td>'
+                    + request.DebitAmount + '</td></tr>';           
+             
+            $("#transactionsId").prepend(row)
         };
         progress.client.getRequests = function (request1) {
-            
+
             toastr.info('New request created by ' + request1.Name + ' for a ' + request1.Type);
             console.log(request1);
         };
         progress.client.getAccRequests = function (request2) {
-           
+
             toastr.info('New request created by ' + request2.Name + " for a " + request2.Type);
             console.log(request2);
         };

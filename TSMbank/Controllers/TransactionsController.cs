@@ -165,12 +165,17 @@ namespace TSMbank.Controllers
             debitAccount.Balance = transaction.DebitAccountBalanceAfterTransaction;
             //8
             unitOfWork.Transactions.AddTransaction(transaction);
+
+            
             var transHub = new
             {
                 DebitAccountNo = debitAccount.AccountNumber,
+                DebitBalance= debitAccount.Balance,
                 CreditAccountNo = creditAccount.AccountNumber,
+                CreditBalance = creditAccount.Balance,
                 DebitAmount = transactionView.Amount,
-                Time = transaction.ValueDateTime
+                Time = transaction.ValueDateTime.ToLongTimeString(),
+                Date = transaction.ValueDateTime.ToLongDateString()
             };
 
             SignalHub.GetTransactions(transHub);
