@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TSMbank.Hubs;
 using TSMbank.Models;
 using TSMbank.Persistance;
 using TSMbank.Repositories;
@@ -95,8 +96,12 @@ namespace TSMbank.Controllers
                 appUser.RegisterCompletion = true;
                 unitOfWork.Individuals.AddIndividual(individual);//2                
                 var request = new Request(individual, RequestType.UserAccActivation);
-                unitOfWork.Requests.AddRequest(request);//3                
-            }
+                unitOfWork.Requests.AddRequest(request);//3   
+
+                var hubModel = new { Name = ifvm.Individual.FullName, Type = request.Type.ToString() };
+                SignalHub.GetRequest(hubModel);
+            }           
+
             unitOfWork.Complete();
             if (User.IsInRole(RoleName.Administrator)) return RedirectToAction("GetIndividuals");
             return RedirectToAction("Index");
@@ -238,7 +243,11 @@ namespace TSMbank.Controllers
             if (activeBankAccReq == null)
             {
                 var bankAccRequest = new BankAccRequest(individual, RequestType.BankAccActivation, id);
-                unitOfWork.BankAccountRequests.AddBankAccountRequest(bankAccRequest);//10                
+                unitOfWork.BankAccountRequests.AddBankAccountRequest(bankAccRequest);//10    
+
+                var hubModel = new { Name = individual.FullName , Type = bankAccRequest.Type.ToString() };
+                SignalHub.GetAccRequest(hubModel);
+
                 unitOfWork.Complete();
                 return RedirectToAction("Index");
             }

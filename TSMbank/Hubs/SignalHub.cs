@@ -31,9 +31,13 @@ namespace TSMbank.Hubs
             Clients.All.send("connected", message);
         }
 
-        public static void GetRequest(Object request)
+        public static void GetRequest(Object request1)
         {
-            hubContext.Clients.All.getRequest(request);
+            hubContext.Clients.All.getRequests(request1);
+        }
+        public static void GetAccRequest(Object request2)
+        {
+            hubContext.Clients.All.getAccRequests(request2);
         }
 
         public static void GetTransactions(Object transaction)

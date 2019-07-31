@@ -14,7 +14,7 @@
     <p>We dont have any Customers</p>
 }
 else
-{   
+{
 
     foreach (var individual in Model)
     {
@@ -80,3 +80,20 @@ else
     }
 }
 
+@section scripts
+{
+    <script>
+        var progress = $.connection.signalHub;
+        console.log(progress);
+        $.connection.hub.start().done(function () {
+
+        });
+
+        progress.client.getAccRequest = function (request) {
+            
+            toastr.info('New request created by ' + request.Name + " for a " + request.Type);
+            console.log(request);
+        };
+
+    </script>
+}
