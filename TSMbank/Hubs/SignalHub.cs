@@ -12,6 +12,8 @@ namespace TSMbank.Hubs
     {
         private static IHubContext hubContext = GlobalHost.ConnectionManager.GetHubContext<SignalHub>();
 
+
+        //test code
         public override Task OnConnected()
         {
             string name = Context.User.Identity.GetUserId();
@@ -31,6 +33,8 @@ namespace TSMbank.Hubs
             Clients.All.send("connected", message);
         }
 
+
+        //good code
         public static void GetRequest(Object request1)
         {
             hubContext.Clients.All.getRequests(request1);

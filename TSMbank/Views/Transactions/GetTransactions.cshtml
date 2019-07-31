@@ -25,7 +25,6 @@
             let date = new Date(request.Time); 
             $("#transactionsId").prepend(`<li>From ${request.DebitAccountNo} To ${request.CreditAccountNo} amount
             ${request.DebitAmount} time ${time.toLocaleTimeString()} date ${date.toDateString()}</li>`)
-
         };
         progress.client.getRequests = function (request1) {
             

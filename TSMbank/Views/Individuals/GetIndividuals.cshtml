@@ -84,15 +84,19 @@ else
 {
     <script>
         var progress = $.connection.signalHub;
-        console.log(progress);
+        
         $.connection.hub.start().done(function () {
 
         });
+        progress.client.getRequests = function (request1) {
 
-        progress.client.getAccRequest = function (request) {
+            toastr.info('New request created by ' + request1.Name + ' for a ' + request1.Type);
+            console.log(request1);
+        };
+        progress.client.getAccRequests = function (request2) {
             
-            toastr.info('New request created by ' + request.Name + " for a " + request.Type);
-            console.log(request);
+            toastr.info('New request created by ' + request2.Name + " for a " + request2.Type);
+            console.log(request2);
         };
 
     </script>
