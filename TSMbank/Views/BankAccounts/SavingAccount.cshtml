@@ -46,7 +46,7 @@
 </div>
 
 
-<form action="@Url.Action("BankAccountPetition", "Individuals")" method="post">
+<form id="petitionForm" action="@Url.Action("BankAccountPetition", "Individuals")" method="post">
     <input id="accTypeId" type="hidden" name="id" />
 
     <section class="indent-2">
@@ -68,12 +68,14 @@
                         "Dynamic Return Deposits" are usually offered for short term durations (3 to 6 months), but occasionally may have longer tenor.
                     </ul>
                 </p>
-                <p>Click the button to see more details for a new savings account.</p>
-
                 @if (Model.IndividualStatus == IndividualStatus.Active)
                 {
-                    @*<a id="GoldId" class="btn btn-primary" href="">Account Petition</a>*@
-                    <input type="submit" class="btn btn-primary" value="Account Petition"/>
+                    <p>Click the button to submit your petition.</p>
+                    <input id="alert" type="submit" class="btn btn-primary" value="Account Petition" />
+                }
+                else
+                {
+                    <p>Your Account is not Active yet to submit your petition.</p>
                 }
             </div>
         </div>
@@ -100,12 +102,15 @@
                     </li>
                     <li> Use your debit card for all your transactions, without charge of interest.</li>
                 </ul>
-                <p>Click the button to submit your petition.</p>
+
                 @if (Model.IndividualStatus == IndividualStatus.Active)
                 {
-                    @*<p id="gold"> @Html.ActionLink("Account petition", "New", "BankAccounts", new { bankAccountType = Description.Savings }, new { @class = "link-grey" })</p>*@
-                    @*<a id="basicId" class="btn btn-primary" href="">Account Petition</a>*@
-                    <input type="submit" class="btn btn-primary" value="Account Petition" />
+                    <p>Click the button to submit your petition.</p>
+                    <input id="alert" type="submit" class="btn btn-primary" value="Account Petition" />
+                }
+                else
+                {
+                    <p>Your Account is not Active yet to submit your petition.</p>
                 }
             </div>
         </div>
@@ -118,9 +123,19 @@
 {
     <script>
         $(document).ready(function () {
+
+            $("#alert").on("click", function () {
+                $("#petitionForm").submit(function (e) {
+                    e.preventDefault();
+                    bootbox.alert("Do you really want to submit a Petition? ", function () {
+                        console.log('Your petition on the way!!!');
+                    });
+                })
+                
+            });
             let accTypeId = $('#accTypeId');
             let accountTypes = [];
-            let basicAccId, goldAccId;
+            let basicAccId, premiumAccId;
 
             $.ajax({
                 url: '/api/bankaccounttypes?description=1',
@@ -130,9 +145,10 @@
                     data.forEach(t => accountTypes.push(t));
                     basicAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsBasic).id;
                     premiumAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsPremium).id;                    
-                }
+                }      
             });
 
+            
 
             $("#btnGold").click(function () {
                 if ($("#reveal-gold").is(":visible")) {
