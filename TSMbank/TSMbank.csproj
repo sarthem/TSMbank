@@ -238,25 +238,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\SignalHub.cs" />
-    <Compile Include="Migrations\201907261025147_InitialModel.cs" />
-    <Compile Include="Migrations\201907261025147_InitialModel.Designer.cs">
-      <DependentUpon>201907261025147_InitialModel.cs</DependentUpon>
+    <Compile Include="Migrations\201907312342342_initializedb.cs" />
+    <Compile Include="Migrations\201907312342342_initializedb.Designer.cs">
+      <DependentUpon>201907312342342_initializedb.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907261026519_PopulateAccAndTransTypes.cs" />
-    <Compile Include="Migrations\201907261026519_PopulateAccAndTransTypes.Designer.cs">
-      <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907301055332_SeedPublicServicesAccs.cs" />
-    <Compile Include="Migrations\201907301055332_SeedPublicServicesAccs.Designer.cs">
-      <DependentUpon>201907301055332_SeedPublicServicesAccs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907301115558_SeedDbWithTsmAcc.cs" />
-    <Compile Include="Migrations\201907301115558_SeedDbWithTsmAcc.Designer.cs">
-      <DependentUpon>201907301115558_SeedDbWithTsmAcc.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907312222476_newtest.cs" />
-    <Compile Include="Migrations\201907312222476_newtest.Designer.cs">
-      <DependentUpon>201907312222476_newtest.cs</DependentUpon>
+    <Compile Include="Migrations\201907312343338_popoulateData1.cs" />
+    <Compile Include="Migrations\201907312343338_popoulateData1.Designer.cs">
+      <DependentUpon>201907312343338_popoulateData1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountStatus.cs" />
@@ -677,20 +665,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907261025147_InitialModel.resx">
-      <DependentUpon>201907261025147_InitialModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907312342342_initializedb.resx">
+      <DependentUpon>201907312342342_initializedb.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907261026519_PopulateAccAndTransTypes.resx">
-      <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907301055332_SeedPublicServicesAccs.resx">
-      <DependentUpon>201907301055332_SeedPublicServicesAccs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907301115558_SeedDbWithTsmAcc.resx">
-      <DependentUpon>201907301115558_SeedDbWithTsmAcc.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907312222476_newtest.resx">
-      <DependentUpon>201907312222476_newtest.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907312343338_popoulateData1.resx">
+      <DependentUpon>201907312343338_popoulateData1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

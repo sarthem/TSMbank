@@ -3,7 +3,7 @@ namespace TSMbank.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialModel : DbMigration
+    public partial class initializedb : DbMigration
     {
         public override void Up()
         {
@@ -93,9 +93,6 @@ namespace TSMbank.Migrations
                         CreditAccountCurrency = c.String(),
                         CreditAmount = c.Decimal(nullable: false, precision: 18, scale: 2),
                         CreditAccountBalanceAfterTransaction = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        ApprovedFromBankManager = c.Boolean(nullable: false),
-                        PendingForApproval = c.Boolean(nullable: false),
-                        TransactionApprovedReview = c.Int(nullable: false),
                         IsCompleted = c.Boolean(nullable: false),
                         CancelledTransactionId = c.Int(),
                     })
@@ -129,7 +126,7 @@ namespace TSMbank.Migrations
                         LastName = c.String(nullable: false, maxLength: 255),
                         FathersName = c.String(nullable: false, maxLength: 255),
                         Email = c.String(),
-                        DateOfBirth = c.DateTime(),
+                        DateOfBirth = c.DateTime(nullable: false),
                         IdentificationCardNo = c.String(nullable: false, maxLength: 8),
                         SSN = c.String(nullable: false, maxLength: 11),
                         VatNumber = c.String(nullable: false, maxLength: 9),

@@ -123,15 +123,13 @@
 {
     <script>
         $(document).ready(function () {
-
             $("#alert").on("click", function () {
                 $("#petitionForm").submit(function (e) {
                     e.preventDefault();
                     bootbox.alert("Do you really want to submit a Petition? ", function () {
                         console.log('Your petition on the way!!!');
                     });
-                })
-                
+                })                
             });
             let accTypeId = $('#accTypeId');
             let accountTypes = [];
@@ -144,11 +142,11 @@
                     dataType: 'json',
                     data.forEach(t => accountTypes.push(t));
                     basicAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsBasic).id;
-                    premiumAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsPremium).id;                    
-                }      
+                    premiumAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsPremium).id;
+                }
             });
 
-            
+
 
             $("#btnGold").click(function () {
                 if ($("#reveal-gold").is(":visible")) {
