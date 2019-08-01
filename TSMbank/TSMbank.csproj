@@ -238,13 +238,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\SignalHub.cs" />
-    <Compile Include="Migrations\201907312342342_initializedb.cs" />
-    <Compile Include="Migrations\201907312342342_initializedb.Designer.cs">
-      <DependentUpon>201907312342342_initializedb.cs</DependentUpon>
+    <Compile Include="Migrations\201908010617459_InitialModel.cs" />
+    <Compile Include="Migrations\201908010617459_InitialModel.Designer.cs">
+      <DependentUpon>201908010617459_InitialModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907312343338_popoulateData1.cs" />
-    <Compile Include="Migrations\201907312343338_popoulateData1.Designer.cs">
-      <DependentUpon>201907312343338_popoulateData1.cs</DependentUpon>
+    <Compile Include="Migrations\201908010618530_PopulateDbWithCoreData.cs" />
+    <Compile Include="Migrations\201908010618530_PopulateDbWithCoreData.Designer.cs">
+      <DependentUpon>201908010618530_PopulateDbWithCoreData.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountStatus.cs" />
@@ -291,6 +291,7 @@
     <Compile Include="ViewModels\BankAccountFormViewModel.cs" />
     <Compile Include="ViewModels\CardFormViewModel.cs" />
     <Compile Include="ViewModels\CardReqViewModel.cs" />
+    <Compile Include="ViewModels\CreditAccIsRequiredForMoneyTransfer.cs" />
     <Compile Include="ViewModels\IndividualFormViewModel.cs" />
     <Compile Include="ViewModels\CheckingAccApplicationViewModel.cs" />
     <Compile Include="ViewModels\PaymentFormViewModel.cs" />
@@ -570,6 +571,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Web.config">
@@ -665,11 +670,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907312342342_initializedb.resx">
-      <DependentUpon>201907312342342_initializedb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908010617459_InitialModel.resx">
+      <DependentUpon>201908010617459_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907312343338_popoulateData1.resx">
-      <DependentUpon>201907312343338_popoulateData1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908010618530_PopulateDbWithCoreData.resx">
+      <DependentUpon>201908010618530_PopulateDbWithCoreData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

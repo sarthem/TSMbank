@@ -7,7 +7,7 @@ namespace TSMbank.Models
 {
     public enum TransactionCategory
     {
-        Deposit,
+        Deposit = 1,
         Withdrawal,
         Payment,
         Cancellation,

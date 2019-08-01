@@ -60,5 +60,15 @@ namespace TSMbank.Repositories
         {
             return _context.BankAccounts.SingleOrDefault(ba => ba.AccountNumber == Bank.AccNumber);
         }
+
+        public BankAccount FetchBankAccountWithTransactions(string accountNumber)
+        {
+            return _context.BankAccounts
+                            .Include(a => a.DebitTransactions.Select(t => t.Type))
+                            .Include(a => a.DebitTransactions.Select(t => t.CreditAccount.BankAccountType))
+                            .Include(a => a.CreditTransactions.Select(t => t.Type))
+                            .Include(a => a.CreditTransactions.Select(t => t.DebitAccount.BankAccountType))
+                            .SingleOrDefault(a => a.AccountNumber == accountNumber);
+        }
     }
 }
