@@ -13,7 +13,7 @@ namespace TSMbank.ViewModels
         public string PublicPaymentAccNo { get; set; }
         public decimal Amount { get; set; }
         public List<BankAccount> PublicPaymentAccs { get; set; } 
-        public TransactionCategory Category { get; set; } 
+        public TransactionCategory TransactionCategory { get; set; } 
         public string OnlinePaymentCode { get; set; }
     }
 }

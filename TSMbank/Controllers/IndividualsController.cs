@@ -60,14 +60,14 @@ namespace TSMbank.Controllers
             var userId = User.Identity.GetUserId();
             var appUser = unitOfWork.Users.GetUser(userId);
 
-            var modelView = new IndividualFormViewModel()
+            var viewModel = new IndividualFormViewModel()
             {
                 Individual = Individual.NewForView(),
                 Phones = new List<Phone>(),
                 ModificationAction = ModificationAction.NewIndividual,
             };
-            modelView.Individual.SetEmail(appUser);
-            return View("IndividualForm", modelView);
+            viewModel.Individual.SetEmail(appUser);
+            return View("IndividualForm", viewModel);
         }
 
 

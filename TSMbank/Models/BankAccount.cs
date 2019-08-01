@@ -13,6 +13,12 @@ namespace TSMbank.Models
         private const decimal TsmVisaClassicWithDrawalLimit = 0m;
         private const decimal SavingsWithdrawalLimit = 99999999999.99m;
         private const decimal InitialBalance = 5000.0m;
+        private const string CheckinBasicInitialNickName = "Checking Basic";
+        private const string CheckinPremiumInitialNickName = "Checking Premium";
+        private const string SavingsBasicInitialNickName = "Savings Basic";
+        private const string SavingsPremiumInitialNickName = "Savings Premium";
+        private const string CreditCardAccInitialNickName = "TSM Visa Classic";
+        
 
         [Key]
         [StringLength(16, MinimumLength = 16)]
@@ -88,12 +94,15 @@ namespace TSMbank.Models
         {
             var creditCardAcc = new BankAccount(individual, TsmVisaClassicWithDrawalLimit, BankAccountType.TSMVisaClassic);
             var creditCard = Card.CreditCard(creditCardAcc, transLimit, creditLimit);
+            creditCardAcc.Balance = creditLimit;
+            creditCardAcc.NickName = CreditCardAccInitialNickName;
             return creditCardAcc;
         }
 
         public static BankAccount CreditCardAccount(string individualId, decimal transLimit, decimal creditLimit)
         {
             var creditCardAcc = new BankAccount(individualId, TsmVisaClassicWithDrawalLimit, BankAccountType.TSMVisaClassic);
+            creditCardAcc.NickName = CreditCardAccInitialNickName;
             var creditCard = Card.CreditCard(creditCardAcc, transLimit, creditLimit);
             creditCardAcc.Balance = creditLimit;
             return creditCardAcc;
@@ -102,6 +111,7 @@ namespace TSMbank.Models
         public static BankAccount CheckingBasic(Individual individual)
         {
             var checkingBasic = new BankAccount(individual, CheckingWithDrawalLimit, BankAccountType.CheckingBasic);
+            checkingBasic.NickName = CheckinBasicInitialNickName;
             checkingBasic.Card = Card.DebitCard(checkingBasic);
             return checkingBasic;
         }
@@ -109,18 +119,23 @@ namespace TSMbank.Models
         public static BankAccount CheckingPremium(Individual individual)
         {
             var checkingPremium = new BankAccount(individual, CheckingWithDrawalLimit, BankAccountType.CheckingPremium);
+            checkingPremium.NickName = CheckinPremiumInitialNickName;
             checkingPremium.Card = Card.DebitCard(checkingPremium);
             return checkingPremium;
         }
 
         public static BankAccount SavingsBasic(Individual individual)
         {
-            return new BankAccount(individual, SavingsWithdrawalLimit, BankAccountType.SavingsBasic);
+            var savingsBasic = new BankAccount(individual, SavingsWithdrawalLimit, BankAccountType.SavingsBasic);
+            savingsBasic.NickName = SavingsBasicInitialNickName;
+            return savingsBasic;
         }
 
         public static BankAccount SavingsPremium(Individual individual)
         {
-            return new BankAccount(individual, SavingsWithdrawalLimit, BankAccountType.SavingsPremium);
+            var savingsPremium = new BankAccount(individual, SavingsWithdrawalLimit, BankAccountType.SavingsPremium);
+            savingsPremium.NickName = SavingsPremiumInitialNickName;
+            return savingsPremium;
         }
 
         public static string CreateRandomAccountNumber()
@@ -160,6 +175,9 @@ namespace TSMbank.Models
         {
             Transaction transaction = null;
             transactions = new List<Transaction>();
+            if (amount <= 0)
+                return false;
+
             if (transType.Category == TransactionCategory.Payment || transType.Category == TransactionCategory.MoneyTransfer)
             {
                 if (Balance - amount - transType.Fee < 0)
@@ -185,17 +203,6 @@ namespace TSMbank.Models
                 return true;
             }
             return false;
-
-            //if (transType.Category == TransactionCategory.MoneyTransfer)
-            //{
-            //    if (Balance - amount - transType.Fee < 0)
-            //        return false;
-            //    var newBalance = Balance - amount;
-            //    var newCreditAccBalance = creditAcc.Balance + amount;
-            //    var transaction = Transaction.Payment(this, creditAcc, amount, Balance, newBalance, amount, creditAcc.Balance, newCreditAccBalance);
-            //    Balance = newBalance;
-            //    creditAcc.Balance = newCreditAccBalance;
-            //}
         }
     }
 }

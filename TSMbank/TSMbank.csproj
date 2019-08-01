@@ -238,33 +238,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\SignalHub.cs" />
-    <Compile Include="Migrations\201907261025147_InitialModel.cs" />
-    <Compile Include="Migrations\201907261025147_InitialModel.Designer.cs">
-      <DependentUpon>201907261025147_InitialModel.cs</DependentUpon>
+    <Compile Include="Migrations\201908010617459_InitialModel.cs" />
+    <Compile Include="Migrations\201908010617459_InitialModel.Designer.cs">
+      <DependentUpon>201908010617459_InitialModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907261026519_PopulateAccAndTransTypes.cs" />
-    <Compile Include="Migrations\201907261026519_PopulateAccAndTransTypes.Designer.cs">
-      <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907301055332_SeedPublicServicesAccs.cs" />
-    <Compile Include="Migrations\201907301055332_SeedPublicServicesAccs.Designer.cs">
-      <DependentUpon>201907301055332_SeedPublicServicesAccs.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907301115558_SeedDbWithTsmAcc.cs" />
-    <Compile Include="Migrations\201907301115558_SeedDbWithTsmAcc.Designer.cs">
-      <DependentUpon>201907301115558_SeedDbWithTsmAcc.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907301545188_TransactionMods1.cs" />
-    <Compile Include="Migrations\201907301545188_TransactionMods1.Designer.cs">
-      <DependentUpon>201907301545188_TransactionMods1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907302009408_test.cs" />
-    <Compile Include="Migrations\201907302009408_test.Designer.cs">
-      <DependentUpon>201907302009408_test.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907302006418_addSgnalR2.cs" />
-    <Compile Include="Migrations\201907302006418_addSgnalR2.Designer.cs">
-      <DependentUpon>201907302006418_addSgnalR2.cs</DependentUpon>
+    <Compile Include="Migrations\201908010618530_PopulateDbWithCoreData.cs" />
+    <Compile Include="Migrations\201908010618530_PopulateDbWithCoreData.Designer.cs">
+      <DependentUpon>201908010618530_PopulateDbWithCoreData.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountStatus.cs" />
@@ -311,6 +291,7 @@
     <Compile Include="ViewModels\BankAccountFormViewModel.cs" />
     <Compile Include="ViewModels\CardFormViewModel.cs" />
     <Compile Include="ViewModels\CardReqViewModel.cs" />
+    <Compile Include="ViewModels\CreditAccIsRequiredForMoneyTransfer.cs" />
     <Compile Include="ViewModels\IndividualFormViewModel.cs" />
     <Compile Include="ViewModels\CheckingAccApplicationViewModel.cs" />
     <Compile Include="ViewModels\PaymentFormViewModel.cs" />
@@ -590,6 +571,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Web.config">
@@ -685,26 +670,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201907261025147_InitialModel.resx">
-      <DependentUpon>201907261025147_InitialModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908010617459_InitialModel.resx">
+      <DependentUpon>201908010617459_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907261026519_PopulateAccAndTransTypes.resx">
-      <DependentUpon>201907261026519_PopulateAccAndTransTypes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907301055332_SeedPublicServicesAccs.resx">
-      <DependentUpon>201907301055332_SeedPublicServicesAccs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907301115558_SeedDbWithTsmAcc.resx">
-      <DependentUpon>201907301115558_SeedDbWithTsmAcc.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907301545188_TransactionMods1.resx">
-      <DependentUpon>201907301545188_TransactionMods1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907302009408_test.resx">
-      <DependentUpon>201907302009408_test.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907302006418_addSgnalR2.resx">
-      <DependentUpon>201907302006418_addSgnalR2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908010618530_PopulateDbWithCoreData.resx">
+      <DependentUpon>201908010618530_PopulateDbWithCoreData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

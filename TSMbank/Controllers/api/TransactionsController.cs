@@ -68,19 +68,19 @@ namespace TSMbank.Controllers.api
                 return BadRequest();
 
             List<TransactionViewModelDto> dtos = new List<TransactionViewModelDto>();
-            //var transactions = unitOfWork.Transactions.GetTransactions(bankAccNo);
-            var bankAcc = unitOfWork.BankAccounts.GetBankAccountWithTransactions(bankAccNo);
+            var bankAcc = unitOfWork.BankAccounts.FetchBankAccountWithTransactions(bankAccNo);
 
             if (bankAcc == null)
                 return NotFound();
 
-            var transactions = bankAcc.DebitTransactions.Concat(bankAcc.CreditTransactions);
+            var transactions = bankAcc.DebitTransactions.Concat(bankAcc.CreditTransactions).Where(t => t.Type.Category != TransactionCategory.Commision);
+
             foreach (var transaction in transactions)
             {
                 dtos.Add(new TransactionViewModelDto
                 {
                     Amount = transaction.GetFinancialType(bankAcc) == "Debit" ? -transaction.DebitAmount : transaction.CreditAmount,
-                    Category = transaction.Type.Category,
+                    Category = transaction.Type.Description,
                     FinancialType = transaction.GetFinancialType(bankAcc),
                     RelatedAccInfo = transaction.RelatedAccInfo(bankAcc),
                     ValueDate = transaction.ValueDateTime
