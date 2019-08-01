@@ -90,7 +90,7 @@ else
                                     <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                                         <div class="panel-body">
                                             <p>
-                                                <label class="firstLabel">Account number :@Html.ActionLink(account.AccountNumber, "Details", "BankAccounts", new { accountNo = account.AccountNumber }, null)</label>
+                                                <label class="firstLabel">Account number :@Html.ActionLink(account.AccountNumber, "Details", "BankAccounts", new { accountNumber = account.AccountNumber }, null)</label>
                                                 <span><label class="secondLabel">Balance : @account.Balance Eur</label></span>
 
                                                 <span><label class="thirdLabel">NickName : @account.NickName</label></span>

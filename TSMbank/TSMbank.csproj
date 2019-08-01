@@ -238,13 +238,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\SignalHub.cs" />
-    <Compile Include="Migrations\201908010617459_InitialModel.cs" />
-    <Compile Include="Migrations\201908010617459_InitialModel.Designer.cs">
-      <DependentUpon>201908010617459_InitialModel.cs</DependentUpon>
+    <Compile Include="Migrations\201908011632519_initializeDb.cs" />
+    <Compile Include="Migrations\201908011632519_initializeDb.Designer.cs">
+      <DependentUpon>201908011632519_initializeDb.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201908010618530_PopulateDbWithCoreData.cs" />
-    <Compile Include="Migrations\201908010618530_PopulateDbWithCoreData.Designer.cs">
-      <DependentUpon>201908010618530_PopulateDbWithCoreData.cs</DependentUpon>
+    <Compile Include="Migrations\201908011634063_PopulateData.cs" />
+    <Compile Include="Migrations\201908011634063_PopulateData.Designer.cs">
+      <DependentUpon>201908011634063_PopulateData.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountStatus.cs" />
@@ -651,6 +651,7 @@
     <Content Include="Views\Transactions\TransferToAccountERROR.cshtml" />
     <Content Include="Views\Transactions\Payment.cshtml" />
     <Content Include="Views\Transactions\GetTransactions.cshtml" />
+    <Content Include="Views\Shared\_navBarNo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -670,11 +671,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201908010617459_InitialModel.resx">
-      <DependentUpon>201908010617459_InitialModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908011632519_initializeDb.resx">
+      <DependentUpon>201908011632519_initializeDb.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908010618530_PopulateDbWithCoreData.resx">
-      <DependentUpon>201908010618530_PopulateDbWithCoreData.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201908011634063_PopulateData.resx">
+      <DependentUpon>201908011634063_PopulateData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

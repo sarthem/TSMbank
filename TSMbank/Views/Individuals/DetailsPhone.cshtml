@@ -18,7 +18,7 @@
     <p>@Html.ActionLink("Back", "Index", "Individuals", new { @class = "btn btn-primary" })</p>
     @if (Model.Phones.Count() < 5)
     {
-       @Html.ActionLink("Add new phone", "Edit", "Individuals", new { id = Model.Id, modify = ModificationAction.EditPhones }, new { @class = "btn btn-primary" })
+       @Html.ActionLink("Edit or Add a new phone ", "Edit", "Individuals", new { id = Model.Id, modify = ModificationAction.EditPhones }, new { @class = "btn btn-primary" })
     }
 
 </div>

@@ -123,14 +123,14 @@
 {
     <script>
         $(document).ready(function () {
-            $("#alert").on("click", function () {
-                $("#petitionForm").submit(function (e) {
-                    e.preventDefault();
-                    bootbox.alert("Do you really want to submit a Petition? ", function () {
-                        console.log('Your petition on the way!!!');
-                    });
-                })                
-            });
+            //$("#alert").on("click", function () {
+            //    $("#petitionForm").submit(function (e) {
+            //        e.preventDefault();
+            //        bootbox.alert("Do you really want to submit a Petition? ", function () {
+            //            console.log('Your petition on the way!!!');
+            //        });
+            //    })                
+            //});
             let accTypeId = $('#accTypeId');
             let accountTypes = [];
             let basicAccId, premiumAccId;

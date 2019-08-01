@@ -100,7 +100,7 @@ namespace TSMbank.Controllers
                     {
                         if (user.RegisterCompletion == true) return RedirectToAction("Index", "Individuals");
                         
-                        return RedirectToAction("New", "Individuals");
+                        return RedirectToAction("Index", "Individuals");//new
                     }else if (UserManager.IsInRoleAsync(user.Id, RoleName.Administrator).Result)
                     {
                         return RedirectToAction("GetIndividuals", "Individuals");
