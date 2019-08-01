@@ -96,39 +96,62 @@
     </div>
 </div>
 
-<button id="loadTransactions" class="btn btn-primary" value="Load Transactions"></button>
-
-<table id="creditCardTransactions" class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>Category</th>
-            <th>Value Date</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @*@foreach (var viewer in Model)
-            {
+<div class="transactions-container">
+    <button id="loadTransactions" data-bankAccId="@Model.Id" class="btn btn-primary">Load Transactions</button>
+    <div class="transactions-table-container">
+        <table id="creditCardTransactions" class="table table-striped">
+            <thead>
                 <tr>
-                    <td>@Html.ActionLink(viewer.Name, "Edit", "Viewers", new { id = viewer.Id }, null)</td>
-                    <td>@viewer.MembershipType.DiscountRate %</td>
-                    <td>@viewer.MembershipType.Name</td>
-                    <td>
-                        <button data-viewer-id="@viewer.Id" class="btn-link js-delete">Delete</button>
-                    </td>
+                    <th>Value Date</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Category</th>
                 </tr>
-            }*@
-    </tbody>
-</table>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+</div>
+
+
 
 
 @section scripts
 {
     <script>
         $(document).ready(function () {
-            $('.card-details-header').on('click', function () {
-
-            })
+            $("#loadTransactions").on('click', function (e) {
+                var btn = $(e.target);
+                var table = $("#creditCardTransactions").DataTable({
+                    ajax: {
+                        url: "/api/transactions?bankAccNo=" + btn.attr('data-bankAccId'),
+                        dataSrc: ""
+                    },
+                    columns: [
+                        {
+                            data: "valueDate",
+                            render: function (valueDate) {
+                                return moment(valueDate).format('MMMM Do YYYY, h:mm:ss a');
+                            }
+                        },
+                        {
+                            data: "financialType"
+                        },
+                        {
+                            data: "relatedAccInfo"
+                        },
+                        {
+                            data: "amount",
+                        },
+                        {
+                            data: "category"
+                        }
+                    ]
+                });
+                $(".transactions-table-container").fadeIn();
+            });
         });
     </script>
 }

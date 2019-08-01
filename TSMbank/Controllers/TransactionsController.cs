@@ -40,7 +40,7 @@ namespace TSMbank.Controllers
 
         public ActionResult Details(int id, string accountNumber)
         {
-            var transaction = unitOfWork.Transactions.GetTransactions(id);
+            var transaction = unitOfWork.Transactions.GetTransaction(id);
 
             var viewModel = new TransactionsDetailsViewModel()
             {
@@ -88,8 +88,15 @@ namespace TSMbank.Controllers
         [Authorize]
         public ActionResult TransferMoney(TransferMoneyViewModel viewModel)
         {
-            var transactions = new List<Transaction>();
             var userId = User.Identity.GetUserId();
+
+            if (!ModelState.IsValid)
+            {
+                viewModel.CustomerBankAccs = unitOfWork.BankAccounts.GetCheckingAndSavingsBankAccs(userId);
+                return View("TransferMoney", viewModel);
+            }
+
+            var transactions = new List<Transaction>();
             var transactionType = unitOfWork.TransactionTypes.GetTransactionType(viewModel.TransactionCategory);
             var debitAccount = unitOfWork.BankAccounts.GetJustBankAccount(viewModel.DebitAccNo);
             var creditAccNo = viewModel.CreditAccNo ?? viewModel.CreditAccIban.Substring(10);
@@ -102,7 +109,7 @@ namespace TSMbank.Controllers
                 return View("TransferMoney", viewModel);
             }
 
-            if (!debitAccount.InitiateTransaction(creditAccount, viewModel.Amount, transactionType, null, out transactions))
+            if (!debitAccount.InitiateTransaction(creditAccount, viewModel.Amount.Value, transactionType, null, out transactions))
             {
                 viewModel.CustomerBankAccs = unitOfWork.BankAccounts.GetCheckingAndSavingsBankAccs(userId);
                 viewModel.ErrorMessage = "Could not complete transaction.";
@@ -147,7 +154,7 @@ namespace TSMbank.Controllers
             var viewModel = new PaymentFormViewModel()
             {
                 CustomerBankAccs = customerBankAccs,
-                Category = TransactionCategory.Payment,
+                TransactionCategory = TransactionCategory.Payment,
                 PublicPaymentAccs = publicAccounts
             };
 

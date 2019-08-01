@@ -12,6 +12,6 @@ namespace TSMbank.Dtos
         public string FinancialType { get; set; } // credit or debit
         public string RelatedAccInfo { get; set; } // Something that describes the related bank account eg. IBAN, or NickName if case of public services?
         public decimal Amount { get; set; }
-        public TransactionCategory Category { get; set; }
+        public string Category { get; set; }
     }
 }

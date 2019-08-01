@@ -107,7 +107,7 @@ namespace TSMbank.Models
             return Type.ToString();
         }
 
-        public decimal CurrentBalance()
+        public decimal CurrentBalance() // How much is the card charged
         {
             return CreditLimit - BankAccount.Balance;
         }

@@ -9,31 +9,80 @@
 
 <h2>Transfer Money</h2>
 
-@using (Html.BeginForm("TransferMoney", "Transactions"))
+@using (Html.BeginForm("TransferMoney", "Transactions", FormMethod.Post, new { id = "trasferMoneyForm"}))
 {
     @Html.HiddenFor(m => m.TransactionCategory)
     <div class="form-group">
-        @Html.Label("From Account")
+        <h3>From Account</h3>
+        @*@Html.Label("From Account")*@
         @Html.DropDownListFor(m => m.DebitAccNo, new SelectList(Model.CustomerBankAccs, "AccountNumber", "IBAN"), "Select Account", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.DebitAccNo)
 
     </div>
     <div class="form-group">
         @Html.Label("Amount")
         @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Amount)
     </div>
-    @Html.Label("To Account")
-    <div class="form-group form-inline">
+    <h3>To Account</h3>
+    @*@Html.Label("To Account")*@
+    <div class="form-group">
         @Html.Label("IBAN", new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.CreditAccIban, new { @maxlength = "26", @class = "form-control", @style = "text-transform:uppercase;width:260px" })
+        @Html.TextBoxFor(m => m.CreditAccIban, new { @maxlength = "26", @class = "form-control", @style = "text-transform:uppercase;", id = "creditAccIban" })
+        @Html.ValidationMessageFor(m => m.CreditAccIban)
     </div>
-    <div class="form-group form-inline">
+    <div class="form-group">
         <p>@Html.Label("OR")</p>
         @Html.Label("Account Number", new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.CreditAccNo, new { @maxlength = "16", @class = "form-control", style = "width:160px" })
+        @Html.TextBoxFor(m => m.CreditAccNo, new { @maxlength = "16", @class = "form-control", id = "creditAccNo" })
+        @Html.ValidationMessageFor(m => m.CreditAccNo)
     </div>
+    <span id="creditAccRequired" class="field-validation-error" style="display:block;"></span>
     if (Model.ErrorMessage != null)
     {
         <div class="alert alert-danger" style="width:50%">@Model.ErrorMessage</div>
     }
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+            $("#creditAccIban").change(function () {
+                if ($(this).val() == "") {
+                    $("#creditAccNo").attr("disabled", false);
+                } else {
+                    $("#creditAccNo").attr("disabled", true);
+                }
+            });
+
+            $("#creditAccNo").change(function () {
+                if ($(this).val() == "") {
+                    $("#creditAccIban").attr("disabled", false);
+                } else {
+                    $("#creditAccIban").attr("disabled", true);
+                }
+            });
+
+            //$.validator.addMethod("creditAccRequired", function () {
+            //    return $('#creditAccIban').val() !== '' || $('#creditAccNo').val() !== '';
+            //}, "You must specify the account the money will be transferred to.");
+
+            //$("#trasferMoneyForm").validate();
+
+        });
+
+        //function creditAccRequired() {
+        //    if ($('#creditAccIban').val() === '' && $('#creditAccNo').val() === '') {
+        //        //alert("You must specify the account the money will be transferred to.");
+        //        $("#creditAccRequired").text("You must specify the account the money will be transferred to.");
+        //        return false;
+        //    }
+        //    return true;
+        //}
+    </script>
 }

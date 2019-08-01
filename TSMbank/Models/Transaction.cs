@@ -119,9 +119,10 @@ namespace TSMbank.Models
 
             var relatedAcc = bankAcc.AccountNumber == DebitAccountNo ? CreditAccount : DebitAccount;
             var relatedAccNickName = relatedAcc.NickName ?? ""; 
-            if (relatedAcc.BankAccountType.Description == Description.PublicServices)
+            if (relatedAcc.BankAccountType.Description == Description.PublicServices || relatedAcc.AccountNumber == Bank.AccNumber)
                 return relatedAccNickName;
-            return relatedAccNickName + " (" + relatedAcc.IBAN + ")";
+            return relatedAcc.IBAN;
+            //return relatedAccNickName + " (" + relatedAcc.IBAN + ")";
         }
 
         public string GetFinancialType(BankAccount bankAcc)

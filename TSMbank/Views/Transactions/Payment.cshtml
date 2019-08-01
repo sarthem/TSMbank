@@ -10,7 +10,7 @@
 
 @using (Html.BeginForm("Payment", "Transactions", FormMethod.Post, new { id = "newPayment" }))
 {
-    @Html.HiddenFor(m => m.Category, new { id = "transCategory" })
+    @Html.HiddenFor(m => m.TransactionCategory, new { id = "transCategory" })
     <div class="form-group">
         @Html.Label("From Account")
         @Html.DropDownListFor(m => m.CustomerBankAccNo, new SelectList(custBankAccsInfo, "AccNo", "Info"), "Select Account", new { @class = "form-control", id = "debitAccNo" })
