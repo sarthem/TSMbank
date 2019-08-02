@@ -27,7 +27,7 @@ else
         @foreach (var trans in Model.Transactions)
         {
 
-         <tr>
+         <tr class="blackLetters">
             <td> @trans.ValueDateTime.ToLongTimeString()</td>
             <td>@Html.ActionLink(trans.ValueDateTime.ToLongDateString(), "Details", "Transactions", new { id = trans.TransactionId, accountNumber = Model.AccountNumber }, null)</td>
             @if (Model.AccountNumber == trans.CreditAccountNo)
@@ -63,7 +63,9 @@ else
                 }, {
                     targets: [1],
                     orderData: [1, 0]
-                }]
+                    }]
+                
+           
             });
 
         });

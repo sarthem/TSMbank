@@ -1,6 +1,8 @@
 ﻿@model TSMbank.ViewModels.TransferMoneyViewModel
 @using TSMbank.Models
 @{
+    /**/
+
 
 
     ViewBag.Title = "Deposit";
@@ -9,19 +11,20 @@
 
 <h2>Transfer Money</h2>
 
-@using (Html.BeginForm("TransferMoney", "Transactions", FormMethod.Post, new { id = "trasferMoneyForm"}))
+@using (Html.BeginForm("TransferMoney", "Transactions", FormMethod.Post, new { id = "trasferMoneyForm" }))
 {
-    @Html.HiddenFor(m => m.TransactionCategory)
+    @Html.HiddenFor(m => m.TransactionCategory, new { id = "transCategory" })
     <div class="form-group">
         <h3>From Account</h3>
         @*@Html.Label("From Account")*@
-        @Html.DropDownListFor(m => m.DebitAccNo, new SelectList(Model.CustomerBankAccs, "AccountNumber", "IBAN"), "Select Account", new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.DebitAccNo, new SelectList(Model.CustomerBankAccs, "AccountNumber", "IBAN"), "Select Account", new { @class = "form-control", id = "debitAcc" })
+
         @Html.ValidationMessageFor(m => m.DebitAccNo)
 
     </div>
     <div class="form-group">
         @Html.Label("Amount")
-        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", id = "amount" })
         @Html.ValidationMessageFor(m => m.Amount)
     </div>
     <h3>To Account</h3>
@@ -42,16 +45,18 @@
     {
         <div class="alert alert-danger" style="width:50%">@Model.ErrorMessage</div>
     }
-    <button type="submit" class="btn btn-primary">Submit</button>
+    @*<button id="skata" type="submit" class="btn btn-primary">Submit</button>*@
+    <a title="Submit" id="btnSubmit" class="btn btn-primary">Submit</a>
 }
 
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
-
     <script>
-
         $(document).ready(function () {
+            var viewModel = {};
+            var creditAccAlias;
+            
             $("#creditAccIban").change(function () {
                 if ($(this).val() == "") {
                     $("#creditAccNo").attr("disabled", false);
@@ -67,22 +72,57 @@
                     $("#creditAccIban").attr("disabled", true);
                 }
             });
+                       
+            $('#btnSubmit').click(function (e) {
+                e.preventDefault();
+                viewModel.debitAccNo = $("#debitAcc").val();
+                viewModel.creditAccNo = $("#creditAccNo").val();
+                viewModel.amount = $("#amount").val();
+                viewModel.category = $("#transCategory").val();
+                creditAccAlias = $("#creditAccNo").val();
+                messageInfo = `<label>Debit Account: </label><span>${viewModel.debitAccNo}</span><br/>
+                                     <label>Transaction Info: </label><span>Transfer money To ${creditAccAlias}</span><br/>
+                                      <label>Amount: </label><span>${viewModel.amount} Eur</span>`;
+                titleInfo = "Confirm Payment";
 
-            //$.validator.addMethod("creditAccRequired", function () {
-            //    return $('#creditAccIban').val() !== '' || $('#creditAccNo').val() !== '';
-            //}, "You must specify the account the money will be transferred to.");
+                var dialog = bootbox.dialog({
+                    title: titleInfo,
+                    message: messageInfo,
+                    size: "large",
+                    buttons: {
+                        no: {
+                            label: "No",
+                            className: "btn-default",
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        yes: {
+                            label: "Yes",
+                            className: "btn-danger",
+                            callback: function () {
+                                $('#trasferMoneyForm').submit();
+                            }
+                        }
+                    }
+                });
 
-            //$("#trasferMoneyForm").validate();
-
+            });
         });
 
-        //function creditAccRequired() {
-        //    if ($('#creditAccIban').val() === '' && $('#creditAccNo').val() === '') {
-        //        //alert("You must specify the account the money will be transferred to.");
-        //        $("#creditAccRequired").text("You must specify the account the money will be transferred to.");
-        //        return false;
-        //    }
-        //    return true;
-        //}
+                 //$.validator.addMethod("creditAccRequired", function () {
+                    //    return $('#creditAccIban').val() !== '' || $('#creditAccNo').val() !== '';
+                    //}, "You must specify the account the money will be transferred to.");
+
+                    //$("#trasferMoneyForm").validate();
+
+                //function creditAccRequired() {
+                //    if ($('#creditAccIban').val() === '' && $('#creditAccNo').val() === '') {
+                //        //alert("You must specify the account the money will be transferred to.");
+                //        $("#creditAccRequired").text("You must specify the account the money will be transferred to.");
+                //        return false;
+                //    }
+                //    return true;
+                //}
     </script>
 }

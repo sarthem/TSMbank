@@ -18,7 +18,7 @@
     <thead id="transactionsId"></thead>
     @foreach (var trans in Model)
     {
-        <tr>
+        <tr class="blackLetters">
             <td> @trans.ValueDateTime.ToLongTimeString()</td>
             <td> @trans.ValueDateTime.ToLongDateString()</td>
             <td> @trans.DebitIBAN</td>
@@ -28,28 +28,25 @@
     }
 </table>
 
-
-
-
-
-
-
 @section scripts
 {
     <script>
         $(document).ready(function () {
             $('#transactions').DataTable({
                 columnDefs: [{
+                    
+                    
                     targets: [0],
                     orderData: [1, 1]
-                }, {
+                    },
+                    {
                     targets: [1],
-                    orderData: [1, 0]
-                }]
+                    orderData: [0, 1]
+                 }]
+                
             });
 
         })
-
 
         var progress = $.connection.signalHub;
 

@@ -10,7 +10,7 @@
         <!-- Section 1 -->
         <section>
             <h2>Basic</h2>
-            <div class="jumbotron u-margin-top-small">
+            <div id="basic1" class="jumbotron u-margin-top-small">
                 <h4>Savings Basic</h4>
                 <p>
                     The Basic Savings Account at TSM is the simplest type of deposit account with no restrictions.
@@ -27,7 +27,7 @@
         <!-- Section 2 -->
         <section>
             <h2>Premium</h2>
-            <div class="jumbotron u-margin-top-small">
+            <div id="basic1" class="jumbotron u-margin-top-small">
                 <h4>Savings Premium</h4>
                 <p>
                     Dynamic Return Deposits" is the branded series of structured deposits issued
@@ -51,7 +51,7 @@
 
     <section class="indent-2">
         <div id="reveal-gold" style="display:none">
-            <div class="jumbotron b">
+            <div id="basic1" class="jumbotron b">
                 <h2>Savings Premium</h2>
                 <p>
                     <ul>
@@ -71,7 +71,8 @@
                 @if (Model.IndividualStatus == IndividualStatus.Active)
                 {
                     <p>Click the button to submit your petition.</p>
-                    <input id="alert" type="submit" class="btn btn-primary" value="Account Petition" />
+                    @*<input id="alert" type="submit" class="btn btn-primary" value="Account Petition" />*@
+                    <a id="btnSubmit1" class="btn btn-primary" value="Account Petition">Submit</a>
                 }
                 else
                 {
@@ -80,7 +81,7 @@
             </div>
         </div>
         <div id="reveal-basic" style="display:none">
-            <div class="jumbotron b">
+            <div id="basic1" class="jumbotron b">
                 <h3>Savings Basic</h3>
                 <ul>
                     <li>
@@ -106,7 +107,8 @@
                 @if (Model.IndividualStatus == IndividualStatus.Active)
                 {
                     <p>Click the button to submit your petition.</p>
-                    <input id="alert" type="submit" class="btn btn-primary" value="Account Petition" />
+                    //<input id="alert" type="submit" class="btn btn-primary" value="Account Petition" />
+                    <a  id="btnSubmit2" class="btn btn-primary" value="Account Petition">Submit</a>
                 }
                 else
                 {
@@ -123,18 +125,11 @@
 {
     <script>
         $(document).ready(function () {
-            //$("#alert").on("click", function () {
-            //    $("#petitionForm").submit(function (e) {
-            //        e.preventDefault();
-            //        bootbox.alert("Do you really want to submit a Petition? ", function () {
-            //            console.log('Your petition on the way!!!');
-            //        });
-            //    })                
-            //});
+           
             let accTypeId = $('#accTypeId');
             let accountTypes = [];
             let basicAccId, premiumAccId;
-
+            var viewModel = {};
             $.ajax({
                 url: '/api/bankaccounttypes?description=1',
                 method: 'GET',
@@ -146,7 +141,73 @@
                 }
             });
 
+            
+            $('#btnSubmit1').click(function (e) {
+                e.preventDefault();
+                viewModel.accountType = 'Premium Account';                
+               
+                messageInfo = `Do you really want to make a petition for:<br/>
+                            <label>Bank Account Petition : </label><span>${viewModel.accountType}</span>`;
 
+                titleInfo = "Confirm Petition";
+
+                var dialog = bootbox.dialog({
+                    title: titleInfo,
+                    message: messageInfo,
+                    size: "large",
+                    buttons: {
+                        no: {
+                            label: "No",
+                            className: "btn-default",
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        yes: {
+                            label: "Yes",
+                            className: "btn-danger",
+                            callback: function () {
+                                $('#petitionForm').submit();
+                            }
+                        }
+                    }
+                });
+
+            });
+
+            $('#btnSubmit2').click(function (e) {
+                e.preventDefault();
+                viewModel.accountType = 'Basic Account';
+
+                messageInfo = `Do you really want to make a petition for:<br/>
+                            <label>Bank Account Petition : </label><span>${viewModel.accountType}</span>`;
+
+                titleInfo = "Confirm Petition";
+
+                var dialog = bootbox.dialog({
+                    title: titleInfo,
+                    message: messageInfo,
+                    size: "large",
+                    buttons: {
+                        no: {
+                            label: "No",
+                            className: "btn-default",
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        yes: {
+                            label: "Yes",
+                            className: "btn-danger",
+                            callback: function () {
+                                $('#petitionForm').submit();
+                            }
+                        }
+                    }
+                });
+
+            });
+            
 
             $("#btnGold").click(function () {
                 if ($("#reveal-gold").is(":visible")) {

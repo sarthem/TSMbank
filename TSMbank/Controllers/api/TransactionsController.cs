@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using TSMbank.Dtos;
+using TSMbank.Hubs;
 using TSMbank.Models;
 using TSMbank.Persistance;
 
@@ -55,9 +56,22 @@ namespace TSMbank.Controllers.api
             foreach (var transaction in transactions)
             {
                 unitOfWork.Transactions.AddTransaction(transaction);
+
             }
             unitOfWork.Complete();
 
+            var transHub = new
+            {
+                DebitAccountNo = debitAccount.AccountNumber,
+                DebitBalance = debitAccount.Balance,
+                CreditAccountNo = creditAccount.AccountNumber,
+                CreditBalance = creditAccount.Balance,
+                DebitAmount = transactions[0].DebitAmount,
+                Time = transactions[0].ValueDateTime.ToLongTimeString(),
+                Date = transactions[0].ValueDateTime.ToLongDateString()
+            };
+
+            SignalHub.GetTransactions(transHub);
             return Ok();
         }
 

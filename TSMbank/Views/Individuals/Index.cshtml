@@ -37,7 +37,7 @@ else
 
             </tr>
         </thead>
-        <tr>
+        <tr class="blackLetters">
             <td>@Html.ActionLink(Model.FullName, "Details", "Individuals", new { id = Model.Id, detail = "PersonalInfo" }, null)</td>
             <td>@Model.FathersName</td>
             <td>@Html.ActionLink(Model.PrimaryAddress.FullAddress, "Details", "Individuals", new { id = Model.Id, detail = "AddressInfo" }, null)</td>
@@ -62,7 +62,7 @@ else
                 </h4>
             </div>
             <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body">
+                <div class="panel-body a">
 
                     @if (Model.Status == TSMbank.Models.IndividualStatus.Inactive)
                     {
@@ -88,7 +88,7 @@ else
                                         </h4>
                                     </div>
                                     <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                                        <div class="panel-body">
+                                        <div id="submenu" class="panel-body">
                                             <p>
                                                 <label class="firstLabel">Account number :@Html.ActionLink(account.AccountNumber, "Details", "BankAccounts", new { accountNumber = account.AccountNumber }, null)</label>
                                                 <span><label class="secondLabel">Balance : @account.Balance Eur</label></span>
