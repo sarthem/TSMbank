@@ -56,8 +56,8 @@ namespace TSMbank.Controllers
             var userId = User.Identity.GetUserId();
             var individual = context.Individuals.SingleOrDefault(i => i.Id == userId);
 
-            var creditCardReq = new CardRequest(individual, RequestType.CardActivation, viewModel.CreditLimit,
-                viewModel.TransactionAmountLimit, CardType.CreditCard);
+            var creditCardReq = new CardRequest(individual, RequestType.CardActivation, viewModel.CreditLimit.Value,
+                viewModel.TransactionAmountLimit.Value, CardType.CreditCard);
 
             context.CardRequests.Add(creditCardReq);
             context.SaveChanges();

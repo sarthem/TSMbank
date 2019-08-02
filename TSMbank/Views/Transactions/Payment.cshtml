@@ -35,6 +35,7 @@
 
 @section scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(document).ready(function () {
             var viewModel = {};
@@ -51,8 +52,8 @@
                 var dialog = bootbox.dialog({
                     title: "Confirm Payment",
                     message: `<label>Debit Account: </label><span>${viewModel.debitAccNo}</span><br/>
-                             <label>Transaction Info: </label><span>Payment for ${creditAccAlias}</span><br/>
-                              <label>Amount: </label><span>${viewModel.amount} Eur</span>`,
+                                 <label>Transaction Info: </label><span>Payment for ${creditAccAlias}</span><br/>
+                                  <label>Amount: </label><span>${viewModel.amount} Eur</span>`,
                     size: "large",
                     buttons: {
                         no: {

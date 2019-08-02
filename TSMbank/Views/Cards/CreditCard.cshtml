@@ -7,6 +7,7 @@
 
 
 <h2>TSM Visa Silver</h2>
+
 <div id="basic1" class="jumbotron u-margin-top-small container-fluid">
     <h3>Learn about about our new CreditCard</h3>
     <p>
@@ -26,29 +27,30 @@
     {
         <p>Click the button below to apply for our new Credit Card!</p>
         <div>
-            <input type="button" id="" class="btn btn-default" value="More details">
+            <button type="button" id="btnMoreDetails" class="btn btn-primary">More Details</button>
         </div>
     }
 </div>
 
-<div id="basic1" class="jumbotron u-margin-top-small">
+<div id="cardFormContainer" class="jumbotron u-margin-top-small">
     <h3>Apply for TSM Visa Silver</h3>
     <p>Please set your preferred Credit Limit and maximun Amount per Transaction. Then click the following button to submit your request</p>
     <form id="petitionForm" action="/Cards/CreateCardReq" method="post">
+        @Html.Hidden("isModelStateValid", ViewData.ModelState.IsValid)
         @Html.HiddenFor(m => m.CardType)
         @Html.HiddenFor(m => m.IndividualStatus)
         <div class="form-group">
             @Html.LabelFor(m => m.CreditLimit)
-            @Html.TextBoxFor(m => m.CreditLimit, new { @class = "form-control", id = "credit"  })
+            @Html.TextBoxFor(m => m.CreditLimit, new { @class = "form-control", id = "credit" })
             @Html.ValidationMessageFor(m => m.CreditLimit)
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.TransactionAmountLimit)
-            @Html.TextBoxFor(m => m.TransactionAmountLimit, new { @class = "form-control" , id = "transaction" })
+            @Html.TextBoxFor(m => m.TransactionAmountLimit, new { @class = "form-control", id = "transaction" })
             @Html.ValidationMessageFor(m => m.TransactionAmountLimit)
         </div>
         @*<button type="submit" class="btn btn-default">Submit</button>*@
-        <a id="btnSubmit" class="btn btn-primary" value="Account Petition">Submit</a>
+        <button id="btnSubmit" class="btn btn-primary" value="Account Petition">Submit</button>
     </form>
 </div>
 
@@ -56,14 +58,15 @@
 {
     @Scripts.Render("~/bundles/jqueryval")
 
-<script>
+    <script>
         $(document).ready(function () {
 
-            let accTypeId = $('#accTypeId');
-            let accountTypes = [];
-            let basicAccId, premiumAccId;
             var viewModel = {};
-            $.ajax({
+            var form = $("#cardFormContainer");
+            var btnDetails = $("#btnMoreDetails");
+            var isModelStateValid = $("#isModelStateValid");
+
+            @*$.ajax({
                 url: '/api/bankaccounttypes?description=1',
                 method: 'GET',
                 success: function (data) {
@@ -72,17 +75,35 @@
                     basicAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsBasic).id;
                     premiumAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsPremium).id;
                 }
+            });*@
+            
+            if (isModelStateValid.val() === "False") {
+                form.show();
+                btnDetails.text("Hide Details");
+            }
+
+            
+            btnDetails.on("click", function () {
+                if (form.is(":hidden")) {
+                    form.fadeIn();
+                    btnDetails.text("Hide Details");
+                }
+                else {
+                    form.fadeOut();
+                    btnDetails.text("More Details");
+                }
             });
+
             $('#btnSubmit').click(function (e) {
                 e.preventDefault();
                 viewModel.accountType = "Credit Card";
                 viewModel.creditLimit = $("#credit").val();
                 viewModel.transactionAmountLimit = $("#transaction").val();
 
-                messageInfo = `Do you really want to make a petition for:<br/>
-                            <label>Card Petition : </label><span>${viewModel.accountType}</span> <br/>
-                             <label>With Credit Limit : </label><span>${viewModel.creditLimit}</span> <br/>
-                             <label>And Transaction Amount Limit : </label><span>${viewModel.transactionAmountLimit}</span>`;
+                messageInfo = `<p>Please confirm the following information regarding the credit card petition.</p>
+                            <label>Card Petition:&nbsp;</label><span>${viewModel.accountType}</span> <br/>
+                             <label>With Credit Limit:&nbsp;</label><span>${viewModel.creditLimit}</span> <br/>
+                             <label>And Transaction Amount Limit:&nbsp;</label><span>${viewModel.transactionAmountLimit}</span>`;
 
                 titleInfo = "Confirm Petition";
 
@@ -114,7 +135,7 @@
 
 
         });
-</script>
+    </script>
 
 
 }
