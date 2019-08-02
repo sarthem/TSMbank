@@ -429,6 +429,7 @@ textarea {
 .card-info-container {
     /*width: 90%;
     margin: auto;*/
+    color: #414141;
     font-size: 1.8rem;
     margin-bottom: 30px;
 }
@@ -531,6 +532,7 @@ textarea {
 }*/
 
 #creditCardTransactions {
+    color: #cbcbcb;
     font-size: 1.2em;
 }
 
@@ -570,4 +572,9 @@ textarea {
 
 .modal-content{
     background-color:#333958;
+}
+
+#cardFormContainer {
+    background-color: #9d8686;
+    display: none;
 }

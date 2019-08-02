@@ -44,19 +44,14 @@ namespace TSMbank.Controllers.api
             var tsmBankAcc = unitOfWork.BankAccounts.GetTsmBankAcc();
 
             if (creditAccount == null || debitAccount == null)
-            {
                 return NotFound();
-            }
 
             if (!debitAccount.InitiateTransaction(creditAccount, transactionDto.Amount, transactionType, tsmBankAcc, out transactions))
-            {
                 return BadRequest("Transaction could not be completed.");
-            }
 
             foreach (var transaction in transactions)
             {
                 unitOfWork.Transactions.AddTransaction(transaction);
-
             }
             unitOfWork.Complete();
 

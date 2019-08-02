@@ -15,11 +15,11 @@ namespace TSMbank.ViewModels
 
         [Required]
         [Range(100, 5000, ErrorMessage = "Credit limit must be between 100 and 5000.")]
-        public decimal CreditLimit { get; set; }
+        public decimal? CreditLimit { get; set; }
 
         [Required]
-        [Range(0, Int32.MaxValue)]
+        [Range(100, 4999.99, ErrorMessage = "Transactions amount limit must be between 100 and 4999.99")]
         [ValidCardTransLimit]
-        public decimal TransactionAmountLimit { get; set; }
+        public decimal? TransactionAmountLimit { get; set; }
     }
 }
