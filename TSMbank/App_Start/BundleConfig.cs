@@ -29,6 +29,7 @@ namespace TSMbank
                       "~/Content/bootstrap-United.css",
                        "~/Content/DataTables/css/dataTables.bootstrap.css",
                         "~/Content/toastr.css",
+                        "~/Content/TSMBank.css",
                        "~/Content/site.css" ));
         }
     }

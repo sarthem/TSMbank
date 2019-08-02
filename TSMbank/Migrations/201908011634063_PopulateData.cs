@@ -4,11 +4,10 @@ namespace TSMbank.Migrations
     using System.Data.Entity.Migrations;
     using TSMbank.Models;
 
-    public partial class PopulateDbWithCoreData : DbMigration
+    public partial class PopulateData : DbMigration
     {
         public override void Up()
         {
-            // AccountTypes and TransactionTypes
             Sql($"INSERT INTO dbo.BankAccountTypes (Id,Description, InterestRate, PeriodicFee, Summary) VALUES ({BankAccountType.CheckingPremium}, 0, 0.5, 25, 'Checking Premium')");
             Sql($"INSERT INTO dbo.BankAccountTypes (Id,Description, InterestRate, PeriodicFee, Summary) VALUES ({BankAccountType.SavingsBasic}, 1, 3.5, 50, 'Savings Basic')");
             Sql($"INSERT INTO dbo.BankAccountTypes (Id,Description, InterestRate, PeriodicFee, Summary) VALUES ({BankAccountType.TermBasic}, 2, 6.5, 100, 'Term Basic')");
@@ -27,13 +26,11 @@ namespace TSMbank.Migrations
             Sql($"INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES ({TransactionType.OverdueFee}, 8, 0, 'Overdue Fee')");
             Sql($"INSERT INTO dbo.TransactionTypes (id, Category, Fee, Description) VALUES ({TransactionType.BankCommission}, 9, 0, 'Bank Commission')");
 
-            // Admin Account And Roles: admin@tsmbank.com | Pass@word14!
             Sql(@"INSERT [dbo].[AspNetUsers] ([Id], [RegisterCompletion], [Email], [EmailConfirmed], [PasswordHash], [SecurityStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [UserName]) VALUES (N'4a29bd7c-dcee-4633-8e9c-603924cc8217', 0, N'admin@tsmbank.com', 1, N'AMmh1QFS3MYk0lwqoC17TJ2asNcoRp5V5GNQCMQlnMoz+LnzCfHTNIz/r7/2rr54jw==', N'1028c078-7809-46a7-b5e8-9c0250beab68', NULL, 0, 0, NULL, 1, 0, N'admin@tsmbank.com')
                 INSERT [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'eef669aa-f90e-46d1-9b71-9508c1ddc97b', N'Administrator')
                 INSERT [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'69001b31-1271-40cf-9ad0-9b1e382a7138', N'Customer')
                 INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'4a29bd7c-dcee-4633-8e9c-603924cc8217', N'eef669aa-f90e-46d1-9b71-9508c1ddc97b')");
 
-            // TSM BANK account: info@tsmbank.com | Pass@word1!
             Sql(@"SET IDENTITY_INSERT [dbo].[Addresses] ON 
                 INSERT [dbo].[Addresses] ([Id], [Country], [City], [Street], [StreetNumber], [PostalCode], [Region]) VALUES (104, N'Greece', N'Athens', N'TSMHQ', N'100', N'12345', N'TSMHQ')
                 SET IDENTITY_INSERT [dbo].[Addresses] OFF
@@ -46,9 +43,7 @@ namespace TSMbank.Migrations
                 SET IDENTITY_INSERT [dbo].[Phones] OFF
                 INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'3g81b2cc-2659-49cc-9537-1b25d2273123', N'69001b31-1271-40cf-9ad0-9b1e382a7138')");
 
-            // Public services accounts
-            // eydap@emailna.co | dei@emailna.co | ote@emailna.co
-            // Pass@word1!
+
             Sql(@"SET IDENTITY_INSERT [dbo].[Addresses] ON 
 
                 INSERT [dbo].[Addresses] ([Id], [Country], [City], [Street], [StreetNumber], [PostalCode], [Region]) VALUES (101, N'Greece', N'Athens', N'Kifisias', N'55', N'56456', N'Marousi')
@@ -74,7 +69,7 @@ namespace TSMbank.Migrations
                 INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'6cdd582e-e470-4042-8248-9d8426c31409', N'69001b31-1271-40cf-9ad0-9b1e382a7138')
                 INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'a58c9db4-7525-4b82-98df-555f980a5956', N'69001b31-1271-40cf-9ad0-9b1e382a7138')");
         }
-        
+
         public override void Down()
         {
         }

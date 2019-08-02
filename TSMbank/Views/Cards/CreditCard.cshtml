@@ -7,7 +7,7 @@
 
 
 <h2>TSM Visa Silver</h2>
-<div class="jumbotron u-margin-top-small container-fluid">
+<div id="basic1" class="jumbotron u-margin-top-small container-fluid">
     <h3>Learn about about our new CreditCard</h3>
     <p>
         Velit mollis odio sollicitudin lacinia aliquam posuere, sapien elementum lobortis tincidunt, turpis dui ornare nisl,
@@ -31,27 +31,90 @@
     }
 </div>
 
-<div class="jumbotron u-margin-top-small">
+<div id="basic1" class="jumbotron u-margin-top-small">
     <h3>Apply for TSM Visa Silver</h3>
     <p>Please set your preferred Credit Limit and maximun Amount per Transaction. Then click the following button to submit your request</p>
-    <form action="/Cards/CreateCardReq" method="post">
+    <form id="petitionForm" action="/Cards/CreateCardReq" method="post">
         @Html.HiddenFor(m => m.CardType)
         @Html.HiddenFor(m => m.IndividualStatus)
         <div class="form-group">
             @Html.LabelFor(m => m.CreditLimit)
-            @Html.TextBoxFor(m => m.CreditLimit, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.CreditLimit, new { @class = "form-control", id = "credit"  })
             @Html.ValidationMessageFor(m => m.CreditLimit)
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.TransactionAmountLimit)
-            @Html.TextBoxFor(m => m.TransactionAmountLimit, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.TransactionAmountLimit, new { @class = "form-control" , id = "transaction" })
             @Html.ValidationMessageFor(m => m.TransactionAmountLimit)
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        @*<button type="submit" class="btn btn-default">Submit</button>*@
+        <a id="btnSubmit" class="btn btn-primary" value="Account Petition">Submit</a>
     </form>
 </div>
 
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+        $(document).ready(function () {
+
+            let accTypeId = $('#accTypeId');
+            let accountTypes = [];
+            let basicAccId, premiumAccId;
+            var viewModel = {};
+            $.ajax({
+                url: '/api/bankaccounttypes?description=1',
+                method: 'GET',
+                success: function (data) {
+                    dataType: 'json',
+                    data.forEach(t => accountTypes.push(t));
+                    basicAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsBasic).id;
+                    premiumAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsPremium).id;
+                }
+            });
+            $('#btnSubmit').click(function (e) {
+                e.preventDefault();
+                viewModel.accountType = "Credit Card";
+                viewModel.creditLimit = $("#credit").val();
+                viewModel.transactionAmountLimit = $("#transaction").val();
+
+                messageInfo = `Do you really want to make a petition for:<br/>
+                            <label>Card Petition : </label><span>${viewModel.accountType}</span> <br/>
+                             <label>With Credit Limit : </label><span>${viewModel.creditLimit}</span> <br/>
+                             <label>And Transaction Amount Limit : </label><span>${viewModel.transactionAmountLimit}</span>`;
+
+                titleInfo = "Confirm Petition";
+
+                var dialog = bootbox.dialog({
+                    title: titleInfo,
+                    message: messageInfo,
+                    size: "large",
+                    buttons: {
+                        no: {
+                            label: "No",
+                            className: "btn-default",
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        yes: {
+                            label: "Yes",
+                            className: "btn-danger",
+                            callback: function () {
+                                $('#petitionForm').submit();
+                            }
+                        }
+                    }
+                });
+
+            });
+
+
+
+
+        });
+</script>
+
+
 }

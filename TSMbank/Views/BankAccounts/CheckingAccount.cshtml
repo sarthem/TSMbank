@@ -10,7 +10,7 @@
         <!-- Section 1 -->
         <section>
             <h2>Basic</h2>
-            <div class="jumbotron u-margin-top-small">
+            <div id="basic1" class="jumbotron u-margin-top-small">
                 <h4>Checking Basic</h4>
                 <p>
                     A checking account is one of the most important tools for managing your day-to-day finances.
@@ -27,7 +27,7 @@
         <!-- Section 2 -->
         <section>
             <h2>Premium</h2>
-            <div class="jumbotron u-margin-top-small">
+            <div id="basic1" class="jumbotron u-margin-top-small">
                 <h4>Checking Premium</h4>
                 <p>
                     With straightforward solutions for managing your cash and payments,
@@ -43,11 +43,11 @@
         </section>
     </section>
 </div>
-<form action="@Url.Action("BankAccountPetition", "Individuals")" method="post">
+<form id="petitionForm" action="@Url.Action("BankAccountPetition", "Individuals")" method="post">
     <input id="accTypeId" type="hidden" name="id" />
     <section class="indent-2">
         <div id="reveal-business" style="display:none">
-            <div class="jumbotron b">
+            <div id="basic1" class="jumbotron b">
                 <h2>Checking Premium</h2>
                 <p>
                     Put your excess funds to work. Tiered interest earning structure and unlimited no-fee
@@ -58,13 +58,14 @@
                 @if (Model.IndividualStatus == IndividualStatus.Active)
                 {
                     <p>Click the button to submit your petition.</p>
-                    <input type="submit" class="btn btn-primary" value="Account Petition" />
+                    @*<input type="submit" class="btn btn-primary" value="Account Petition" />*@
                     @*<a id="businessId" class="btn btn-primary" href="">Account Petition</a>*@
+                    <a id="btnSubmit1" class="btn btn-primary" value="Account Petition">Submit</a>
                 }
             </div>
         </div>
         <div id="reveal-personal" style="display:none">
-            <div class="jumbotron b">
+            <div id="basic1" class="jumbotron b">
                 <h3>Checking Basic</h3>
                 <p>
                     Get your money growing with interest paid on all your balances.
@@ -84,8 +85,9 @@
                 @if (Model.IndividualStatus == IndividualStatus.Active)
                 {
                     <p>Click the button to submit your petition.</p>
-                    <input type="submit" class="btn btn-primary" value="Account Petition" />
+                    @*<input type="submit" class="btn btn-primary" value="Account Petition" />*@
                     @*<a id="personalId" class="btn btn-primary" href="">Account Petition</a>*@
+                    <a id="btnSubmit2" class="btn btn-primary" value="Account Petition">Submit</a>
                 }
             </div>
         </div>
@@ -101,7 +103,8 @@
         $(document).ready(function () {
             let accTypeId = $('#accTypeId');
             let accountTypes = [];
-            let personalAccId, businessAccId;
+            let personalAccId, premiumAccId;
+            var viewModel = {};
 
             $.ajax({
                 url: '/api/bankaccounttypes?description=0',
@@ -112,6 +115,72 @@
                     personalAccId = accountTypes.find(t => t.id == @BankAccountType.CheckingBasic).id;
                     premiumAccId = accountTypes.find(t => t.id == @BankAccountType.CheckingPremium).id;
                 }
+            });
+
+            $('#btnSubmit1').click(function (e) {
+                e.preventDefault();
+                viewModel.accountType = 'Checking Premium';
+
+                messageInfo = `Do you really want to make a petition for:<br/>
+                            <label>Bank Account Petition : </label><span>${viewModel.accountType}</span>`;
+
+                titleInfo = "Confirm Petition";
+
+                var dialog = bootbox.dialog({
+                    title: titleInfo,
+                    message: messageInfo,
+                    size: "large",
+                    buttons: {
+                        no: {
+                            label: "No",
+                            className: "btn-default",
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        yes: {
+                            label: "Yes",
+                            className: "btn-danger",
+                            callback: function () {
+                                $('#petitionForm').submit();
+                            }
+                        }
+                    }
+                });
+
+            });
+
+            $('#btnSubmit2').click(function (e) {
+                e.preventDefault();
+                viewModel.accountType = 'Checking Basic';
+
+                messageInfo = `Do you really want to make a petition for:<br/>
+                            <label>Bank Account Petition : </label><span>${viewModel.accountType}</span>`;
+
+                titleInfo = "Confirm Petition";
+
+                var dialog = bootbox.dialog({
+                    title: titleInfo,
+                    message: messageInfo,
+                    size: "large",
+                    buttons: {
+                        no: {
+                            label: "No",
+                            className: "btn-default",
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        yes: {
+                            label: "Yes",
+                            className: "btn-danger",
+                            callback: function () {
+                                $('#petitionForm').submit();
+                            }
+                        }
+                    }
+                });
+
             });
 
             $("#btnbusiness").click(function () {

@@ -4,10 +4,21 @@
 }
 
 body {
-    padding-top: 50px;
+    /*padding-top: 50px;
     padding-bottom: 20px;
-    /*background-color: #a799a0;*/
-    background-color: #d4e0f5;
+    background-color: #a799a0;
+    background-color: #d4e0f5;*/
+    width: 100%;
+    height: 100%;
+    /*font-family: 'Open Sans', sans-serif;*/
+    background: #092756;
+    color: white;
+    background: -moz-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top, rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg, #670d10 0%, #092756 100%);
+    background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -webkit-linear-gradient(top, rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg, #670d10 0%,#092756 100%);
+    background: -o-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -o-linear-gradient(top, rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -o-linear-gradient(-45deg, #670d10 0%,#092756 100%);
+    background: -ms-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -ms-linear-gradient(top, rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -ms-linear-gradient(-45deg, #670d10 0%,#092756 100%);
+    background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom, rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg, #670d10 0%,#092756 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
 }
 /*hide scrollbar*/
 
@@ -83,24 +94,6 @@ textarea {
 
 
 /* Bootstrap btn overrides */
-
-/*.btn-primary,
-.btn-primary:link,
-.btn-primary:visited {
-    color: #ffffff;
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
-    transition: all .2s;
-}
-
-    .btn-primary:hover,
-    .btn-primary:active,
-    .btn-primary:focus {
-        color: #ffffff;
-        background-color: var(--color-secondary);
-        border-color: var(--color-secondary);
-        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
-    }*/
 
 .btn-primary {
     color: #ffffff;
@@ -301,7 +294,7 @@ textarea {
 /*format at savings bank accounts view*/
 .indent-1 {
     float: left;
-    background-color: #c1bebe
+    background-color: #5c2040/*#c1bebe*/
 }
 
     .indent-1 section {
@@ -314,14 +307,15 @@ textarea {
 
 .indent-2 {
     float: left;
-    background-color: #c1bebe;
+    background-color: #5c2040;
     padding-left: 30px;
     padding-right: 30px;
 }
 
+#basic1 {
+    background-color: #9d8686;
+}
 /*edw gia dropdown navbar */
-
-
 .panel-group .panel {
     margin-bottom: 40px;
     border-radius: 4px;
@@ -364,6 +358,15 @@ textarea {
         }
 
 
+#collapseOne {
+    
+}
+.panel-body{
+    background-color:#333958;
+}
+#submenu{
+    color:#e8e6e6;
+}
 /*admin menu collapse*/
 #admincollapseFathersName {
     padding-left: 50px;
@@ -546,4 +549,25 @@ textarea {
 
 .transactions-table-container {
     display: none;
+}
+
+#footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: right;
+}
+
+.blackLetters:hover{
+    color: black;
+}
+
+.blackLettersN {
+    color: black;
+}
+
+.modal-content{
+    background-color:#333958;
 }

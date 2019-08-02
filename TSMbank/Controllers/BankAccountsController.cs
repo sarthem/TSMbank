@@ -215,50 +215,6 @@ namespace TSMbank.Controllers
     }
 }
 
-//1
-//context.Individuals.SingleOrDefault(c => c.Id == individualId);
-//2
-//context.BankAccountTypes.ToList(),
-
-//3
-//context.BankAccounts
-//                .Include(a => a.Individual)
-//                .Include(a => a.BankAccountType)
-//                .SingleOrDefault(a => a.AccountNumber == accountNo);
-
-//4
-//context.BankAccountTypes.SingleOrDefault(a => a.Id == bankAccount.BankAccountTypeId);
-
-//5
-//context.BankAccountTypes.ToList(),
-
-//6
-//context.Individuals.SingleOrDefault(c => c.Id == bankAccount.IndividualId).FullName,
-
-//7
-//context.BankAccountTypes.ToList(),
-//8
-//context.BankAccounts.Add(bankAccount);
-
-//9
-//context.BankAccRequests
-//            .Include(r => r.Individual)
-//            .Single(r => r.IndividualId == bankAccount.IndividualId
-//            && r.Status == RequestStatus.Processing);
-
-//10
-//context.BankAccounts.SingleOrDefault(a => a.AccountNumber == bankAccount.AccountNumber);
-//11
-//context.SaveChanges();
-//12
-//context.BankAccounts.SingleOrDefault(a => a.AccountNumber == accountNumber);
-//13
-//context.SaveChanges();
-//14
-//context.Individuals.SingleOrDefault(i => i.Id == userId);
-
-//15
-//context.Individuals.SingleOrDefault(i => i.Id == userId);
 
 
 

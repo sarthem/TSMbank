@@ -10,7 +10,7 @@
         <!-- Section 1 -->
         <section>
             <h2>Basic</h2>
-            <div class="jumbotron u-margin-top-small">
+            <div id="basic1" class="jumbotron u-margin-top-small">
                 <h4>Savings Basic</h4>
                 <p>
                     The Basic Savings Account at TSM is the simplest type of deposit account with no restrictions.
@@ -27,7 +27,7 @@
         <!-- Section 2 -->
         <section>
             <h2>Premium</h2>
-            <div class="jumbotron u-margin-top-small">
+            <div id="basic1" class="jumbotron u-margin-top-small">
                 <h4>Savings Premium</h4>
                 <p>
                     Dynamic Return Deposits" is the branded series of structured deposits issued
@@ -46,12 +46,12 @@
 </div>
 
 
-<form action="@Url.Action("BankAccountPetition", "Individuals")" method="post">
+<form id="petitionForm" action="@Url.Action("BankAccountPetition", "Individuals")" method="post">
     <input id="accTypeId" type="hidden" name="id" />
 
     <section class="indent-2">
         <div id="reveal-gold" style="display:none">
-            <div class="jumbotron b">
+            <div id="basic1" class="jumbotron b">
                 <h2>Savings Premium</h2>
                 <p>
                     <ul>
@@ -68,17 +68,20 @@
                         "Dynamic Return Deposits" are usually offered for short term durations (3 to 6 months), but occasionally may have longer tenor.
                     </ul>
                 </p>
-                <p>Click the button to see more details for a new savings account.</p>
-
                 @if (Model.IndividualStatus == IndividualStatus.Active)
                 {
-                    @*<a id="GoldId" class="btn btn-primary" href="">Account Petition</a>*@
-                    <input type="submit" class="btn btn-primary" value="Account Petition"/>
+                    <p>Click the button to submit your petition.</p>
+                    @*<input id="alert" type="submit" class="btn btn-primary" value="Account Petition" />*@
+                    <a id="btnSubmit1" class="btn btn-primary" value="Account Petition">Submit</a>
+                }
+                else
+                {
+                    <p>Your Account is not Active yet to submit your petition.</p>
                 }
             </div>
         </div>
         <div id="reveal-basic" style="display:none">
-            <div class="jumbotron b">
+            <div id="basic1" class="jumbotron b">
                 <h3>Savings Basic</h3>
                 <ul>
                     <li>
@@ -100,12 +103,16 @@
                     </li>
                     <li> Use your debit card for all your transactions, without charge of interest.</li>
                 </ul>
-                <p>Click the button to submit your petition.</p>
+
                 @if (Model.IndividualStatus == IndividualStatus.Active)
                 {
-                    @*<p id="gold"> @Html.ActionLink("Account petition", "New", "BankAccounts", new { bankAccountType = Description.Savings }, new { @class = "link-grey" })</p>*@
-                    @*<a id="basicId" class="btn btn-primary" href="">Account Petition</a>*@
-                    <input type="submit" class="btn btn-primary" value="Account Petition" />
+                    <p>Click the button to submit your petition.</p>
+                    //<input id="alert" type="submit" class="btn btn-primary" value="Account Petition" />
+                    <a  id="btnSubmit2" class="btn btn-primary" value="Account Petition">Submit</a>
+                }
+                else
+                {
+                    <p>Your Account is not Active yet to submit your petition.</p>
                 }
             </div>
         </div>
@@ -118,10 +125,11 @@
 {
     <script>
         $(document).ready(function () {
+           
             let accTypeId = $('#accTypeId');
             let accountTypes = [];
-            let basicAccId, goldAccId;
-
+            let basicAccId, premiumAccId;
+            var viewModel = {};
             $.ajax({
                 url: '/api/bankaccounttypes?description=1',
                 method: 'GET',
@@ -129,10 +137,77 @@
                     dataType: 'json',
                     data.forEach(t => accountTypes.push(t));
                     basicAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsBasic).id;
-                    premiumAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsPremium).id;                    
+                    premiumAccId = accountTypes.find(t => t.id == @BankAccountType.SavingsPremium).id;
                 }
             });
 
+            
+            $('#btnSubmit1').click(function (e) {
+                e.preventDefault();
+                viewModel.accountType = 'Premium Account';                
+               
+                messageInfo = `Do you really want to make a petition for:<br/>
+                            <label>Bank Account Petition : </label><span>${viewModel.accountType}</span>`;
+
+                titleInfo = "Confirm Petition";
+
+                var dialog = bootbox.dialog({
+                    title: titleInfo,
+                    message: messageInfo,
+                    size: "large",
+                    buttons: {
+                        no: {
+                            label: "No",
+                            className: "btn-default",
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        yes: {
+                            label: "Yes",
+                            className: "btn-danger",
+                            callback: function () {
+                                $('#petitionForm').submit();
+                            }
+                        }
+                    }
+                });
+
+            });
+
+            $('#btnSubmit2').click(function (e) {
+                e.preventDefault();
+                viewModel.accountType = 'Basic Account';
+
+                messageInfo = `Do you really want to make a petition for:<br/>
+                            <label>Bank Account Petition : </label><span>${viewModel.accountType}</span>`;
+
+                titleInfo = "Confirm Petition";
+
+                var dialog = bootbox.dialog({
+                    title: titleInfo,
+                    message: messageInfo,
+                    size: "large",
+                    buttons: {
+                        no: {
+                            label: "No",
+                            className: "btn-default",
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        yes: {
+                            label: "Yes",
+                            className: "btn-danger",
+                            callback: function () {
+                                $('#petitionForm').submit();
+                            }
+                        }
+                    }
+                });
+
+            });
+            
 
             $("#btnGold").click(function () {
                 if ($("#reveal-gold").is(":visible")) {

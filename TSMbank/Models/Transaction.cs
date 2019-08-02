@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -22,7 +23,10 @@ namespace TSMbank.Models
         public string DebitIBAN { get; private set; }
         public decimal DebitAccountBalance { get; private set; }
         public string DebitAccountCurrency { get; private set; }
+
+        //[Range(1, Int32.MaxValue, ErrorMessage = "Value should be greater than or equal to 1")]
         public decimal DebitAmount { get; private set; }
+
         public decimal DebitAccountBalanceAfterTransaction { get; private set; }
 
         public string CreditAccountNo { get; private set; }

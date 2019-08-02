@@ -91,24 +91,3 @@ namespace TSMbank.Controllers
     }
 }
 
-//1
-//context.Requests.Where(r => r.Status == status);
-//2
-//context.Requests
-//                .Include(r => r.Individual.BankAccounts)
-//                .SingleOrDefault(r => r.Id == id);
-
-//3
-//context.SaveChanges();
-
-//4
-//context.BankAccRequests
-//                        .Include(r => r.Individual)
-//                        .Include(r => r.BankAccType)
-//                        .SingleOrDefault(r => r.Id == id);
-
-//5
-//context.Requests
-//    .Include(r => r.Individual.Phones)
-//    .Include(r => r.Individual.PrimaryAddress)
-//    .SingleOrDefault(r => r.Id == id);

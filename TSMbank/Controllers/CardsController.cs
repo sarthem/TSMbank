@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using TSMbank.Models;
 using TSMbank.ViewModels;
 using System.Data.Entity;
+using TSMbank.Hubs;
 
 namespace TSMbank.Controllers
 {
@@ -60,6 +61,10 @@ namespace TSMbank.Controllers
 
             context.CardRequests.Add(creditCardReq);
             context.SaveChanges();
+
+            var hubModel = new { Name = individual.FullName, Type = CardType.CreditCard.ToString() };
+            SignalHub.GetRequest(hubModel);
+
             return RedirectToAction("Index", "Individuals");
 
         }
